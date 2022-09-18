@@ -1,0 +1,106 @@
+module.exports = {
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: 'tsconfig.json',
+    tsconfigRootDir: __dirname,
+    sourceType: 'module',
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        paths: ['src', 'server/src'],
+      },
+    },
+  },
+  plugins: [
+    '@typescript-eslint/eslint-plugin',
+    '@typescript-eslint',
+    'prettier',
+  ],
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:react/recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:import/typescript',
+    'plugin:prettier/recommended',
+    'prettier',
+  ],
+  root: true,
+  env: {
+    node: true,
+    jest: true,
+  },
+  ignorePatterns: ['.eslintrc.js'],
+  rules: {
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
+    // 'no-console': 'error',
+    //   quotes: ['error', 'single'],
+    //   'array-bracket-newline': ['error', 'never'],
+    //   'array-element-newline': ['error', 'never'],
+    //   'arrow-parens': ['error', 'as-needed'],
+    //   'comma-dangle': [
+    //     'error',
+    //     {
+    //       arrays: 'never',
+    //       objects: 'always',
+    //       imports: 'always',
+    //       exports: 'always',
+    //       functions: 'always',
+    //     },
+    //   ],
+    //   'dot-location': ['error', 'property'],
+    //   'eol-last': ['error', 'always'],
+    //   'function-call-argument-newline': ['error', 'never'],
+    //   indent: [
+    //     'error',
+    //     2,
+    //     {
+    //       SwitchCase: 1,
+    //       outerIIFEBody: 1,
+    //       MemberExpression: 1,
+    //       ArrayExpression: 1,
+    //       ObjectExpression: 1,
+    //       ImportDeclaration: 1,
+    //       flatTernaryExpressions: true,
+    //       offsetTernaryExpressions: true,
+    //     },
+    //   ],
+    //   'jsx-quotes': ['error', 'prefer-single'],
+    // },
+    // overrides: [
+    //   {
+    //     files: ['src/**/*[.js, .ts, .tsx]'],
+    //     rules: {
+    //       quotes: [2, 'single'],
+    //     },
+    //   },
+    // ],
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+        trailingComma: 'all',
+        printWidth: 80,
+        tabWidth: 2,
+        useTabs: false,
+        semi: true,
+        singleQuote: true,
+        quoteProps: 'as-needed',
+        jsxSingleQuote: true,
+        bracketSpacing: true,
+        bracketSameLine: true,
+        arrowParens: 'avoid',
+      },
+      {
+        usePrettierrc: true,
+      },
+    ],
+  },
+};
