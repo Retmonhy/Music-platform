@@ -1,9 +1,11 @@
+import { trackReducer } from './trackReducer';
 import { playerReducer } from './player-reducer';
 import { HYDRATE } from 'next-redux-wrapper';
 import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
 	player: playerReducer,
+	track: trackReducer,
 });
 
 export const reducer = (state, action) => {
@@ -15,7 +17,7 @@ export const reducer = (state, action) => {
 		if (state.count) nextState.count = state.count; // preserve count value on client side navigation
 		return nextState;
 	} else {
-		return rootReducer;
+		return rootReducer(state, action);
 	}
 };
 export type RootState = ReturnType<typeof rootReducer>;

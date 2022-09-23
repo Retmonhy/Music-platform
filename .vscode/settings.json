@@ -1,0 +1,20 @@
+{
+	"files.eol": "\r\n",
+	"prettier.endOfLine": "crlf",
+	"prettier.trailingComma": "all",
+	"prettier.printWidth": 80,
+	"prettier.tabWidth": 2,
+	"prettier.useTabs": true,
+	"prettier.semi": true,
+	"prettier.singleQuote": true,
+	"prettier.quoteProps": "as-needed",
+	"prettier.jsxSingleQuote": true,
+	"prettier.bracketSpacing": true,
+	"prettier.bracketSameLine": true,
+	"prettier.arrowParens": "avoid",
+	"typescript.preferences.includePackageJsonAutoImports": "on",
+	"autoimport.filesToScan": "**/*.{ts,tsx, js, jsx, d.ts, d.js}",
+	"auto-close-tag.SublimeText3Mode": true,
+	"auto-close-tag.insertSpaceBeforeSelfClosingTag": true
+}
+

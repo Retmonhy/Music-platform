@@ -9,7 +9,7 @@ const initialState: PlayerState = {
 	pause: true,
 	currentTime: 0,
 	duration: 0,
-	volume: 100,
+	volume: 50,
 };
 
 export const playerReducer = (
@@ -29,5 +29,7 @@ export const playerReducer = (
 			return { ...state, duration: action.payload };
 		case PlayerActionTypes.SET_VOLUME:
 			return { ...state, volume: action.payload };
+		default:
+			return { ...state };
 	}
 };
