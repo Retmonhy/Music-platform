@@ -6,6 +6,15 @@ import { Track, Comment, CommentDocument, TrackDocument } from './schemas';
 import { CommentDto } from './dto';
 import { FileService, FileType } from '../file';
 
+interface ICreateTrackResponse {
+  isSuccess: boolean;
+  track: Track;
+}
+interface ICommentResponse {
+  isSuccess: boolean;
+  comment: Comment;
+}
+
 @Injectable()
 export class TrackService {
   //это делается чтобы мы могли использовать наши модели в сервисе
@@ -19,7 +28,7 @@ export class TrackService {
     dto: CreateTrackDto,
     picture: string,
     audio: string,
-  ): Promise<Track> {
+  ): Promise<ICreateTrackResponse> {
     //чтобы создать трек нам вв эту фукцию нужно получить каккие-то данные dto
     const pictureFile = this.fileService.createFile(FileType.IMAGE, picture);
     const audioFile = this.fileService.createFile(FileType.AUDIO, audio);
@@ -29,7 +38,7 @@ export class TrackService {
       picture: pictureFile,
       audio: audioFile,
     });
-    return track;
+    return { isSuccess: true, track };
     //далее переходим в контроллер и работаем с запросом
   }
 
@@ -50,17 +59,22 @@ export class TrackService {
     return track;
   }
 
-  async delete(id: ObjectId): Promise<ObjectId> {
+  async delete(
+    id: ObjectId,
+  ): Promise<{ isSuccess: boolean; trackId: ObjectId }> {
     const deletedTrack = await this.trackModel.findByIdAndDelete(id);
-    return deletedTrack._id;
+    return {
+      isSuccess: true,
+      trackId: deletedTrack._id,
+    };
   }
 
-  async addComment(dto: CommentDto): Promise<Comment> {
+  async addComment(dto: CommentDto): Promise<ICommentResponse> {
     const track = await this.trackModel.findById(dto.trackId);
     const comment = await this.commentModel.create({ ...dto }); //mongo создало тут _id
     track.comments.push(comment._id); //изменили объект track но БД еще не не знает об этом
     await track.save(); //тут оповестили БД (сохранили изменения в ней)
-    return comment;
+    return { isSuccess: true, comment };
   }
 
   async listen(id: ObjectId) {

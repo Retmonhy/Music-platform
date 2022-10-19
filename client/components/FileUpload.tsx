@@ -13,7 +13,6 @@ export const FileUpload: React.FC<IFileUploadProps> = ({
 	const inputRef = useRef<HTMLInputElement>();
 	const onClick = () => inputRef.current.click();
 	const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-		// console.log(evt.target.files);
 		setFile(evt.target.files);
 	};
 	return (
@@ -29,5 +28,3 @@ export const FileUpload: React.FC<IFileUploadProps> = ({
 		</div>
 	);
 };
-
-//  FileUpload;

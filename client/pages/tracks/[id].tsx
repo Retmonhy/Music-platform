@@ -1,51 +1,93 @@
-import { useRouter } from 'next/router';
+import React from 'react';
 import MainLayout from '../../layouts/MainLayout';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { Button, Grid, TextField } from '@material-ui/core';
+import { GetServerSideProps } from 'next';
+import { apiInstance, generateUrl } from '../_app';
+import { useInput } from '../../hooks';
+import { ITrack } from '../../types/track';
+import { Endpoints, ICommentResponse } from '../../api';
 
-const TrackPage = () => {
-	const track = {
-		_id: 'ae233d68-a923-4eb3-a0e3-524975422b67',
-		name: 'BestTrack 2',
-		artist: 'Alyosha 2',
-		text: 'Description 2',
-		listens: 2,
-		audio: 'ae233d68-a923-4eb3-a0e3-524975422b67.mp3',
-		picture: '36ac72ba-0c4d-4063-8bcb-7398b28d682a.jpg',
-		comments: [],
-	};
+const TrackPage = ({ serverTrack }) => {
+	const [track, setTrack] = React.useState<ITrack>(serverTrack);
 	const router = useRouter();
+	const username = useInput();
+	const text = useInput();
+
+	const sendComment = async () => {
+		try {
+			const { data } = await apiInstance.post<ICommentResponse>(
+				Endpoints.POST_COMMENT,
+				{
+					username: username.value,
+					text: text.value,
+					trackId: track._id,
+				},
+			);
+			if (data.isSuccess) {
+				console.log(
+					'track.comments.push(data.comment) = ',
+					typeof track.comments.push(data.comment),
+				);
+				setTrack({ ...track, comments: [...track.comments, data.comment] });
+			}
+		} catch (error) {
+			console.log('[id].ts sendComment ERROR = ', error);
+		}
+	};
+
 	return (
-		<MainLayout>
-			<Button variant='outlined' onClick={() => router.push('/tracks')}>
-				К списку
-			</Button>
-			<Grid container>
-				<img src={track.picture} width={200} />
+		<MainLayout
+			title={`${track.artist} - ${track.name} Музыкальная площадка`}
+			keywords={`музыка, артисты, песня, слушать, ${track.name}, ${track.artist}`}>
+			<>
+				<Button variant='outlined' onClick={() => router.push('/tracks')}>
+					К списку
+				</Button>
+				<Grid container>
+					<Image src={generateUrl(track.picture)} width={200} height={200} />
+					<div>
+						<h1>Нахвание трека - {track.name}</h1>
+						<h1>Исполнитель - {track.artist}</h1>
+						<h1>Прослушиваний {track.listens}</h1>
+					</div>
+				</Grid>
+				<h1>Слова песни</h1>
+				<p>{track.text}</p>
+				<Grid container>
+					<TextField label='Ваше имя' {...username} fullWidth />
+					<TextField
+						label='Комментарий'
+						{...text}
+						fullWidth
+						multiline
+						minRows={4}
+					/>
+					<Button onClick={sendComment}>Отправить</Button>
+				</Grid>
 				<div>
-					<h1>Нахвание трека - {track.name}</h1>
-					<h1>Исполнитель - {track.artist}</h1>
-					<h1>Прослушиваний {track.listens}</h1>
+					{track.comments.map(comment => {
+						return (
+							<div key={comment._id}>
+								<div>Автор - {comment.username}</div>
+								<div>Комментарий - {comment.text}</div>
+							</div>
+						);
+					})}
 				</div>
-			</Grid>
-			<h1>Слова песни</h1>
-			<p>{track.text}</p>
-			<Grid container>
-				<TextField label='Ваше имя' fullWidth />
-				<TextField label='Комментарий' fullWidth multiline rows={4} />
-				<Button>Отправить</Button>
-			</Grid>
-			<div>
-				{track.comments.map(comment => {
-					return (
-						<div key={comment._id}>
-							<div>Автор - {comment.author}</div>
-							<div>Комментарий - {comment.text}</div>
-						</div>
-					);
-				})}
-			</div>
+			</>
 		</MainLayout>
 	);
 };
 
 export default TrackPage;
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+	const { data } = await apiInstance.get(`/tracks/${params.id}`);
+	return {
+		props: {
+			serverTrack: data,
+		},
+	};
+};

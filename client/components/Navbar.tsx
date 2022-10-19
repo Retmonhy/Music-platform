@@ -26,6 +26,7 @@ const menuElements = [
 	{ name: 'Главная', href: '/' },
 	{ name: 'Список треков', href: '/tracks' },
 	{ name: 'Список альбомов', href: '/albums' },
+	{ name: 'Аутентификация', href: '/auth' },
 ];
 
 interface AppBarProps extends MuiAppBarProps {
