@@ -1,24 +1,32 @@
 // import { FileModule } from './file';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TrackModule } from './track';
 import * as path from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { FileModule } from './file';
+import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
+import { ErrorMiddleware } from './middlewares';
+import { UserController } from './user';
 @Module({
   controllers: [],
   providers: [],
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     ServeStaticModule.forRoot({
       rootPath: path.resolve(__dirname, 'static'),
     }),
-    MongooseModule.forRoot(
-      'mongodb+srv://music-database:music-database@cluster0.dzsl5gu.mongodb.net/?retryWrites=true&w=majority',
-    ),
+    MongooseModule.forRoot(process.env.DB_MONGOOSE),
     TrackModule,
     FileModule,
+    UserModule,
   ], //модуль должен знать об используемых модулях
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ErrorMiddleware).forRoutes('*');
+  }
+}
 
 //Чтобы воспользоваться нашими моделями в сервисах, контроллерах и тд, нужно

@@ -5,15 +5,7 @@ import { Model, ObjectId } from 'mongoose';
 import { Track, Comment, CommentDocument, TrackDocument } from './schemas';
 import { CommentDto } from './dto';
 import { FileService, FileType } from '../file';
-
-interface ICreateTrackResponse {
-  isSuccess: boolean;
-  track: Track;
-}
-interface ICommentResponse {
-  isSuccess: boolean;
-  comment: Comment;
-}
+import { ICreateTrackResponse, ICommentResponse } from './interface';
 
 @Injectable()
 export class TrackService {
