@@ -20,6 +20,24 @@ export class TokenService {
     console.log('accessToken = ', accessToken);
     return { accessToken, refreshToken };
   }
+
+  validateAccessToken(token: string) {
+    try {
+      const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+      return userData;
+    } catch (error) {
+      return null;
+    }
+  }
+  validateRefreshToken(token: string): UserDto {
+    try {
+      const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+      return userData as UserDto;
+    } catch (error) {
+      return null;
+    }
+  }
+
   async saveToken(userId, refreshToken) {
     //ищем в базе
     const tokenData = await this.tokenModel.findOne({ user: userId });
@@ -32,5 +50,13 @@ export class TokenService {
     console.log('token = ', token);
     //после того как пользователь залогинился или зарегался, мы генерим пару токенов и сохраняем рефреш токен в бд
     return token;
+  }
+  async removeToken(refreshToken: string) {
+    const tokenData = await this.tokenModel.deleteOne({ refreshToken });
+    return tokenData;
+  }
+  async findToken(refreshToken: string): Promise<Token> {
+    const tokenData = await this.tokenModel.findOne({ refreshToken });
+    return tokenData;
   }
 }

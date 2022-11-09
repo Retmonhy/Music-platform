@@ -1,9 +1,10 @@
-export class ApiError extends Error {
-  status: number;
+import { HttpException } from '@nestjs/common';
+export class ApiError extends HttpException {
+  errorStatus: number;
   errors: any[];
   constructor(status: number, message: string, errors = []) {
-    super(message);
-    this.status = status;
+    super(message, status);
+    this.errorStatus = status;
     this.errors = errors;
   }
   //static - это функции которые можно использовать, не создавая экземпляр класса

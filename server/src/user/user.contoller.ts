@@ -1,3 +1,4 @@
+import { AuthGuard } from './../guards/auth.guard';
 import {
   Body,
   Controller,
@@ -6,12 +7,14 @@ import {
   Param,
   Post,
   Redirect,
+  Req,
   Res,
+  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
-import { Response, NextFunction } from 'express';
+import { Response, NextFunction, Request } from 'express';
+import { UserService } from '.';
 import { RegistrationDto } from './dto';
-import { UserService } from './user.service';
 
 @Controller('/api')
 export class UserController {
@@ -38,17 +41,37 @@ export class UserController {
   }
 
   @Post('/login')
-  login(@Body() loginDto: RegistrationDto, @Next() next: NextFunction) {
+  login(@Body() loginDto: RegistrationDto) {
     this._userService.login(loginDto);
   }
+
   @Post('/logout')
-  logout() {
-    return 'q';
+  logout(@Res() res: Response, @Req() req: Request) {
+    const { refreshToken } = req.cookies;
+    const token = this._userService.logout(refreshToken);
+    res.clearCookie('refreshToken');
+    return res.status(200).json(token);
   }
+
   @Get('/refresh')
-  refresh() {
-    return 'q';
+  async refresh(
+    @Res() res: Response,
+    @Req() req: Request,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const { refreshToken } = req.cookies;
+      const userData = await this._userService.refresh(refreshToken);
+      res.cookie('refreshToken', userData.refreshToken, {
+        httpOnly: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      });
+      res.json(userData);
+    } catch (e) {
+      next(e);
+    }
   }
+
   @Get('/activate/:link')
   // @Redirect(process.env.CLIENT_URL, 301)
   @Redirect('https://ya.ru', 301)
@@ -60,10 +83,11 @@ export class UserController {
       //вызывая next с ошибкой мы попадаем в мидлваре, который реаклизовали
     }
   }
+  @UseGuards(AuthGuard)
   @Get('/users')
-  getUsers(@Next() next: NextFunction) {
+  async getUsers(@Next() next: NextFunction) {
     try {
-      const users = this._userService.getUsers();
+      const users = await this._userService.getUsers();
       return users;
     } catch (e) {
       next(e);

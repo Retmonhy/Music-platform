@@ -7,11 +7,10 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { FileModule } from './file';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
-import { ErrorMiddleware } from './middlewares';
-import { UserController } from './user';
 @Module({
   controllers: [],
   providers: [],
+  exports: [],
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ServeStaticModule.forRoot({
@@ -25,7 +24,7 @@ import { UserController } from './user';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ErrorMiddleware).forRoutes('*');
+    //сюда надо вставлять мидлеваре
   }
 }
 

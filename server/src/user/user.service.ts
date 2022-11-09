@@ -10,6 +10,15 @@ import * as bcrypt from 'bcrypt';
 import * as uuid from 'uuid';
 import { UserDto, RegistrationDto } from './dto';
 
+export interface RegistrationResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    id: string;
+    email: string;
+    isActivated: boolean;
+  };
+}
 @Injectable()
 export class UserService {
   constructor(
@@ -18,8 +27,11 @@ export class UserService {
     private _mailService: MailService,
     private _tokenService: TokenService,
   ) {}
-
-  async registration(registrationDto: RegistrationDto) {
+  //
+  //
+  async registration(
+    registrationDto: RegistrationDto,
+  ): Promise<RegistrationResponse> {
     //ищем пользователя с таким емейлом
     const { email, password } = registrationDto;
     const candidate = await this.userModel.findOne({ email });
@@ -31,10 +43,8 @@ export class UserService {
       this.userModel.deleteOne({ email });
     }
     const hashPassword = await bcrypt.hash(password, 3);
-    console.log('hashPassword');
 
     const activationLink = await uuid.v4(); //вернет какуюто рандомную строку
-    console.log('activationLink');
     const user = await this.userModel.create({
       email,
       password: hashPassword,
@@ -55,12 +65,17 @@ export class UserService {
 
     return {
       ...tokens,
-      userDto,
+      user: userDto,
     };
 
     //после создания пользователя нужно отправить ему на почту сообщение с подтвержжением емайла
   }
-  async login({ email, password }: RegistrationDto) {
+  //
+  //
+  async login({
+    email,
+    password,
+  }: RegistrationDto): Promise<RegistrationResponse> {
     const user = await this.userModel.findOne({ email });
     if (!user) {
       throw ApiError.BadRequest('Пользователя с такой почтой не существует');
@@ -74,12 +89,42 @@ export class UserService {
 
     await this._tokenService.saveToken(userDto.id, tokens.refreshToken);
 
-    return { tokens, user: userDto };
+    return { ...tokens, user: userDto };
   }
+  //
+  //
+  async logout(refreshToken: string) {
+    const token = this._tokenService.removeToken(refreshToken);
+    return token;
+  }
+  //
+  //
+  async refresh(refreshToken: string): Promise<RegistrationResponse> {
+    if (!refreshToken) {
+      throw ApiError.UnauthorizedError();
+    }
+    //валидируем токен, не прислали ли нам какой-то левый токен, который вовсе не наш
+    const userData = this._tokenService.validateRefreshToken(refreshToken);
+    //проверяем наличие в базе
+    const tokenFromDB = await this._tokenService.findToken(refreshToken);
+    if (!userData || !tokenFromDB) {
+      throw ApiError.UnauthorizedError();
+    }
+    const user = await this.userModel.findById(userData.id);
+    const userDto = new UserDto(user);
+    const tokens = await this._tokenService.generateTokens({ ...userDto });
+    await this._tokenService.saveToken(user.id, tokens.refreshToken);
+
+    return { ...tokens, user: userDto };
+  }
+  //
+  //
   async getUsers() {
     const users = this.userModel.find();
     return users;
   }
+  //
+  //
   async activate(activationLink: string) {
     const user = await this.userModel.findOne({ activationLink });
     if (!user) {
@@ -90,4 +135,6 @@ export class UserService {
     console.log('user = ', user);
     return { isSuccess: true };
   }
+  //
+  //
 }

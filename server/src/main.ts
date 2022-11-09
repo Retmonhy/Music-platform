@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { config } from 'dotenv';
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
+import { HttpExceptionFilter } from './filters/exception.filter';
 const start = async () => {
   try {
     config();
@@ -12,6 +13,7 @@ const start = async () => {
     app.use(cookieParser());
     app.enableCors();
     app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalFilters(new HttpExceptionFilter());
     await app.listen(PORT, () =>
       console.log(`server have been started on port ${PORT}`),
     );

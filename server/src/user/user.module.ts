@@ -1,12 +1,11 @@
 import { TokenService } from './../token/token.service';
 import { MailService } from './../mail/mail.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { UserController } from './user.contoller';
 import { UserService } from './user.service';
 import { User, UserSchema } from './schemas/user.schema';
 import { Token, TokenSchema } from './schemas/token.schema';
-import { ErrorMiddleware } from './../middlewares';
+import { Module } from '@nestjs/common';
 
 @Module({
   controllers: [UserController], //регистрация сервиса и контроллера
