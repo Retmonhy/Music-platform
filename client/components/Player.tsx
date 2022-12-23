@@ -1,11 +1,10 @@
 import { Pause, PlayArrow, VolumeUp } from '@material-ui/icons';
 import { Grid, IconButton } from '@mui/material';
 import { ChangeEvent, useCallback, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { timeConverter } from '../helper';
-import { useAction, usePlayerControl, useTypedSelector } from '../hooks';
-import { generateUrl } from '../pages/_app';
-import styles from '../styles/Player.module.scss';
+import { generateUrl } from '../shared/api';
+import { timeConverter } from '../shared/helper';
+import { useAction, usePlayerControl, useTypedSelector } from '../shared/hooks';
+import styles from '../shared/styles/Player.module.scss';
 import { TrackProgress } from './TrackProgress';
 
 export let audio: HTMLAudioElement;
@@ -13,10 +12,8 @@ export const Player: React.FC = () => {
 	const { active, currentTime, duration, pause, volume } = useTypedSelector(
 		state => state.player,
 	);
-	const playerState = useTypedSelector(state => state.player);
-	const { playControl, play } = usePlayerControl();
-	const { pauseTrack, playTrack, setCurrentTime, setDuration, setVolume } =
-		useAction();
+	const { playControl } = usePlayerControl();
+	const { setCurrentTime, setDuration, setVolume } = useAction();
 	const changeVolume = (e: ChangeEvent<HTMLInputElement>) => {
 		audio.volume = Number(e.target.value) / 100;
 		setVolume(Number(e.target.value));
@@ -31,8 +28,6 @@ export const Player: React.FC = () => {
 		}
 		setAudio();
 		playControl();
-
-		console.log('useEffect = ', active?._id);
 	}, [active]);
 
 	const setAudio = () => {

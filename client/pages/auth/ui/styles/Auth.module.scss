@@ -1,0 +1,11 @@
+.submitButton {
+	background-color: #1976d2;
+	color: #fff;
+	padding: 12px;
+}
+.submitButton:hover {
+	background-color: lighten($color: #1976d2, $amount: 10);
+}
+.tab {
+	padding: 16px 0;
+}

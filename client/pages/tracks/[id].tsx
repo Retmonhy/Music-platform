@@ -4,10 +4,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Button, Grid, TextField } from '@material-ui/core';
 import { GetServerSideProps } from 'next';
-import { apiInstance, generateUrl } from '../_app';
-import { useInput } from '../../hooks';
+import { useInput } from '../../shared/hooks';
 import { ITrack } from '../../types/track';
-import { Endpoints, ICommentResponse } from '../../api';
+import {
+	apiInstance,
+	generateUrl,
+	TrackEndpoints,
+	ICommentResponse,
+} from '../../shared/api';
 
 const TrackPage = ({ serverTrack }) => {
 	const [track, setTrack] = React.useState<ITrack>(serverTrack);
@@ -18,7 +22,7 @@ const TrackPage = ({ serverTrack }) => {
 	const sendComment = async () => {
 		try {
 			const { data } = await apiInstance.post<ICommentResponse>(
-				Endpoints.POST_COMMENT,
+				TrackEndpoints.POST_COMMENT,
 				{
 					username: username.value,
 					text: text.value,

@@ -1,7 +1,7 @@
 import { ITrack } from '../types/track';
 import { Box, Button, Card, Grid } from '@material-ui/core';
 import { TrackItem } from './TrackItem';
-import { useTypedSelector } from '../hooks';
+import { useTypedSelector } from '../shared/hooks';
 
 interface TrackListProps {
 	tracks: ITrack[];

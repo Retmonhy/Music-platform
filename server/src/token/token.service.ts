@@ -17,7 +17,6 @@ export class TokenService {
     const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
       expiresIn: '30d',
     });
-    console.log('accessToken = ', accessToken);
     return { accessToken, refreshToken };
   }
 
@@ -47,7 +46,6 @@ export class TokenService {
     }
     //если условие не вып, то пользователь логинится в 1-ый раз и азписи с его id нету, нужно создать
     const token = await this.tokenModel.create({ user: userId, refreshToken });
-    console.log('token = ', token);
     //после того как пользователь залогинился или зарегался, мы генерим пару токенов и сохраняем рефреш токен в бд
     return token;
   }

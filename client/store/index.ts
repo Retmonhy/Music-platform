@@ -1,11 +1,12 @@
 import { RootState } from './reducers/index';
 import { Context, createWrapper } from 'next-redux-wrapper';
-import { AnyAction, applyMiddleware, createStore, Store } from 'redux';
+import { AnyAction, Store } from 'redux';
 import { reducer } from './reducers';
 import thunk, { ThunkDispatch } from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
 
-const makeStore = (context: Context) =>
-	createStore(reducer, applyMiddleware(thunk));
+export const makeStore = (context: Context) =>
+	configureStore({ reducer, middleware: [thunk] });
 
 // export an assembled wrapper
 export const wrapper = createWrapper<Store<RootState>>(makeStore, {

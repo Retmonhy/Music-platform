@@ -5,10 +5,10 @@ import React from 'react';
 import { ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { TrackList } from '../../components';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useTypedSelector } from '../../shared/hooks/useTypedSelector';
 import MainLayout from '../../layouts/MainLayout';
 import { NextThunkDispatch, wrapper } from '../../store';
-import { fetchTracks, seacrhTracks } from '../../store/ActionCreators/track';
+import { fetchTracks, searchTracks } from '../../store/ActionCreators/track';
 
 const Index: React.FC = () => {
 	const router = useRouter();
@@ -24,7 +24,7 @@ const Index: React.FC = () => {
 		}
 		setTimer(
 			setTimeout(async () => {
-				await dispatch(await seacrhTracks(e.target.value));
+				await dispatch(await searchTracks(e.target.value));
 			}, 500),
 		);
 	};
@@ -59,9 +59,8 @@ const Index: React.FC = () => {
 export default Index;
 
 export const getServerSideProps = wrapper.getServerSideProps(
-	store =>
-		async ({}) => {
-			const dispatch = store.dispatch as NextThunkDispatch;
-			await dispatch(await fetchTracks());
-		},
+	store => async () => {
+		const dispatch = store.dispatch as NextThunkDispatch;
+		await dispatch(await fetchTracks());
+	},
 );

@@ -1,13 +1,12 @@
-import { apiInstance } from './../../pages/_app';
 import axios from 'axios';
 import { Dispatch } from 'react';
 import { TrackAction, TrackActionTypes, ITrack } from './../../types/track';
-import { Endpoints } from '../../api';
+import { apiInstance, TrackEndpoints } from '../../shared/api';
 export const fetchTracks = async () => {
 	return async (dispatch: Dispatch<TrackAction>) => {
 		try {
-			const { data: response } = await axios.get<ITrack[]>(
-				'http://localhost:5000/tracks',
+			const { data: response } = await apiInstance.get<ITrack[]>(
+				TrackEndpoints.TRACKS,
 			);
 			dispatch({
 				type: TrackActionTypes.FETCH_TRACKS,
@@ -23,11 +22,11 @@ export const fetchTracks = async () => {
 		}
 	};
 };
-export const seacrhTracks = async (query: string) => {
+export const searchTracks = async (query: string) => {
 	return async (dispatch: Dispatch<TrackAction>) => {
 		try {
 			const { data: response } = await apiInstance.get<ITrack[]>(
-				Endpoints.SEARCH + `?query=${query}`,
+				TrackEndpoints.SEARCH + `?query=${query}`,
 			);
 			dispatch({
 				type: TrackActionTypes.FETCH_TRACKS,

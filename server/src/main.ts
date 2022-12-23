@@ -11,7 +11,7 @@ const start = async () => {
     const app = await NestFactory.create(AppModule);
 
     app.use(cookieParser());
-    app.enableCors();
+    app.enableCors({ credentials: true, origin: process.env.CLIENT_URL });
     app.useGlobalPipes(new ValidationPipe());
     app.useGlobalFilters(new HttpExceptionFilter());
     await app.listen(PORT, () =>

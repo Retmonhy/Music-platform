@@ -18,17 +18,21 @@ export class MailService {
     });
   }
   sendActivationMail(to, link) {
-    this.transporter.sendMail({
-      from: process.env.SMTP_EMAIL,
-      to: to,
-      subject: 'Активация акканта на ' + process.env.API_URL,
-      text: '',
-      html: `
+    try {
+      this.transporter.sendMail({
+        from: process.env.SMTP_EMAIL,
+        to: to,
+        subject: 'Активация акканта на ' + process.env.API_URL,
+        text: '',
+        html: `
       <div>
         <h1>Для активации перейдите по ссылке</h1>
         <a href='${link}'>${link}</a>
       </div>
       `,
-    });
+      });
+    } catch (e) {
+      console.error('sendActivationMail error: ', e);
+    }
   }
 }

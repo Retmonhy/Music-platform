@@ -3,7 +3,7 @@ import { TokenService } from './../token/token.service';
 import { MailService } from './../mail/mail.service';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { Token, TokenDocument } from './schemas/token.schema';
 import * as bcrypt from 'bcrypt';
@@ -16,6 +16,8 @@ export interface RegistrationResponse {
   user: {
     id: string;
     email: string;
+    firstname: string;
+    surname: string;
     isActivated: boolean;
   };
 }
@@ -33,41 +35,43 @@ export class UserService {
     registrationDto: RegistrationDto,
   ): Promise<RegistrationResponse> {
     //ищем пользователя с таким емейлом
-    const { email, password } = registrationDto;
-    const candidate = await this.userModel.findOne({ email });
-    await this.userModel.deleteOne({ email });
-    if (candidate) {
-      // throw ApiError.BadRequest(
-      //   `Пользователь с почтовым адресом ${email} уже существует`,
+    try {
+      const { email, password, firstname, surname } = registrationDto;
+      await this.userModel.deleteOne({ email }); //удалить строку
+      const candidate = await this.userModel.findOne({ email });
+      if (candidate) {
+        throw ApiError.BadRequest(
+          `Пользователь с почтовым адресом ${email} уже существует`,
+        );
+      }
+      const hashPassword = await bcrypt.hash(password, 3);
+
+      const activationLink = await uuid.v4(); //вернет какуюто рандомную строку
+      const user = await this.userModel.create({
+        email,
+        firstname,
+        surname,
+        password: hashPassword,
+        activationLink,
+      });
+      // await this._mailService.sendActivationMail(
+      //   email,
+      //   `${process.env.API_URL}/api/activate/${activationLink}`,
       // );
-      this.userModel.deleteOne({ email });
+
+      const userDto = new UserDto(user);
+      const tokens = await this._tokenService.generateTokens({ ...userDto });
+
+      await this._tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+      return {
+        ...tokens,
+        user: userDto,
+      };
+    } catch (error) {
+      console.error('REGISTRATION_ERROR: ', error);
+      return error;
     }
-    const hashPassword = await bcrypt.hash(password, 3);
-
-    const activationLink = await uuid.v4(); //вернет какуюто рандомную строку
-    const user = await this.userModel.create({
-      email,
-      password: hashPassword,
-      activationLink,
-    });
-    await this._mailService.sendActivationMail(
-      email,
-      `${process.env.API_URL}/api/activate/${activationLink}`,
-    );
-    console.log('this._mailService.sendActivationMail');
-
-    const userDto = new UserDto(user);
-    const tokens = await this._tokenService.generateTokens({ ...userDto });
-    console.log('tokens');
-
-    await this._tokenService.saveToken(userDto.id, tokens.refreshToken);
-    console.log('this._tokenService.saveToken');
-
-    return {
-      ...tokens,
-      user: userDto,
-    };
-
     //после создания пользователя нужно отправить ему на почту сообщение с подтвержжением емайла
   }
   //

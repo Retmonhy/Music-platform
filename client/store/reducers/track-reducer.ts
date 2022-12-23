@@ -3,7 +3,7 @@ import {
 	TrackState,
 	TrackAction,
 	TrackActionTypes,
-} from './../../types/track';
+} from '../../types/track';
 const initialState: TrackState = {
 	tracks: [],
 	error: '',

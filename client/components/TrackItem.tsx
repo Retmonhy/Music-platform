@@ -1,23 +1,18 @@
 import { ITrack } from '../types/track';
-import { Box, Button, IconButton, Card, Grid } from '@material-ui/core';
-import styles from '../styles/TrackItem.module.scss';
+import { IconButton, Card, Grid } from '@material-ui/core';
+import styles from '../shared/styles/TrackItem.module.scss';
 import { Pause, PlayArrow, Delete } from '@material-ui/icons';
 import { useRouter } from 'next/router';
-import { setActive } from '../store/ActionCreators/player';
-import { useAction, useTypedSelector } from '../hooks';
+import { useAction, useTypedSelector, usePlayerControl } from '../shared/hooks';
 import Image from 'next/image';
-import { MouseEventHandler } from 'react';
-import { AnchorHTMLAttributes } from 'react';
-import axios from 'axios';
-import { apiInstance, generateUrl } from '../pages/_app';
-import { usePlayerControl } from '../hooks/usePlayerControl';
-import { timeConverter } from '../helper';
+import { timeConverter } from '../shared/helper';
+import { apiInstance, generateUrl } from '../shared/api';
 
 interface TrackItemProps {
 	track: ITrack;
 	isActive?: boolean;
 }
-interface DeleteTrackResponse {
+interface IDeleteTrackResponse {
 	isSuccess: boolean;
 	trackId: string;
 }
@@ -28,7 +23,7 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, isActive }) => {
 	const { active, pause, currentTime, duration } = useTypedSelector(
 		st => st.player,
 	);
-	const { playControl, play: play1 } = usePlayerControl();
+	const { playControl } = usePlayerControl();
 
 	const play = (e: Event) => {
 		e.stopPropagation();
@@ -42,7 +37,7 @@ export const TrackItem: React.FC<TrackItemProps> = ({ track, isActive }) => {
 	const deleteTrack = async e => {
 		e.stopPropagation();
 		try {
-			const { data } = await apiInstance.delete<DeleteTrackResponse>(
+			const { data } = await apiInstance.delete<IDeleteTrackResponse>(
 				`/tracks/${track._id}`,
 			);
 		} catch (error) {

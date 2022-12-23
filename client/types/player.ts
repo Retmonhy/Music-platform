@@ -20,9 +20,6 @@ export enum PlayerActionTypes {
 interface PlayAction {
 	type: PlayerActionTypes.PLAY;
 }
-interface PlayAction {
-	type: PlayerActionTypes.PLAY;
-}
 interface PauseAction {
 	type: PlayerActionTypes.PAUSE;
 }

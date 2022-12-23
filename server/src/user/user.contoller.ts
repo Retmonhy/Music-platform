@@ -1,3 +1,4 @@
+import { ApiError } from './../exceptions/api-errors';
 import { AuthGuard } from './../guards/auth.guard';
 import {
   Body,
@@ -23,26 +24,25 @@ export class UserController {
   @Post('/registration')
   async registration(
     @Body(ValidationPipe) registrationDto: RegistrationDto,
-    @Next() next: NextFunction,
     @Res() res: Response,
   ) {
     try {
       const userData = await this._userService.registration(registrationDto);
-      res.cookie('refreshToken', userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-
-      return userData;
+      if (userData) {
+        res.cookie('refreshToken', userData.refreshToken, {
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
+        return res.status(200).send(userData);
+      }
     } catch (e) {
-      next(e);
-      //вызывая next с ошибкой мы попадаем в мидлваре, который реаклизовали
+      console.log('/api/registration ERROR = ', e);
     }
   }
 
   @Post('/login')
   login(@Body() loginDto: RegistrationDto) {
-    this._userService.login(loginDto);
+    return this._userService.login(loginDto);
   }
 
   @Post('/logout')
