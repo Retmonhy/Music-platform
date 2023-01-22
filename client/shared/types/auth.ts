@@ -1,3 +1,9 @@
+export enum AuthRoutes {
+	Profile = '/account/profile',
+	Tracks = '/account/tracks',
+	Alboms = '/account/alboms',
+	Login = '/account/login',
+}
 export enum RegistrationModes {
 	REG = 'registration',
 	LOGIN = 'login',
@@ -9,7 +15,7 @@ export interface TabPanelProps {
 	value: RegistrationModes;
 }
 export interface IRegistrationData {
-	name: string;
+	firstname: string;
 	surname: string;
 	email: string;
 	password: string;

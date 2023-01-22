@@ -1,9 +1,8 @@
 import { ILoginUserResponse } from './../shared/api/interface';
 export enum AccountActionTypes {
-	LOGIN = 'LOGIN',
+	AUTHORIZATION = 'AUTHORIZATION',
 	LOGOUT = 'LOGOUT',
 	REFRESH = 'REFRESH',
-	REGISTRATION = 'REGISTRATION',
 	LOADING = 'LOADING',
 }
 export type AccountState = {
@@ -16,15 +15,13 @@ export type AccountState = {
 export interface IUser {
 	id: string;
 	email: string;
+	firstname: string;
+	surname: string;
 	isActivated: boolean;
 }
 
-interface RegistrationAction {
-	type: AccountActionTypes.REGISTRATION;
-	payload: ILoginUserResponse;
-}
-interface LoginAction {
-	type: AccountActionTypes.LOGIN;
+interface AuthorizationAction {
+	type: AccountActionTypes.AUTHORIZATION;
 	payload: ILoginUserResponse;
 }
 interface LogoutAction {
@@ -38,8 +35,7 @@ interface LoadingAction {
 	payload: boolean;
 }
 export type AccountAction =
-	| RegistrationAction
-	| LoginAction
+	| AuthorizationAction
 	| LogoutAction
 	| RefreshAction
 	| LoadingAction;

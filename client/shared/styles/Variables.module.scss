@@ -1,0 +1,9 @@
+@use './variables' as var;
+
+:export {
+	baseColor: var.$base-color;
+	baseFillmentColor: var.$base-fillment-color;
+	baseRadius: var.$base-radius;
+	baseBorderColor: var.$base-border-color;
+	dangerColor: var.$danger-color;
+}

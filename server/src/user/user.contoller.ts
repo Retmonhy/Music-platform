@@ -26,6 +26,7 @@ export class UserController {
     @Body(ValidationPipe) registrationDto: RegistrationDto,
     @Res() res: Response,
   ) {
+    console.log('registrationDto = ', registrationDto);
     try {
       const userData = await this._userService.registration(registrationDto);
       if (userData) {

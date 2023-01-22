@@ -19,6 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useRouter } from 'next/router';
+import { AuthRoutes } from '../shared';
 
 const drawerWidth = 240;
 
@@ -26,7 +27,8 @@ const menuElements = [
 	{ name: 'Главная', href: '/' },
 	{ name: 'Список треков', href: '/tracks' },
 	{ name: 'Список альбомов', href: '/albums' },
-	{ name: 'Аутентификация', href: '/auth' },
+	{ name: 'Аутентификация', href: AuthRoutes.Login },
+	{ name: 'Мой профиль', href: AuthRoutes.Profile },
 ];
 
 interface AppBarProps extends MuiAppBarProps {

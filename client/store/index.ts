@@ -14,3 +14,5 @@ export const wrapper = createWrapper<Store<RootState>>(makeStore, {
 });
 
 export type NextThunkDispatch = ThunkDispatch<RootState, void, AnyAction>;
+const store = makeStore(null);
+export default store;

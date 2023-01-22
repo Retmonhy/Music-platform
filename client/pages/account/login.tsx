@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Card, Tab, Tabs, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -6,15 +6,15 @@ import MainLayout from '../../layouts/MainLayout';
 import { useTypedSelector } from '../../shared/hooks';
 import { NextThunkDispatch } from '../../store';
 import { login, registration } from '../../store/ActionCreators/account';
-import { RegistrationForm } from './components/RegistrationForm';
+import { RegistrationForm, LoginForm } from './components';
 import {
+	H1,
 	ILoginData,
 	IRegistrationData,
 	RegistrationModes,
 	TabPanelProps,
 } from '../../shared';
-import styles from './ui/styles/Auth.module.scss';
-import { LoginForm } from './components/LoginForm';
+import styles from './styles/Auth.module.scss';
 
 function TabPanel(props: TabPanelProps) {
 	const { children, value, index, ...other } = props;
@@ -35,10 +35,17 @@ function TabPanel(props: TabPanelProps) {
 	);
 }
 const AuthPage = () => {
-	const { isLoading } = useTypedSelector(i => i.account);
+	//hooks
+	const { isAuth } = useTypedSelector(i => i.account);
 	const [mode, setMode] = useState<RegistrationModes>(RegistrationModes.REG);
 	const router = useRouter();
 	const dispatch = useDispatch() as NextThunkDispatch;
+	useEffect(() => {
+		if (isAuth) {
+			router.replace('/'); // как-то долго отрабатывает
+		}
+	}, [isAuth]);
+	//functions
 	const handleChange = (
 		event: React.SyntheticEvent,
 		newValue: RegistrationModes,
@@ -46,26 +53,15 @@ const AuthPage = () => {
 		setMode(newValue);
 	};
 	const registrationSubmit = async (payload: IRegistrationData) => {
-		const { email, password } = payload;
-		const reg = await dispatch(await registration(payload));
-		console.log('reg = ', reg);
-		await dispatch(await login(email, password));
-		// router.push('/account/profile');
+		await dispatch(await registration(payload));
 	};
 	const loginSubmit = async (payload: ILoginData) => {
-		const { email, password } = payload;
-		await dispatch(await login(email, password));
-		router.push('/account/profile');
+		await dispatch(await login(payload));
 	};
-	if (isLoading) {
-		return <div>Загрузка...</div>;
-	}
 	return (
 		<MainLayout>
 			<Box maxWidth={600} margin='0 auto' pt={4}>
-				<Typography variant='h1' fontSize={36} mb={2}>
-					Представьтесь, пожалуйста
-				</Typography>
+				<H1>Представьтесь, пожалуйста</H1>
 				<Card>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 						<Tabs

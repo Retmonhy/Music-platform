@@ -1,3 +1,5 @@
+import { ILoginData } from './../../shared/types/auth';
+import { useDispatch } from 'react-redux';
 import { AccountAction, AccountActionTypes } from './../../types/account';
 import { Dispatch } from 'react';
 import {
@@ -7,52 +9,53 @@ import {
 } from '../../shared/api';
 import { IRegistrationData } from '../../shared';
 
-export const setIsLoading = (value: boolean) => {
-	console.log('value = ', value);
-	return async (dispatch: Dispatch<AccountAction>) => {
-		dispatch({
-			type: AccountActionTypes.LOADING,
-			payload: value,
-		});
-	};
+export const setIsLoading = (
+	dispatch: Dispatch<AccountAction>,
+	value: boolean,
+) => {
+	dispatch({
+		type: AccountActionTypes.LOADING,
+		payload: value,
+	});
 };
+
 export const registration = async (payload: IRegistrationData) => {
 	return async (dispatch: Dispatch<AccountAction>) => {
 		try {
-			setIsLoading(true);
+			setIsLoading(dispatch, true);
 			const { data } = await apiInstance.post<ILoginUserResponse>(
 				AccountEndpoints.REGISTRATION,
 				payload,
 			);
 			localStorage.setItem('refreshToken', data.refreshToken);
-			dispatch({
-				type: AccountActionTypes.REGISTRATION,
+			setIsLoading(dispatch, false);
+			return dispatch({
+				type: AccountActionTypes.AUTHORIZATION,
 				payload: data,
 			});
-			setIsLoading(false);
 		} catch (error) {
 			console.error('loginError: ', error);
-			setIsLoading(false);
+			setIsLoading(dispatch, false);
 		}
 	};
 };
-export const login = async (email: string, password: string) => {
+export const login = async (payload: ILoginData) => {
 	return async (dispatch: Dispatch<AccountAction>) => {
 		try {
-			setIsLoading(true);
+			setIsLoading(dispatch, true);
 			const { data } = await apiInstance.post<ILoginUserResponse>(
 				AccountEndpoints.LOGIN,
-				{ email, password },
+				payload,
 				{},
 			);
 			localStorage.setItem('refreshToken', data.refreshToken);
-			setIsLoading(false);
+			setIsLoading(dispatch, false);
 			return dispatch({
-				type: AccountActionTypes.LOGIN,
+				type: AccountActionTypes.AUTHORIZATION,
 				payload: data,
 			});
 		} catch (error) {
-			setIsLoading(false);
+			setIsLoading(dispatch, false);
 			console.error('loginError: ', error);
 		}
 	};
@@ -60,16 +63,16 @@ export const login = async (email: string, password: string) => {
 export const logout = async () => {
 	return async (dispatch: Dispatch<AccountAction>) => {
 		try {
-			setIsLoading(true);
+			setIsLoading(dispatch, true);
 			const { data } = await apiInstance.post(AccountEndpoints.LOGOUT);
 			localStorage.removeItem('refreshToken');
-			setIsLoading(false);
+			setIsLoading(dispatch, false);
 			return dispatch({
 				type: AccountActionTypes.LOGOUT,
 			});
 		} catch (error) {
 			console.error('logoutError: ', error);
-			setIsLoading(false);
+			setIsLoading(dispatch, false);
 		}
 	};
 };

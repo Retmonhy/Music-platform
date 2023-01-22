@@ -1,13 +1,18 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { AppProps } from 'next/app';
-import { makeStore, wrapper } from '../store';
-import axios from 'axios';
+import App, { AppProps } from 'next/app';
+import store, { makeStore, wrapper } from '../store';
+import '../shared/styles/global.css';
 
-const WrappedApp: React.FC<AppProps> = ({ Component, pageProps }) => (
-	<Provider store={makeStore(null)}>
-		<Component {...pageProps} />
-	</Provider>
-);
+const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
+	const { store, props } = wrapper.useWrappedStore(pageProps);
+	console.log('store = ', store.getState());
 
-export default wrapper.withRedux(WrappedApp);
+	return (
+		<Provider store={store}>
+			<Component {...props.pageProps} />
+		</Provider>
+	);
+};
+
+export default WrappedApp;

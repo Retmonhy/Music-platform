@@ -1,3 +1,12 @@
+@use './variables' as var;
 .input {
 	margin-bottom: 16px;
+}
+.btn {
+	background-color: var.$base-color;
+	color: #fff;
+	padding: 8px 12px;
+}
+.btn:hover {
+	background-color: lighten($color: var.$base-color, $amount: 10);
 }

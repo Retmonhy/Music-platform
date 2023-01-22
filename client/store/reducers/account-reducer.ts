@@ -1,7 +1,7 @@
-import { AccountActionTypes } from './../../types/account';
+import { AccountActionTypes, AccountState } from './../../types/account';
 import { AccountAction } from '../../types';
 
-const initialState = {
+const initialState: AccountState = {
 	accessToken: null,
 	refreshToken: null,
 	user: null,
@@ -12,9 +12,7 @@ export const accountReducer = (state = initialState, action: AccountAction) => {
 	switch (action.type) {
 		case AccountActionTypes.LOADING:
 			return { ...state, isLoading: action.payload };
-		case AccountActionTypes.REGISTRATION:
-			return { ...state, ...action.payload };
-		case AccountActionTypes.LOGIN:
+		case AccountActionTypes.AUTHORIZATION:
 			return { ...state, isAuth: true, ...action.payload };
 		case AccountActionTypes.LOGOUT:
 			return { ...initialState };

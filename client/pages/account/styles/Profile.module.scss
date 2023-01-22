@@ -1,0 +1,38 @@
+@use '../../../shared/styles/variables' as var;
+.menu {
+	float: left;
+	width: 25%;
+	padding-right: 16px;
+}
+.menuWrapper {
+	border-radius: var.$base-radius;
+	border: 1px solid var.$base-border-color;
+	background-color: var.$base-fillment-color;
+}
+.menuList {
+	padding: 30px;
+	margin: 12px 0;
+	list-style: none;
+}
+.listItem {
+	margin-bottom: 8px;
+	transition: 0.4s;
+	color: var.$base-color;
+}
+.listItem:hover,
+.listItemSelected {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+// content blocks
+.content {
+	float: right;
+	width: 75%;
+}
+.contentWrapper {
+	padding: 10px 15px;
+	border-radius: var.$base-radius;
+	border: 1px solid var.$base-border-color;
+	background-color: var.$base-fillment-color;
+}

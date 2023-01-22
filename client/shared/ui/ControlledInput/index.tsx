@@ -1,29 +1,26 @@
 import { TextField, StandardTextFieldProps } from '@mui/material';
 import React from 'react';
-import { Controller, Control, RegisterOptions } from 'react-hook-form';
+import { Controller, UseControllerProps } from 'react-hook-form';
+import { IUser } from '../../../types';
 import styles from './../../styles/General.module.scss';
-interface ControlledInput extends StandardTextFieldProps {
-	controllerProps: {
-		control: Control;
-		rules?: RegisterOptions;
-	};
-	name: string;
+interface ControlledInput<T> extends StandardTextFieldProps {
+	controllerProps: UseControllerProps<T>;
 	label: string;
 }
 
-export const ControlledInput: React.FC<ControlledInput> = ({
+export const ControlledInput = <T,>({
 	controllerProps,
-	name,
 	label,
 	...props
-}) => {
+}: React.PropsWithChildren<ControlledInput<T>>) => {
+	console.log('controllerProps = ', controllerProps);
 	return (
 		<Controller
-			name={name}
 			{...controllerProps}
-			render={({ fieldState: { error }, field: { onChange } }) => {
+			render={({ fieldState: { error }, field: { onChange, value } }) => {
 				return (
 					<TextField
+						value={value || ''}
 						onChange={onChange}
 						label={label}
 						className={styles.input}

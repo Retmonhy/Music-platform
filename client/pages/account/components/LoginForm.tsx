@@ -1,11 +1,10 @@
-import { Box, Button, Grid, TextField } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ControlledInput, ILoginData } from '../../../shared';
-import { useInput } from '../../../shared/hooks';
+import general from '../../../shared/styles/General.module.scss';
 
-import styles from '../ui/styles/Auth.module.scss';
-export interface ILoginForm {
+interface ILoginForm {
 	onSubmit: (data: ILoginData) => void;
 }
 export const LoginForm: React.FC<ILoginForm> = ({ onSubmit }) => {
@@ -23,23 +22,23 @@ export const LoginForm: React.FC<ILoginForm> = ({ onSubmit }) => {
 					controllerProps={{
 						control: control,
 						rules: inputRules,
+						name: 'email',
 					}}
-					name='email'
 					label='Электронна почта'
 				/>
 				<ControlledInput
 					controllerProps={{
 						control: control,
 						rules: inputRules,
+						name: 'password',
 					}}
-					name='password'
 					label='Пароль'
 					type='password'
 				/>
 			</Grid>
 			<Box style={{ textAlign: 'right' }}>
 				<Button
-					className={styles.submitButton}
+					className={general.btn}
 					type='submit'
 					onClick={handleSubmit(onSubmit)}>
 					Войти

@@ -16,7 +16,14 @@
 		"strictFunctionTypes": false,
 		"jsx": "preserve"
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.js",
+		"**/*.jsx",
+		"pages/account/components/profile"
+	],
 	"exclude": ["node_modules"]
 }
 

@@ -39,6 +39,7 @@ export class UserService {
       const { email, password, firstname, surname } = registrationDto;
       await this.userModel.deleteOne({ email }); //удалить строку
       const candidate = await this.userModel.findOne({ email });
+      console.log('candidate = ', candidate);
       if (candidate) {
         throw ApiError.BadRequest(
           `Пользователь с почтовым адресом ${email} уже существует`,

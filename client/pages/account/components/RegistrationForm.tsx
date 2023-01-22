@@ -1,17 +1,22 @@
-import { Box, Button, Grid, TextField } from '@mui/material';
+import { Box, Grid } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { ControlledInput, IRegistrationData } from '../../../shared';
-import styles from '../ui/styles/Auth.module.scss';
+import {
+	ControlledInput,
+	IRegistrationData,
+	useTypedSelector,
+} from '../../../shared';
+import general from '../../../shared/styles/General.module.scss';
 export interface IRegistrationForm {
 	onSubmit: (data: IRegistrationData) => void;
 }
 export const RegistrationForm: React.FC<IRegistrationForm> = ({ onSubmit }) => {
-	const submitBtm = useRef<HTMLButtonElement>(null);
+	const submitBtn = useRef<HTMLButtonElement>(null);
+	const { isLoading } = useTypedSelector(i => i.account);
 	const enterPressSubmit = (e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
-			//через ref кликать неа кнопку
-			submitBtm.current.click();
+			submitBtn.current.click();
 		}
 	};
 
@@ -20,6 +25,7 @@ export const RegistrationForm: React.FC<IRegistrationForm> = ({ onSubmit }) => {
 		document.addEventListener('keydown', enterPressSubmit);
 		return () => document.removeEventListener('keydown', enterPressSubmit);
 	}, []);
+
 	const { control, handleSubmit } = useForm({ mode: 'onSubmit' });
 	const inputRules = {
 		required: {
@@ -34,44 +40,48 @@ export const RegistrationForm: React.FC<IRegistrationForm> = ({ onSubmit }) => {
 					controllerProps={{
 						control: control,
 						rules: inputRules,
+						name: 'email',
 					}}
-					name='email'
-					label='Электронна почта'
+					label='Электронная почта'
 				/>
 				<ControlledInput
 					controllerProps={{
 						control: control,
 						rules: inputRules,
+						name: 'firstname',
 					}}
-					name='name'
 					label='Имя'
 				/>
 				<ControlledInput
 					controllerProps={{
 						control: control,
 						rules: inputRules,
+						name: 'surname',
 					}}
-					name='surname'
 					label='Фамилия'
 				/>
 				<ControlledInput
 					controllerProps={{
 						control: control,
 						rules: inputRules,
+						name: 'password',
 					}}
-					name='password'
 					label='Пароль'
 					type='password'
 				/>
 			</Grid>
 			<Box style={{ textAlign: 'right' }}>
-				<Button
-					ref={submitBtm}
-					className={styles.submitButton}
+				<LoadingButton
+					loading={isLoading}
+					sx={{
+						'& .MuiLoadingButton-loadingIndicator': { color: '#fff' },
+					}}
+					ref={submitBtn}
+					className={general.btn}
 					type='submit'
 					onClick={handleSubmit(submitForm)}>
 					Зарегистрироваться
-				</Button>
+				</LoadingButton>
 			</Box>
 		</>
 	);
