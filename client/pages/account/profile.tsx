@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
-import React from 'react';
+import { useEffect } from 'react';
 import MainLayout from '../../layouts/MainLayout';
 import { AuthRoutes, H1, useTypedSelector } from '../../shared';
 import { ContentBlock, LeftSideMenu } from './components';
@@ -25,9 +25,11 @@ const menuList = [
 const Account = () => {
 	const { user } = useTypedSelector(i => i.account);
 	const router = useRouter();
-	if (!user) {
-		router.push(AuthRoutes.Login);
-	}
+	useEffect(() => {
+		if (!user) {
+			router && router.push(AuthRoutes.Login);
+		}
+	}, [user]);
 	return (
 		<MainLayout>
 			<H1>Мой профиль</H1>

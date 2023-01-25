@@ -1,7 +1,6 @@
 import { TextField, StandardTextFieldProps } from '@mui/material';
 import React from 'react';
 import { Controller, UseControllerProps } from 'react-hook-form';
-import { IUser } from '../../../types';
 import styles from './../../styles/General.module.scss';
 interface ControlledInput<T> extends StandardTextFieldProps {
 	controllerProps: UseControllerProps<T>;
@@ -13,7 +12,6 @@ export const ControlledInput = <T,>({
 	label,
 	...props
 }: React.PropsWithChildren<ControlledInput<T>>) => {
-	console.log('controllerProps = ', controllerProps);
 	return (
 		<Controller
 			{...controllerProps}
@@ -22,8 +20,8 @@ export const ControlledInput = <T,>({
 					<TextField
 						value={value || ''}
 						onChange={onChange}
+						classes={{ root: styles.input }}
 						label={label}
-						className={styles.input}
 						error={error?.type === 'required'}
 						helperText={error?.message}
 						{...props}

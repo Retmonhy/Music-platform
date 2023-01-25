@@ -67,7 +67,7 @@ export const logout = async () => {
 			const { data } = await apiInstance.post(AccountEndpoints.LOGOUT);
 			localStorage.removeItem('refreshToken');
 			setIsLoading(dispatch, false);
-			return dispatch({
+			dispatch({
 				type: AccountActionTypes.LOGOUT,
 			});
 		} catch (error) {
