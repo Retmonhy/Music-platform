@@ -13,7 +13,7 @@ export const Player: React.FC = () => {
 		state => state.player,
 	);
 	const { playControl } = usePlayerControl();
-	const { setCurrentTime, setDuration, setVolume } = useAction();
+	const { setCurrentTime, setDuration, setVolume } = useAction()._player;
 	const changeVolume = (e: ChangeEvent<HTMLInputElement>) => {
 		audio.volume = Number(e.target.value) / 100;
 		setVolume(Number(e.target.value));

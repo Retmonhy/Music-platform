@@ -8,7 +8,6 @@ import { TrackTime } from './TrackTime';
 import { PlayerState } from '../../../types';
 import { TrackImage } from './TrackImage';
 import { ActionMenu } from './ActionMenu';
-import { deleteTrack } from '../../../store/ActionCreators/track';
 import { DeleteTrack } from './DeleteTrack';
 import { useDispatch } from 'react-redux';
 import { NextThunkDispatch } from '../../../store';
@@ -23,7 +22,7 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 		//проверка делаеется уровнем выше,  plaerState не будет передаваться неактивному
 		const isActive = playerState ? true : false;
 		const router = useRouter();
-		const { setActive } = useAction();
+		const { _player, _track } = useAction();
 
 		const { playControl } = usePlayerControl();
 		const dispatch = useDispatch() as NextThunkDispatch;
@@ -31,7 +30,7 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 		const play: MouseEventHandler<HTMLDivElement> = event => {
 			event.stopPropagation();
 			if (!isActive) {
-				setActive(track);
+				_player.setActive(track);
 				return;
 			}
 			playControl();
@@ -39,7 +38,7 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 
 		const handleDeleteTrack = async e => {
 			e.stopPropagation();
-			dispatch(await deleteTrack(track));
+			dispatch(await _track.deleteTrack(track));
 		};
 
 		return (

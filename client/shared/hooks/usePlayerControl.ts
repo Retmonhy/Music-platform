@@ -2,7 +2,7 @@ import { useTypedSelector } from './useTypedSelector';
 import { useAction } from './useAction';
 import { audio } from '../../components/Player';
 export const usePlayerControl = () => {
-	const { pauseTrack, playTrack } = useAction();
+	const { pauseTrack, playTrack } = useAction()._player;
 	const { pause } = useTypedSelector(st => st.player);
 
 	const playControl = () => {
