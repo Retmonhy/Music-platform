@@ -1,5 +1,4 @@
 import { ChangeEventHandler } from 'react';
-import { timeConverter } from '../shared/helper';
 
 interface ITrackProgressProps {
 	left: string | number;

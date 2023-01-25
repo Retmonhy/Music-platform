@@ -23,9 +23,9 @@ const menuList = [
 	},
 ];
 const Account = () => {
-	const { isAuth } = useTypedSelector(i => i.account);
+	const { user } = useTypedSelector(i => i.account);
 	const router = useRouter();
-	if (!isAuth) {
+	if (!user) {
 		router.push(AuthRoutes.Login);
 	}
 	return (

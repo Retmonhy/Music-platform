@@ -1,7 +1,6 @@
-import { PlayArrow, Pause } from '@material-ui/icons';
 import { ITrack } from './track';
 export interface PlayerState {
-	active: null | ITrack;
+	active: ITrack | null;
 	volume: number;
 	duration: number;
 	currentTime: number;

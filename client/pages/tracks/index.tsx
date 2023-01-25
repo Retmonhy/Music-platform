@@ -1,22 +1,21 @@
 import { Box, Button, Card, Grid, TextField } from '@material-ui/core';
-import { SignalCellularNullRounded } from '@material-ui/icons';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { ChangeEvent } from 'react';
-import { useDispatch } from 'react-redux';
-import { TrackList } from '../../components';
 import { useTypedSelector } from '../../shared/hooks/useTypedSelector';
 import MainLayout from '../../layouts/MainLayout';
 import { NextThunkDispatch, wrapper } from '../../store';
 import { fetchTracks, searchTracks } from '../../store/ActionCreators/track';
+import { TrackList } from './components';
+import { useDispatch } from 'react-redux';
 
 const Index: React.FC = () => {
 	const router = useRouter();
 	const [query, setQuery] = React.useState<string>('');
 	const [timer, setTimer] = React.useState(null);
 	const { tracks, error } = useTypedSelector(st => st.track);
-	const dispatch = useDispatch() as NextThunkDispatch;
 
+	const dispatch = useDispatch() as NextThunkDispatch;
 	const seacrh = async (e: ChangeEvent<HTMLInputElement>) => {
 		setQuery(e.target.value);
 		if (timer) {
@@ -24,7 +23,7 @@ const Index: React.FC = () => {
 		}
 		setTimer(
 			setTimeout(async () => {
-				await dispatch(await searchTracks(e.target.value));
+				dispatch(await searchTracks(e.target.value));
 			}, 500),
 		);
 	};

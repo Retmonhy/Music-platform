@@ -1,4 +1,4 @@
-import { Pause, PlayArrow, VolumeUp } from '@material-ui/icons';
+import { Pause, PlayArrowRounded, VolumeUp } from '@material-ui/icons';
 import { Grid, IconButton } from '@mui/material';
 import { ChangeEvent, useCallback, useEffect } from 'react';
 import { generateUrl } from '../shared/api';
@@ -43,7 +43,7 @@ export const Player: React.FC = () => {
 	return active ? (
 		<div className={styles.player}>
 			<IconButton onClick={playControl}>
-				{pause ? <PlayArrow /> : <Pause />}
+				{pause ? <PlayArrowRounded /> : <Pause />}
 			</IconButton>
 			<Grid
 				container

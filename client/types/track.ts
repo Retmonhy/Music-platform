@@ -11,6 +11,7 @@ export interface ITrack {
 	listens: number;
 	picture: string;
 	audio: string;
+	duration: number;
 	comments: IComment[];
 }
 
@@ -22,11 +23,16 @@ export interface TrackState {
 export enum TrackActionTypes {
 	FETCH_TRACKS = 'FETCH_TRACKS',
 	FETCH_TRACKS_ERROR = 'FETCH_TRACKS_ERROR',
+	DELETE_TRACK = 'DELETE_TRACK',
 }
 
 interface FetchTracksAction {
 	type: TrackActionTypes.FETCH_TRACKS;
 	payload: ITrack[];
+}
+interface DeleteTrackAction {
+	type: TrackActionTypes.DELETE_TRACK;
+	payload: ITrack;
 }
 
 interface FetchErrorTracksAction {
@@ -34,4 +40,7 @@ interface FetchErrorTracksAction {
 	payload: string;
 }
 
-export type TrackAction = FetchTracksAction | FetchErrorTracksAction;
+export type TrackAction =
+	| FetchTracksAction
+	| FetchErrorTracksAction
+	| DeleteTrackAction;

@@ -6,7 +6,16 @@ import { Track, Comment, CommentDocument, TrackDocument } from './schemas';
 import { CommentDto } from './dto';
 import { FileService, FileType } from '../file';
 import { ICreateTrackResponse, ICommentResponse } from './interface';
+import * as mm from 'music-metadata';
 
+interface IAudioFile {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  buffer: Buffer;
+  size: number;
+}
 @Injectable()
 export class TrackService {
   //это делается чтобы мы могли использовать наши модели в сервисе
@@ -19,14 +28,18 @@ export class TrackService {
   async create(
     dto: CreateTrackDto,
     picture: string,
-    audio: string,
+    audio: IAudioFile,
   ): Promise<ICreateTrackResponse> {
     //чтобы создать трек нам вв эту фукцию нужно получить каккие-то данные dto
     const pictureFile = this.fileService.createFile(FileType.IMAGE, picture);
     const audioFile = this.fileService.createFile(FileType.AUDIO, audio);
+    console.log('audio = ', audio);
+    const metadata = await mm.parseBuffer(audio.buffer);
+    console.log('metadata = ', metadata);
     const track = await this.trackModel.create({
       ...dto,
       listens: 0,
+      duration: Math.round(metadata.format.duration) || 0,
       picture: pictureFile,
       audio: audioFile,
     });
@@ -34,7 +47,7 @@ export class TrackService {
     //далее переходим в контроллер и работаем с запросом
   }
 
-  async getAll(count = 10, offset = 0): Promise<Track[]> {
+  async getAll(count = 20, offset = 0): Promise<Track[]> {
     const tracks = await this.trackModel.find().skip(offset).limit(count);
     return tracks;
   }

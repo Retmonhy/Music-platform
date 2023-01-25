@@ -13,3 +13,7 @@ export interface ILoginUserResponse {
 	refreshToken: string;
 	user: IUser;
 }
+export interface IDeleteTrackResponse {
+	isSuccess: boolean;
+	trackId: string;
+}

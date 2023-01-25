@@ -1,7 +1,11 @@
 import axios from 'axios';
 import { Dispatch } from 'react';
 import { TrackAction, TrackActionTypes, ITrack } from './../../types/track';
-import { apiInstance, TrackEndpoints } from '../../shared/api';
+import {
+	apiInstance,
+	IDeleteTrackResponse,
+	TrackEndpoints,
+} from '../../shared/api';
 export const fetchTracks = async () => {
 	return async (dispatch: Dispatch<TrackAction>) => {
 		try {
@@ -19,6 +23,21 @@ export const fetchTracks = async () => {
 				type: TrackActionTypes.FETCH_TRACKS_ERROR,
 				payload: 'Произошла ошибка при загрузке треков',
 			});
+		}
+	};
+};
+export const deleteTrack = async (track: ITrack) => {
+	return async (dispatch: Dispatch<TrackAction>) => {
+		try {
+			const { data } = await apiInstance.delete<IDeleteTrackResponse>(
+				`/tracks/${track._id}`,
+			);
+			dispatch({
+				type: TrackActionTypes.DELETE_TRACK,
+				payload: track,
+			});
+		} catch (e) {
+			console.log('deleteTrack error = ', e);
 		}
 	};
 };
