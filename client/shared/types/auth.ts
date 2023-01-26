@@ -24,3 +24,8 @@ export interface ILoginData {
 	email: string;
 	password: string;
 }
+export interface IUpdateData {
+	email: string;
+	firstname: string;
+	surname: string;
+}

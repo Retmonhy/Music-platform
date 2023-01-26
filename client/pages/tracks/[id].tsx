@@ -7,7 +7,7 @@ import { GetServerSideProps } from 'next';
 import { useInput } from '../../shared/hooks';
 import { ITrack } from '../../types/track';
 import {
-	apiInstance,
+	api,
 	generateUrl,
 	TrackEndpoints,
 	ICommentResponse,
@@ -21,7 +21,7 @@ const TrackPage = ({ serverTrack }) => {
 
 	const sendComment = async () => {
 		try {
-			const { data } = await apiInstance.post<ICommentResponse>(
+			const { data } = await api.post<ICommentResponse>(
 				TrackEndpoints.POST_COMMENT,
 				{
 					username: username.value,
@@ -88,7 +88,7 @@ const TrackPage = ({ serverTrack }) => {
 export default TrackPage;
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-	const { data } = await apiInstance.get(`/tracks/${params.id}`);
+	const { data } = await api.get(`/tracks/${params.id}`);
 	return {
 		props: {
 			serverTrack: data,

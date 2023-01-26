@@ -1,11 +1,7 @@
 import { Button, Grid, TextField } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import {
-	TrackEndpoints,
-	ICreateTrackResponse,
-	apiInstance,
-} from '../../shared/api';
+import { TrackEndpoints, ICreateTrackResponse, api } from '../../shared/api';
 import { FileUpload, StepWrapper } from '../../components';
 import { useInput } from '../../shared/hooks';
 import MainLayout from '../../layouts/MainLayout';
@@ -33,7 +29,7 @@ const Create = () => {
 		form.append('picture', picture);
 		form.append('audio', audio);
 
-		const { data } = await apiInstance.post<ICreateTrackResponse>(
+		const { data } = await api.post<ICreateTrackResponse>(
 			TrackEndpoints.TRACKS,
 			form,
 		);

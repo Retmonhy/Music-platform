@@ -1,9 +1,11 @@
+import { IUpdateData } from './../shared/types/auth';
 import { ILoginUserResponse } from './../shared/api/interface';
 export enum AccountActionTypes {
 	AUTHORIZATION = 'AUTHORIZATION',
 	LOGOUT = 'LOGOUT',
 	REFRESH = 'REFRESH',
 	LOADING = 'LOADING',
+	UPDATE = 'UPDATE',
 }
 export type AccountState = {
 	refreshToken: string;
@@ -34,8 +36,13 @@ interface LoadingAction {
 	type: AccountActionTypes.LOADING;
 	payload: boolean;
 }
+interface UpdateAction {
+	type: AccountActionTypes.UPDATE;
+	payload: IUser;
+}
 export type AccountAction =
 	| AuthorizationAction
 	| LogoutAction
 	| RefreshAction
-	| LoadingAction;
+	| LoadingAction
+	| UpdateAction;

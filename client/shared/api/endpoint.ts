@@ -4,8 +4,9 @@ export enum TrackEndpoints {
 	POST_COMMENT = '/tracks/comment',
 }
 export enum AccountEndpoints {
-	LOGIN = '/api/login',
-	LOGOUT = '/api/logout',
-	REFRESH = '/api/refresh',
-	REGISTRATION = '/api/registration',
+	LOGIN = '/account/login',
+	LOGOUT = '/account/logout',
+	REFRESH = '/account/refresh',
+	REGISTRATION = '/account/registration',
+	UPDATE = '/account/update',
 }

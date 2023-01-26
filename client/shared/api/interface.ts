@@ -8,12 +8,16 @@ export interface ICreateTrackResponse {
 	isSuccess: boolean;
 	track: ITrack;
 }
+export interface IDeleteTrackResponse {
+	isSuccess: boolean;
+	trackId: string;
+}
 export interface ILoginUserResponse {
 	accessToken: string;
 	refreshToken: string;
 	user: IUser;
 }
-export interface IDeleteTrackResponse {
+export interface IUpdateProfileResponse {
 	isSuccess: boolean;
-	trackId: string;
+	user: IUser;
 }

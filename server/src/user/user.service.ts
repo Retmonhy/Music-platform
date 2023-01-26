@@ -142,4 +142,12 @@ export class UserService {
   }
   //
   //
+  async validateAndThrowUser(accessToken: string) {
+    const user = this._tokenService.validateAccessToken(accessToken);
+    console.log('user = ', user);
+    if (!user) {
+      throw ApiError.UnauthorizedError();
+    }
+    return user;
+  }
 }

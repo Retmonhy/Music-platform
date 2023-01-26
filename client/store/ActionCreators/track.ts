@@ -1,17 +1,11 @@
 import axios from 'axios';
 import { Dispatch } from 'react';
 import { TrackAction, TrackActionTypes, ITrack } from './../../types/track';
-import {
-	apiInstance,
-	IDeleteTrackResponse,
-	TrackEndpoints,
-} from '../../shared/api';
+import { api, IDeleteTrackResponse, TrackEndpoints } from '../../shared/api';
 export const fetchTracks = async () => {
 	return async (dispatch: Dispatch<TrackAction>) => {
 		try {
-			const { data: response } = await apiInstance.get<ITrack[]>(
-				TrackEndpoints.TRACKS,
-			);
+			const { data: response } = await api.get<ITrack[]>(TrackEndpoints.TRACKS);
 			dispatch({
 				type: TrackActionTypes.FETCH_TRACKS,
 				payload: response,
@@ -29,7 +23,7 @@ export const fetchTracks = async () => {
 export const deleteTrack = async (track: ITrack) => {
 	return async (dispatch: Dispatch<TrackAction>) => {
 		try {
-			const { data } = await apiInstance.delete<IDeleteTrackResponse>(
+			const { data } = await api.delete<IDeleteTrackResponse>(
 				`/tracks/${track._id}`,
 			);
 			dispatch({
@@ -44,7 +38,7 @@ export const deleteTrack = async (track: ITrack) => {
 export const searchTracks = async (query: string) => {
 	return async (dispatch: Dispatch<TrackAction>) => {
 		try {
-			const { data: response } = await apiInstance.get<ITrack[]>(
+			const { data: response } = await api.get<ITrack[]>(
 				TrackEndpoints.SEARCH + `?query=${query}`,
 			);
 			dispatch({

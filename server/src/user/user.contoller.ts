@@ -7,6 +7,7 @@ import {
   Next,
   Param,
   Post,
+  Query,
   Redirect,
   Req,
   Res,
@@ -15,9 +16,9 @@ import {
 } from '@nestjs/common';
 import { Response, NextFunction, Request } from 'express';
 import { UserService } from '.';
-import { RegistrationDto } from './dto';
+import { RegistrationDto, UpdateDto } from './dto';
 
-@Controller('/api')
+@Controller('/account')
 export class UserController {
   constructor(private _userService: UserService) {}
 
@@ -52,6 +53,18 @@ export class UserController {
     const token = this._userService.logout(refreshToken);
     res.clearCookie('refreshToken');
     return res.status(200).json(token);
+  }
+  @Post('update')
+  async update(
+    @Query('accessToken') accessToken: string,
+    @Res() res: Response,
+    @Body() body: UpdateDto,
+  ) {
+    const user = await this._userService.validateAndThrowUser(accessToken);
+    res.json({
+      isSuccess: true,
+      user,
+    });
   }
 
   @Get('/refresh')

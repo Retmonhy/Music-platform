@@ -8,12 +8,12 @@ const baseUrl = 'http://localhost:5000/';
 export const generateUrl = (url: string = '') => {
 	return baseUrl + url;
 };
-export const apiInstance = axios.create({
+export const api = axios.create({
 	withCredentials: true,
 	baseURL: baseUrl,
 });
 
-apiInstance.interceptors.request.use(config => {
+api.interceptors.request.use(config => {
 	return config;
 	// config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
 });

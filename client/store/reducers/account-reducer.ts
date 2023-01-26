@@ -18,6 +18,8 @@ export const accountReducer = (state = initialState, action: AccountAction) => {
 			return { ...initialState };
 		case AccountActionTypes.REFRESH:
 			return { ...state };
+		case AccountActionTypes.UPDATE:
+			return { ...state, user: action.payload };
 		default:
 			return state;
 	}

@@ -1,11 +1,12 @@
-import { ILoginData } from './../../shared/types/auth';
+import { ILoginData, IUpdateData } from './../../shared/types/auth';
 import { useDispatch } from 'react-redux';
 import { AccountAction, AccountActionTypes } from './../../types/account';
 import { Dispatch } from 'react';
 import {
-	apiInstance,
+	api,
 	AccountEndpoints,
 	ILoginUserResponse,
+	IUpdateProfileResponse,
 } from '../../shared/api';
 import { IRegistrationData } from '../../shared';
 
@@ -23,7 +24,7 @@ export const registration = async (payload: IRegistrationData) => {
 	return async (dispatch: Dispatch<AccountAction>) => {
 		try {
 			setIsLoading(dispatch, true);
-			const { data } = await apiInstance.post<ILoginUserResponse>(
+			const { data } = await api.post<ILoginUserResponse>(
 				AccountEndpoints.REGISTRATION,
 				payload,
 			);
@@ -43,7 +44,7 @@ export const login = async (payload: ILoginData) => {
 	return async (dispatch: Dispatch<AccountAction>) => {
 		try {
 			setIsLoading(dispatch, true);
-			const { data } = await apiInstance.post<ILoginUserResponse>(
+			const { data } = await api.post<ILoginUserResponse>(
 				AccountEndpoints.LOGIN,
 				payload,
 				{},
@@ -60,18 +61,41 @@ export const login = async (payload: ILoginData) => {
 		}
 	};
 };
-export const logout = async () => {
+export const logout = () => {
 	return async (dispatch: Dispatch<AccountAction>) => {
 		try {
 			setIsLoading(dispatch, true);
-			const { data } = await apiInstance.post(AccountEndpoints.LOGOUT);
+			const { data } = await api.post(AccountEndpoints.LOGOUT);
 			localStorage.removeItem('refreshToken');
 			setIsLoading(dispatch, false);
-			dispatch({
+			return dispatch({
 				type: AccountActionTypes.LOGOUT,
 			});
 		} catch (error) {
 			console.error('logoutError: ', error);
+			setIsLoading(dispatch, false);
+		}
+	};
+};
+export const update = (userToken: string, payload: IUpdateData) => {
+	return async (dispatch: Dispatch<AccountAction>) => {
+		try {
+			setIsLoading(dispatch, true);
+			const { data } = await api.post<IUpdateProfileResponse>(
+				AccountEndpoints.UPDATE,
+				payload,
+				{ params: { userToken } },
+			);
+			if (!data.isSuccess) return;
+			console.log('apiInstance = ', data);
+			dispatch({
+				type: AccountActionTypes.UPDATE,
+				payload: data.user,
+			});
+			setIsLoading(dispatch, false);
+		} catch (error) {
+			console.error('update Error: ', error);
+
 			setIsLoading(dispatch, false);
 		}
 	};

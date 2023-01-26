@@ -23,8 +23,8 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = ({
 }) => {
 	//hooks
 	const dispatch = useDispatch() as NextThunkDispatch;
-	const { user } = useTypedSelector(i => i.account);
-	const { logout } = useAction()._account;
+	const { user, accessToken } = useTypedSelector(i => i.account);
+	const { logout, update } = useAction()._account;
 	const submitBtn = useRef<HTMLButtonElement>(null);
 	const { isLoading } = useTypedSelector(i => i.account);
 	const { control, handleSubmit } = useForm<IUpdateProfileData>({
@@ -48,9 +48,10 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = ({
 			submitBtn.current.click();
 		}
 	};
-	const submitForm = data => {
+	const submitForm = async data => {
 		console.log('data = ', data);
-		onSubmit(data);
+		console.log('accessToken = ', accessToken);
+		await dispatch(update(accessToken, data));
 	};
 	const logoutHandler = async (e: MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
