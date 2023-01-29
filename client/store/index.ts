@@ -6,7 +6,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const makeStore = (context: Context) =>
-	configureStore({ reducer, middleware: [thunk] });
+	configureStore<RootState>({ reducer, middleware: [thunk] });
 
 // export an assembled wrapper
 export const wrapper = createWrapper<Store<RootState>>(makeStore, {

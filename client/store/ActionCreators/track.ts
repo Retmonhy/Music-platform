@@ -1,17 +1,16 @@
-import axios from 'axios';
 import { Dispatch } from 'react';
-import { TrackAction, TrackActionTypes, ITrack } from './../../types/track';
-import { api, IDeleteTrackResponse, TrackEndpoints } from '../../shared/api';
-export const fetchTracks = async () => {
+import { TrackAction, TrackActionTypes, ITrack } from '../../types/track';
+import { TrackService } from '../../shared';
+export const fetchTracks = () => {
 	return async (dispatch: Dispatch<TrackAction>) => {
 		try {
-			const { data: response } = await api.get<ITrack[]>(TrackEndpoints.TRACKS);
+			const { data } = await TrackService.fetchTracks();
 			dispatch({
 				type: TrackActionTypes.FETCH_TRACKS,
-				payload: response,
+				payload: data,
 			});
 		} catch (e) {
-			console.log('error = ', e);
+			console.log('fetchTracks error = ', e);
 
 			dispatch({
 				type: TrackActionTypes.FETCH_TRACKS_ERROR,
@@ -20,12 +19,10 @@ export const fetchTracks = async () => {
 		}
 	};
 };
-export const deleteTrack = async (track: ITrack) => {
+export const deleteTrack = (track: ITrack) => {
 	return async (dispatch: Dispatch<TrackAction>) => {
 		try {
-			const { data } = await api.delete<IDeleteTrackResponse>(
-				`/tracks/${track._id}`,
-			);
+			const { data } = await TrackService.deleteTrack(track._id);
 			dispatch({
 				type: TrackActionTypes.DELETE_TRACK,
 				payload: track,
@@ -35,18 +32,16 @@ export const deleteTrack = async (track: ITrack) => {
 		}
 	};
 };
-export const searchTracks = async (query: string) => {
+export const searchTracks = (query: string) => {
 	return async (dispatch: Dispatch<TrackAction>) => {
 		try {
-			const { data: response } = await api.get<ITrack[]>(
-				TrackEndpoints.SEARCH + `?query=${query}`,
-			);
+			const { data: response } = await TrackService.searchTracks(query);
 			dispatch({
 				type: TrackActionTypes.FETCH_TRACKS,
 				payload: response,
 			});
 		} catch (e) {
-			console.log('error = ', e);
+			console.log('searchTracks error = ', e);
 
 			dispatch({
 				type: TrackActionTypes.FETCH_TRACKS_ERROR,

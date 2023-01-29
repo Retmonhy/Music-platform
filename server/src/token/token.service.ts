@@ -20,24 +20,30 @@ export class TokenService {
     return { accessToken, refreshToken };
   }
 
-  validateAccessToken(token: string) {
+  validateAccessToken(token: string): UserDto | null {
     try {
-      const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+      const userData = jwt.verify(
+        token,
+        process.env.JWT_ACCESS_SECRET,
+      ) as UserDto;
       return userData;
     } catch (error) {
       return null;
     }
   }
-  validateRefreshToken(token: string): UserDto {
+  validateRefreshToken(token: string): UserDto | null {
     try {
-      const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+      const userData = jwt.verify(
+        token,
+        process.env.JWT_REFRESH_SECRET,
+      ) as UserDto;
       return userData as UserDto;
     } catch (error) {
       return null;
     }
   }
 
-  async saveToken(userId, refreshToken) {
+  async saveToken(userId: string, refreshToken: string) {
     //ищем в базе
     const tokenData = await this.tokenModel.findOne({ user: userId });
     if (tokenData) {

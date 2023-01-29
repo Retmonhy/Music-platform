@@ -19,16 +19,21 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useRouter } from 'next/router';
-import { AuthRoutes } from '../shared';
+import { AuthRoutes, useTypedSelector } from '../shared';
+import store from '../store';
 
 const drawerWidth = 240;
 
 const menuElements = [
-	{ name: 'Главная', href: '/' },
-	{ name: 'Список треков', href: '/tracks' },
-	{ name: 'Список альбомов', href: '/albums' },
-	{ name: 'Аутентификация', href: AuthRoutes.Login },
-	{ name: 'Мой профиль', href: AuthRoutes.Profile },
+	{ name: 'Главная', href: '/', id: 'main' },
+	{ name: 'Список треков', href: '/tracks', id: 'tracks' },
+	{ name: 'Список альбомов', href: '/albums', id: 'albums' },
+	{ name: 'Аутентификация', href: AuthRoutes.Login, id: 'login' },
+	{
+		name: 'Мой профиль',
+		href: AuthRoutes.Profile,
+		id: 'profile',
+	},
 ];
 
 interface AppBarProps extends MuiAppBarProps {
@@ -65,6 +70,7 @@ export const Navbar: React.FC = () => {
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(false);
 	const router = useRouter();
+	const { isAuth } = useTypedSelector(i => i.account);
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -115,16 +121,21 @@ export const Navbar: React.FC = () => {
 				</DrawerHeader>
 				<Divider />
 				<List>
-					{menuElements.map(({ name, href }, index) => (
-						<ListItem key={name} disablePadding>
-							<ListItemButton onClick={() => router.push(href)}>
-								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-								</ListItemIcon>
-								<ListItemText primary={name} />
-							</ListItemButton>
-						</ListItem>
-					))}
+					{menuElements.map(({ name, href, id }, index) => {
+						if (id === 'profile') {
+							href = isAuth ? href : AuthRoutes.Login;
+						}
+						return (
+							<ListItem key={name} disablePadding>
+								<ListItemButton onClick={() => router.push(href)}>
+									<ListItemIcon>
+										{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+									</ListItemIcon>
+									<ListItemText primary={name} />
+								</ListItemButton>
+							</ListItem>
+						);
+					})}
 				</List>
 				<Divider />
 			</Drawer>

@@ -16,8 +16,6 @@ export const accountReducer = (state = initialState, action: AccountAction) => {
 			return { ...state, isAuth: true, ...action.payload };
 		case AccountActionTypes.LOGOUT:
 			return { ...initialState };
-		case AccountActionTypes.REFRESH:
-			return { ...state };
 		case AccountActionTypes.UPDATE:
 			return { ...state, user: action.payload };
 		default:

@@ -7,6 +7,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { FileModule } from './file';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
+console.log('__dirname = ', __dirname);
 @Module({
   controllers: [],
   providers: [],

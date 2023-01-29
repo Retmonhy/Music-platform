@@ -12,17 +12,20 @@ import {
   Req,
   Res,
   UseGuards,
+  UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { Response, NextFunction, Request } from 'express';
 import { UserService } from '.';
 import { RegistrationDto, UpdateDto } from './dto';
+import { LowerCaseEmailPipe } from './../pipes';
 
 @Controller('/account')
 export class UserController {
   constructor(private _userService: UserService) {}
 
   @Post('/registration')
+  @UsePipes(new LowerCaseEmailPipe())
   async registration(
     @Body(ValidationPipe) registrationDto: RegistrationDto,
     @Res() res: Response,
@@ -41,7 +44,7 @@ export class UserController {
       console.log('/api/registration ERROR = ', e);
     }
   }
-
+  @UsePipes(new LowerCaseEmailPipe())
   @Post('/login')
   login(@Body() loginDto: RegistrationDto) {
     return this._userService.login(loginDto);
@@ -54,13 +57,22 @@ export class UserController {
     res.clearCookie('refreshToken');
     return res.status(200).json(token);
   }
-  @Post('update')
+  @UsePipes(new LowerCaseEmailPipe())
+  @Post('/update')
   async update(
     @Query('accessToken') accessToken: string,
     @Res() res: Response,
     @Body() body: UpdateDto,
   ) {
-    const user = await this._userService.validateAndThrowUser(accessToken);
+    const validUser = await this._userService.validateAndThrowUser(accessToken);
+    const user = await this._userService.updateUserInfo(validUser, body);
+    if (!user) {
+      res.json({
+        isSuccess: false,
+        user: validUser,
+      });
+    }
+
     res.json({
       isSuccess: true,
       user,

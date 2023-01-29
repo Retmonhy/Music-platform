@@ -32,7 +32,7 @@ export class TrackController {
     return this.trackService.create(dto, picture[0], audio[0]);
   }
 
-  @Get()
+  @Get('/')
   getAll(@Query('count') count: number, @Query('offset') offset: number) {
     return this.trackService.getAll(count, offset);
   }

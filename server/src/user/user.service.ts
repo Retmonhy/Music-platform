@@ -1,3 +1,4 @@
+import { UpdateDto } from './dto/update.dto';
 import { ApiError } from './../exceptions/api-errors';
 import { TokenService } from './../token/token.service';
 import { MailService } from './../mail/mail.service';
@@ -36,9 +37,13 @@ export class UserService {
   ): Promise<RegistrationResponse> {
     //ищем пользователя с таким емейлом
     try {
-      const { email, password, firstname, surname } = registrationDto;
+      // eslint-disable-next-line prefer-const
+      let { email, password, firstname, surname } = registrationDto;
+      email = email.toLowerCase();
       await this.userModel.deleteOne({ email }); //удалить строку
-      const candidate = await this.userModel.findOne({ email });
+      const candidate = await this.userModel.findOne({
+        email,
+      });
       console.log('candidate = ', candidate);
       if (candidate) {
         throw ApiError.BadRequest(
@@ -81,7 +86,7 @@ export class UserService {
     email,
     password,
   }: RegistrationDto): Promise<RegistrationResponse> {
-    const user = await this.userModel.findOne({ email });
+    const user = await this.userModel.findOne({ email: email.toLowerCase() });
     if (!user) {
       throw ApiError.BadRequest('Пользователя с такой почтой не существует');
     }
@@ -119,7 +124,6 @@ export class UserService {
     const userDto = new UserDto(user);
     const tokens = await this._tokenService.generateTokens({ ...userDto });
     await this._tokenService.saveToken(user.id, tokens.refreshToken);
-
     return { ...tokens, user: userDto };
   }
   //
@@ -144,10 +148,23 @@ export class UserService {
   //
   async validateAndThrowUser(accessToken: string) {
     const user = this._tokenService.validateAccessToken(accessToken);
+    const user1 = this._tokenService.validateAccessToken(accessToken + 'w');
     console.log('user = ', user);
+    console.log('user1 = ', user1);
     if (!user) {
       throw ApiError.UnauthorizedError();
     }
     return user;
+  }
+  async updateUserInfo(user: UserDto, updateDto: UpdateDto) {
+    const userData = await this.userModel.findOne({ id: user.id });
+    if (!userData) {
+      return null;
+    }
+    userData.email = updateDto.email;
+    userData.surname = updateDto.surname;
+    userData.firstname = updateDto.firstname;
+    await userData.save();
+    return userData;
   }
 }

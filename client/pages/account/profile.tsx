@@ -1,8 +1,9 @@
 import { Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { Loader } from '../../components/Loader';
 import MainLayout from '../../layouts/MainLayout';
-import { AuthRoutes, H1, useTypedSelector } from '../../shared';
+import { AuthRoutes, H1, StorageKeys, useTypedSelector } from '../../shared';
 import { ContentBlock, LeftSideMenu } from './components';
 
 const menuList = [
@@ -23,10 +24,10 @@ const menuList = [
 	},
 ];
 const Account = () => {
-	const { user } = useTypedSelector(i => i.account);
+	const { user, isLoading } = useTypedSelector(i => i.account);
 	const router = useRouter();
 	useEffect(() => {
-		if (!user) {
+		if (!user && !localStorage.getItem(StorageKeys.accessToken)) {
 			router && router.push(AuthRoutes.Login);
 		}
 	}, [user]);
@@ -35,7 +36,7 @@ const Account = () => {
 			<H1>Мой профиль</H1>
 			<div className='content'>
 				<LeftSideMenu list={menuList} />
-				<ContentBlock />
+				{isLoading ? <Loader /> : <ContentBlock />}
 			</div>
 		</MainLayout>
 	);

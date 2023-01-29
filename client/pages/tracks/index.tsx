@@ -5,15 +5,18 @@ import { ChangeEvent } from 'react';
 import { useTypedSelector } from '../../shared/hooks/useTypedSelector';
 import MainLayout from '../../layouts/MainLayout';
 import { NextThunkDispatch, wrapper } from '../../store';
-import { fetchTracks, searchTracks } from '../../store/ActionCreators/track';
+
 import { TrackList } from './components';
 import { useDispatch } from 'react-redux';
+import { useAction } from '../../shared';
+import { fetchTracks } from '../../store/ActionCreators/track';
 
 const Index: React.FC = () => {
 	const router = useRouter();
 	const [query, setQuery] = React.useState<string>('');
 	const [timer, setTimer] = React.useState(null);
 	const { tracks, error } = useTypedSelector(st => st.track);
+	const { _track } = useAction();
 
 	const dispatch = useDispatch() as NextThunkDispatch;
 	const seacrh = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +26,7 @@ const Index: React.FC = () => {
 		}
 		setTimer(
 			setTimeout(async () => {
-				dispatch(await searchTracks(e.target.value));
+				dispatch(await _track.searchTracks(e.target.value));
 			}, 500),
 		);
 	};

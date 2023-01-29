@@ -31,6 +31,7 @@ interface LogoutAction {
 }
 interface RefreshAction {
 	type: AccountActionTypes.REFRESH;
+	payload: IUser;
 }
 interface LoadingAction {
 	type: AccountActionTypes.LOADING;

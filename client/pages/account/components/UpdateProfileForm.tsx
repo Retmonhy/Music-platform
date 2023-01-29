@@ -12,17 +12,14 @@ import general from '../../../shared/styles/General.module.scss';
 import vars from '../../../shared/styles/Variables.module.scss';
 import { useDispatch } from 'react-redux';
 import { NextThunkDispatch } from '../../../store';
+import { useRouter } from 'next/router';
 
 type IUpdateProfileData = Omit<IRegistrationData, 'password'>;
-export interface IUpdateProfileForm {
-	onSubmit: (data: IUpdateProfileData) => void;
-}
+export interface IUpdateProfileForm {}
 
-export const UpdateProfileForm: React.FC<IUpdateProfileForm> = ({
-	onSubmit,
-}) => {
+export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 	//hooks
-	const dispatch = useDispatch() as NextThunkDispatch;
+	const router = useRouter();
 	const { user, accessToken } = useTypedSelector(i => i.account);
 	const { logout, update } = useAction()._account;
 	const submitBtn = useRef<HTMLButtonElement>(null);
@@ -49,14 +46,12 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = ({
 		}
 	};
 	const submitForm = async data => {
-		console.log('data = ', data);
-		console.log('accessToken = ', accessToken);
-		await dispatch(update(accessToken, data));
+		update(accessToken, data);
 	};
 	const logoutHandler = async (e: MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
-		console.log('await logout() = ', await logout());
-		// dispatch(await logout());
+		router.replace('/');
+		logout();
 	};
 	//useEffect
 	useEffect(() => {

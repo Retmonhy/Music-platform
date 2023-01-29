@@ -1,14 +1,28 @@
+import { LoadingButton } from '@mui/lab';
 import { Box, Button, Grid } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { ControlledInput, ILoginData } from '../../../shared';
+import { ControlledInput, ILoginData, useTypedSelector } from '../../../shared';
 import general from '../../../shared/styles/General.module.scss';
 
 interface ILoginForm {
 	onSubmit: (data: ILoginData) => void;
 }
 export const LoginForm: React.FC<ILoginForm> = ({ onSubmit }) => {
+	//hooks
 	const { handleSubmit, control } = useForm({ mode: 'onSubmit' });
+	const submitBtn = useRef<HTMLButtonElement>(null);
+	const { isLoading } = useTypedSelector(i => i.account);
+	//functions
+	const enterPressSubmit = (e: KeyboardEvent) => {
+		if (e.key === 'Enter') {
+			submitBtn.current.click();
+		}
+	};
+	useEffect(() => {
+		document.addEventListener('keydown', enterPressSubmit);
+		return () => document.removeEventListener('keydown', enterPressSubmit);
+	}, []);
 	const inputRules = {
 		required: {
 			value: true,
@@ -37,12 +51,17 @@ export const LoginForm: React.FC<ILoginForm> = ({ onSubmit }) => {
 				/>
 			</Grid>
 			<Box style={{ textAlign: 'right' }}>
-				<Button
+				<LoadingButton
+					loading={isLoading}
+					sx={{
+						'& .MuiLoadingButton-loadingIndicator': { color: '#fff' },
+					}}
+					ref={submitBtn}
 					className={general.btn}
 					type='submit'
 					onClick={handleSubmit(onSubmit)}>
 					Войти
-				</Button>
+				</LoadingButton>
 			</Box>
 		</>
 	);

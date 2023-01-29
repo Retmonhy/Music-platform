@@ -1,34 +1,25 @@
-import { ILoginData, IUpdateData } from './../../shared/types/auth';
-import { useDispatch } from 'react-redux';
-import { AccountAction, AccountActionTypes } from './../../types/account';
-import { Dispatch } from 'react';
-import {
-	api,
-	AccountEndpoints,
-	ILoginUserResponse,
-	IUpdateProfileResponse,
-} from '../../shared/api';
-import { IRegistrationData } from '../../shared';
+import { ILoginData, IUpdateData } from '../../shared/types/auth';
+import { AccountAction, AccountActionTypes } from '../../types/account';
+import { AccountService, IRegistrationData, StorageKeys } from '../../shared';
+import { Dispatch } from '@reduxjs/toolkit';
 
 export const setIsLoading = (
 	dispatch: Dispatch<AccountAction>,
 	value: boolean,
 ) => {
+	console.log('setIsLoading = ', value);
 	dispatch({
 		type: AccountActionTypes.LOADING,
 		payload: value,
 	});
 };
 
-export const registration = async (payload: IRegistrationData) => {
+export const registration = (payload: IRegistrationData) => {
 	return async (dispatch: Dispatch<AccountAction>) => {
 		try {
 			setIsLoading(dispatch, true);
-			const { data } = await api.post<ILoginUserResponse>(
-				AccountEndpoints.REGISTRATION,
-				payload,
-			);
-			localStorage.setItem('refreshToken', data.refreshToken);
+			const { data } = await AccountService.registration(payload);
+			localStorage.setItem(StorageKeys.accessToken, data.accessToken);
 			setIsLoading(dispatch, false);
 			return dispatch({
 				type: AccountActionTypes.AUTHORIZATION,
@@ -40,16 +31,12 @@ export const registration = async (payload: IRegistrationData) => {
 		}
 	};
 };
-export const login = async (payload: ILoginData) => {
+export const login = (payload: ILoginData) => {
 	return async (dispatch: Dispatch<AccountAction>) => {
 		try {
 			setIsLoading(dispatch, true);
-			const { data } = await api.post<ILoginUserResponse>(
-				AccountEndpoints.LOGIN,
-				payload,
-				{},
-			);
-			localStorage.setItem('refreshToken', data.refreshToken);
+			const { data } = await AccountService.login(payload);
+			localStorage.setItem(StorageKeys.accessToken, data.accessToken);
 			setIsLoading(dispatch, false);
 			return dispatch({
 				type: AccountActionTypes.AUTHORIZATION,
@@ -65,8 +52,8 @@ export const logout = () => {
 	return async (dispatch: Dispatch<AccountAction>) => {
 		try {
 			setIsLoading(dispatch, true);
-			const { data } = await api.post(AccountEndpoints.LOGOUT);
-			localStorage.removeItem('refreshToken');
+			const { data } = await AccountService.logout();
+			localStorage.removeItem(StorageKeys.accessToken);
 			setIsLoading(dispatch, false);
 			return dispatch({
 				type: AccountActionTypes.LOGOUT,
@@ -77,17 +64,15 @@ export const logout = () => {
 		}
 	};
 };
-export const update = (userToken: string, payload: IUpdateData) => {
+export const update = (accessToken: string, payload: IUpdateData) => {
 	return async (dispatch: Dispatch<AccountAction>) => {
 		try {
+			console.log(' update= ');
 			setIsLoading(dispatch, true);
-			const { data } = await api.post<IUpdateProfileResponse>(
-				AccountEndpoints.UPDATE,
-				payload,
-				{ params: { userToken } },
-			);
+			const params = { accessToken };
+			const { data } = await AccountService.updateProfile({ payload, params });
+
 			if (!data.isSuccess) return;
-			console.log('apiInstance = ', data);
 			dispatch({
 				type: AccountActionTypes.UPDATE,
 				payload: data.user,
@@ -97,6 +82,25 @@ export const update = (userToken: string, payload: IUpdateData) => {
 			console.error('update Error: ', error);
 
 			setIsLoading(dispatch, false);
+		}
+	};
+};
+export const checkAuth = () => {
+	return async (dispatch: Dispatch<AccountAction>) => {
+		try {
+			setIsLoading(dispatch, true);
+			const { data } = await AccountService.checkAuth();
+			if (data.accessToken) {
+				localStorage.setItem(StorageKeys.accessToken, data.accessToken);
+				dispatch({
+					type: AccountActionTypes.AUTHORIZATION,
+					payload: data,
+				});
+			}
+			setIsLoading(dispatch, false);
+		} catch (error) {
+			setIsLoading(dispatch, false);
+			throw error;
 		}
 	};
 };

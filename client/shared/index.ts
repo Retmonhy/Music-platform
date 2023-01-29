@@ -3,3 +3,4 @@ export * from './api';
 export * from './helper';
 export * from './hooks';
 export * from './ui';
+export * from './services';

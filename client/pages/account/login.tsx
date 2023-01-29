@@ -36,7 +36,7 @@ function TabPanel(props: TabPanelProps) {
 }
 const AuthPage = () => {
 	//hooks
-	const { isAuth } = useTypedSelector(i => i.account);
+	const { isAuth, isLoading } = useTypedSelector(i => i.account);
 	const [mode, setMode] = useState<RegistrationModes>(RegistrationModes.REG);
 	const router = useRouter();
 	const dispatch = useDispatch() as NextThunkDispatch;
