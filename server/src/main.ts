@@ -12,7 +12,14 @@ const start = async () => {
 
     app.use(cookieParser());
     app.enableCors({ credentials: true, origin: process.env.CLIENT_URL });
-    app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalPipes(
+      new ValidationPipe({
+        exceptionFactory: (arr) => {
+          console.log(arr);
+          // return arr;
+        },
+      }),
+    );
     app.useGlobalFilters(new HttpExceptionFilter());
     await app.listen(PORT, () =>
       console.log(`server have been started on port ${PORT}`),

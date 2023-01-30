@@ -44,7 +44,7 @@ export class UserController {
       console.log('/api/registration ERROR = ', e);
     }
   }
-  @UsePipes(new LowerCaseEmailPipe())
+  // @UsePipes(new LowerCaseEmailPipe())
   @Post('/login')
   login(@Body() loginDto: RegistrationDto) {
     return this._userService.login(loginDto);
@@ -67,13 +67,13 @@ export class UserController {
     const validUser = await this._userService.validateAndThrowUser(accessToken);
     const user = await this._userService.updateUserInfo(validUser, body);
     if (!user) {
-      res.json({
+      return res.json({
         isSuccess: false,
         user: validUser,
       });
     }
 
-    res.json({
+    return res.json({
       isSuccess: true,
       user,
     });

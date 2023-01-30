@@ -10,6 +10,8 @@ import { TrackList } from './components';
 import { useDispatch } from 'react-redux';
 import { useAction } from '../../shared';
 import { fetchTracks } from '../../store/ActionCreators/track';
+import { GetServerSideProps, GetServerSidePropsResult } from 'next';
+import { ITrack } from '../../types';
 
 const Index: React.FC = () => {
 	const router = useRouter();
@@ -63,6 +65,6 @@ export default Index;
 export const getServerSideProps = wrapper.getServerSideProps(
 	store => async () => {
 		const dispatch = store.dispatch as NextThunkDispatch;
-		await dispatch(await fetchTracks());
+		await fetchTracks()(dispatch);
 	},
 );

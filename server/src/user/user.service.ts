@@ -136,6 +136,7 @@ export class UserService {
   //
   async activate(activationLink: string) {
     const user = await this.userModel.findOne({ activationLink });
+    console.log('activate = ');
     if (!user) {
       throw ApiError.BadRequest('Некорректная ссылка активации');
     }
@@ -148,9 +149,6 @@ export class UserService {
   //
   async validateAndThrowUser(accessToken: string) {
     const user = this._tokenService.validateAccessToken(accessToken);
-    const user1 = this._tokenService.validateAccessToken(accessToken + 'w');
-    console.log('user = ', user);
-    console.log('user1 = ', user1);
     if (!user) {
       throw ApiError.UnauthorizedError();
     }
@@ -164,7 +162,8 @@ export class UserService {
     userData.email = updateDto.email;
     userData.surname = updateDto.surname;
     userData.firstname = updateDto.firstname;
+    console.log('userData = ', userData);
     await userData.save();
-    return userData;
+    return new UserDto(userData);
   }
 }

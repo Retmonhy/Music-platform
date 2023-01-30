@@ -14,17 +14,19 @@ export const api = axios.create({
 	baseURL: baseUrl,
 });
 api.interceptors.request.use(config => {
-	config.headers.Authorization = `Bearer ${localStorage.getItem(
-		StorageKeys.accessToken,
-	)}`;
+	if (typeof window !== 'undefined') {
+		config.headers.Authorization = `Bearer ${localStorage.getItem(
+			StorageKeys.accessToken,
+		)}`;
+	}
 	return config;
 });
 api.interceptors.response.use(
 	response => response,
 	error => {
-		console.log('error11 = ', error);
+		console.log('interceptors.response ERROR = ', error);
 		// if (error.response.status === 401) {
 		// }
-		return error;
+		return Promise.reject(error);
 	},
 );

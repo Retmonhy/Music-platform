@@ -4,7 +4,9 @@ import { TrackService } from '../../shared';
 export const fetchTracks = () => {
 	return async (dispatch: Dispatch<TrackAction>) => {
 		try {
+			console.log('fetchTracks = ', fetchTracks);
 			const { data } = await TrackService.fetchTracks();
+			console.log('data = ', data);
 			dispatch({
 				type: TrackActionTypes.FETCH_TRACKS,
 				payload: data,

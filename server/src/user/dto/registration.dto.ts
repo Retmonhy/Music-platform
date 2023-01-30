@@ -1,9 +1,9 @@
-import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, Length, Min, MinLength } from 'class-validator';
 
 export class RegistrationDto {
   firstname: string;
   surname: string;
-  @IsEmail()
+  @IsEmail({}, { message: 'Неверный емайл' })
   email: string;
 
   @IsNotEmpty()
