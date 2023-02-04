@@ -1,12 +1,18 @@
 import { CloseRounded } from '@material-ui/icons';
 import { Popover } from '@mui/material';
-import { FC, useState, MouseEvent } from 'react';
+import { FC, useState, MouseEvent, ReactNode } from 'react';
 import { SquareDiv } from '../../../components';
 import styles from '../../../shared/styles/TrackItem.module.scss';
-interface IDeleteTrackProps {
+interface IPopoverButtonProps {
 	onClick: (e: MouseEvent<HTMLDivElement>) => void;
+	text: string;
+	children: ReactNode;
 }
-export const DeleteTrack: FC<IDeleteTrackProps> = ({ onClick }) => {
+export const PopoverButton: FC<IPopoverButtonProps> = ({
+	onClick,
+	text,
+	children,
+}) => {
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const handlePopoverClose = () => setAnchorEl(null);
 	const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -22,7 +28,7 @@ export const DeleteTrack: FC<IDeleteTrackProps> = ({ onClick }) => {
 				onMouseEnter={handlePopoverOpen}
 				onMouseLeave={handlePopoverClose}
 				onClick={onClick}>
-				<CloseRounded className={styles.actionIcons} />
+				{children}
 				<Popover
 					classes={{ paper: styles.popover }}
 					sx={{
@@ -38,7 +44,7 @@ export const DeleteTrack: FC<IDeleteTrackProps> = ({ onClick }) => {
 						vertical: 'bottom',
 						horizontal: 'right',
 					}}>
-					Удалить из текущего плейлиста
+					{text}
 				</Popover>
 			</SquareDiv>
 		</>

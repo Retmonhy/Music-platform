@@ -20,11 +20,17 @@ export interface ILoginUserResponse {
 	refreshToken: string;
 	user: IUser;
 }
-export interface IUpdateProfileRequest {
+export type IUpdateProfileRequest = {
 	payload: IUpdateData;
-	params: IDefaultParams;
-}
+} & IDefaultParams;
 export interface IUpdateProfileResponse {
 	isSuccess: boolean;
 	user: IUser;
+}
+export interface IAddTrackRequest {
+	id: string; //id добавляемого трека
+}
+export interface IAddTrackResponce {
+	isSuccess: boolean;
+	trackId: string;
 }

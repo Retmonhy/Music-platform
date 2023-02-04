@@ -26,16 +26,16 @@ export enum TrackActionTypes {
 	DELETE_TRACK = 'DELETE_TRACK',
 }
 
-interface FetchTracksAction {
+export interface FetchTracksAction {
 	type: TrackActionTypes.FETCH_TRACKS;
 	payload: ITrack[];
 }
-interface DeleteTrackAction {
+export interface DeleteTrackAction {
 	type: TrackActionTypes.DELETE_TRACK;
 	payload: ITrack;
 }
 
-interface FetchErrorTracksAction {
+export interface FetchErrorTracksAction {
 	type: TrackActionTypes.FETCH_TRACKS_ERROR;
 	payload: string;
 }

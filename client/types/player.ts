@@ -16,25 +16,25 @@ export enum PlayerActionTypes {
 	SET_VOLUME = 'SET_VOLUME',
 }
 
-interface PlayAction {
+export interface PlayAction {
 	type: PlayerActionTypes.PLAY;
 }
-interface PauseAction {
+export interface PauseAction {
 	type: PlayerActionTypes.PAUSE;
 }
-interface SetActiveAction {
+export interface SetActiveAction {
 	type: PlayerActionTypes.SET_ACTIVE;
 	payload: ITrack;
 }
-interface SetCurrentTimeAction {
+export interface SetCurrentTimeAction {
 	type: PlayerActionTypes.SET_CURRENT_TIME;
 	payload: number;
 }
-interface SetDurationAction {
+export interface SetDurationAction {
 	type: PlayerActionTypes.SET_DURATION;
 	payload: number;
 }
-interface SetVolumeAction {
+export interface SetVolumeAction {
 	type: PlayerActionTypes.SET_VOLUME;
 	payload: number;
 }

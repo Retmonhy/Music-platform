@@ -53,10 +53,10 @@ const AuthPage = () => {
 		setMode(newValue);
 	};
 	const registrationSubmit = async (payload: IRegistrationData) => {
-		await dispatch(await registration(payload));
+		dispatch(registration(payload));
 	};
 	const loginSubmit = async (payload: ILoginData) => {
-		await dispatch(await login(payload));
+		dispatch(login(payload));
 	};
 	return (
 		<MainLayout>

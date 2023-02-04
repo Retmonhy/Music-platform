@@ -3,6 +3,7 @@ import { playerReducer } from './player-reducer';
 import { accountReducer } from './account-reducer';
 import { HYDRATE } from 'next-redux-wrapper';
 import { combineReducers } from 'redux';
+import { AsyncThunk } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({
 	player: playerReducer,
@@ -23,3 +24,7 @@ export const reducer = (state, action) => {
 	}
 };
 export type RootState = ReturnType<typeof rootReducer>;
+export type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>;
+export type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
+export type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
+export type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;

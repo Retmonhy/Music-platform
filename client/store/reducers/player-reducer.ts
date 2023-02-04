@@ -1,8 +1,13 @@
+import { createReducer } from '@reduxjs/toolkit';
+import { PlayerState } from '../../types/player';
 import {
-	PlayerState,
-	PlayerAction,
-	PlayerActionTypes,
-} from '../../types/player';
+	pauseTrack,
+	playTrack,
+	setActive,
+	setDuration,
+	setVolume,
+	setCurrentTime,
+} from '../ActionCreators/player';
 
 const initialState: PlayerState = {
 	active: null,
@@ -11,30 +16,24 @@ const initialState: PlayerState = {
 	duration: 0,
 	volume: 50,
 };
-export const playerReducer = (
-	state = initialState,
-	action: PlayerAction,
-): PlayerState => {
-	switch (action.type) {
-		case PlayerActionTypes.PLAY:
-			return { ...state, pause: false };
-		case PlayerActionTypes.PAUSE:
-			return { ...state, pause: true };
-		case PlayerActionTypes.SET_ACTIVE:
-			return {
-				...state,
-				pause: true,
-				active: action.payload,
-				duration: 0,
-				currentTime: 0,
-			};
-		case PlayerActionTypes.SET_CURRENT_TIME:
-			return { ...state, currentTime: action.payload };
-		case PlayerActionTypes.SET_DURATION:
-			return { ...state, duration: action.payload };
-		case PlayerActionTypes.SET_VOLUME:
-			return { ...state, volume: action.payload };
-		default:
-			return { ...state };
-	}
-};
+export const playerReducer = createReducer(initialState, builder => {
+	builder
+		.addCase(playTrack, state => {
+			state.pause = false;
+		})
+		.addCase(pauseTrack, state => {
+			state.pause = true;
+		})
+		.addCase(setActive, (state, action) => {
+			state.active = action.payload;
+		})
+		.addCase(setVolume, (state, action) => {
+			state.volume = action.payload;
+		})
+		.addCase(setDuration, (state, action) => {
+			state.duration = action.payload;
+		})
+		.addCase(setCurrentTime, (state, action) => {
+			state.currentTime = action.payload;
+		});
+});

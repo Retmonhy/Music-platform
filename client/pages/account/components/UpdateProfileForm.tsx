@@ -3,6 +3,7 @@ import { LoadingButton } from '@mui/lab';
 import React, { useEffect, useRef, MouseEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import {
+	AccountRoutes,
 	ControlledInput,
 	IRegistrationData,
 	useAction,
@@ -20,6 +21,7 @@ export interface IUpdateProfileForm {}
 export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 	//hooks
 	const router = useRouter();
+	const dispatch = useDispatch() as NextThunkDispatch;
 	const { user, accessToken } = useTypedSelector(i => i.account);
 	const { logout, update } = useAction()._account;
 	const submitBtn = useRef<HTMLButtonElement>(null);
@@ -45,13 +47,12 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 			submitBtn.current.click();
 		}
 	};
-	const submitForm = async data => {
-		update(accessToken, data);
+	const submitForm = payload => {
+		dispatch(update({ accessToken, payload }));
 	};
-	const logoutHandler = async (e: MouseEvent<HTMLAnchorElement>) => {
+	const logoutHandler = (e: MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
-		router.replace('/');
-		logout();
+		dispatch(logout()).then(_ => router.replace(AccountRoutes.Login));
 	};
 	//useEffect
 	useEffect(() => {

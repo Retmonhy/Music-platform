@@ -1,5 +1,8 @@
-import { checkAuth } from './../../store/ActionCreators/account';
-import { IUpdateProfileRequest } from './../api/interface';
+import {
+	IUpdateProfileRequest,
+	IAddTrackResponce,
+	IAddTrackRequest,
+} from './../api/interface';
 import { ILoginData, IRegistrationData } from './../types/auth';
 import {
 	AccountEndpoints,
@@ -20,7 +23,10 @@ export class AccountService {
 	static logout = async () => {
 		return api.post(AccountEndpoints.LOGOUT);
 	};
-	static updateProfile = async ({ payload, params }: IUpdateProfileRequest) => {
+	static updateProfile = async ({
+		payload,
+		...params
+	}: IUpdateProfileRequest) => {
 		return api.post<IUpdateProfileResponse>(AccountEndpoints.UPDATE, payload, {
 			params,
 		});
@@ -28,6 +34,11 @@ export class AccountService {
 	static checkAuth = async () => {
 		return axios.get<ILoginUserResponse>(`${baseUrl}account/refresh`, {
 			withCredentials: true,
+		});
+	};
+	static addTrack = async (params: IAddTrackRequest) => {
+		return api.get<IAddTrackResponce>(AccountEndpoints.ADD_TRACK, {
+			params,
 		});
 	};
 }

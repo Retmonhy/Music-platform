@@ -1,38 +1,14 @@
-import { Box, Button, Card, Grid, TextField } from '@material-ui/core';
-import { useRouter } from 'next/router';
+import { Box, Card, Grid } from '@material-ui/core';
 import React from 'react';
-import { ChangeEvent } from 'react';
 import { useTypedSelector } from '../../shared/hooks/useTypedSelector';
 import MainLayout from '../../layouts/MainLayout';
 import { NextThunkDispatch, wrapper } from '../../store';
 
 import { TrackList } from './components';
-import { useDispatch } from 'react-redux';
-import { useAction } from '../../shared';
 import { fetchTracks } from '../../store/ActionCreators/track';
-import { GetServerSideProps, GetServerSidePropsResult } from 'next';
-import { ITrack } from '../../types';
 
 const Index: React.FC = () => {
-	const router = useRouter();
-	const [query, setQuery] = React.useState<string>('');
-	const [timer, setTimer] = React.useState(null);
 	const { tracks, error } = useTypedSelector(st => st.track);
-	const { _track } = useAction();
-
-	const dispatch = useDispatch() as NextThunkDispatch;
-	const seacrh = async (e: ChangeEvent<HTMLInputElement>) => {
-		setQuery(e.target.value);
-		if (timer) {
-			clearTimeout(timer);
-		}
-		setTimer(
-			setTimeout(async () => {
-				dispatch(await _track.searchTracks(e.target.value));
-			}, 500),
-		);
-	};
-
 	if (error) {
 		return (
 			<MainLayout>
@@ -47,12 +23,12 @@ const Index: React.FC = () => {
 					<Box p={3}>
 						<Grid container justifyContent='space-between'>
 							<h1>Список треков</h1>
-							<Button onClick={() => router.push('/tracks/create')}>
+							{/* <Button onClick={() => router.push('/tracks/create')}>
 								Загрузить
-							</Button>
+							</Button> */}
 						</Grid>
 					</Box>
-					<TextField fullWidth value={query} onChange={seacrh} />
+					{/* <TextField fullWidth value={query} onChange={seacrh} /> */}
 					<TrackList tracks={tracks} />
 				</Card>
 			</Grid>
@@ -65,6 +41,7 @@ export default Index;
 export const getServerSideProps = wrapper.getServerSideProps(
 	store => async () => {
 		const dispatch = store.dispatch as NextThunkDispatch;
-		await fetchTracks()(dispatch);
+		await dispatch(fetchTracks());
+		return { props: {} };
 	},
 );

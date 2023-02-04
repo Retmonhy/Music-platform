@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
+import { Document } from 'mongoose';
 export type UserDocument = User & Document;
 
 @Schema()
@@ -16,5 +16,7 @@ export class User {
   isActivated: boolean;
   @Prop()
   activationLink: string;
+  @Prop()
+  tracks: string[];
 }
 export const UserSchema = SchemaFactory.createForClass(User);

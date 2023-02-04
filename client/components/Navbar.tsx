@@ -19,7 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useRouter } from 'next/router';
-import { AuthRoutes, useTypedSelector } from '../shared';
+import { AccountRoutes, useTypedSelector } from '../shared';
 import store from '../store';
 
 const drawerWidth = 240;
@@ -28,10 +28,10 @@ const menuElements = [
 	{ name: 'Главная', href: '/', id: 'main' },
 	{ name: 'Список треков', href: '/tracks', id: 'tracks' },
 	{ name: 'Список альбомов', href: '/albums', id: 'albums' },
-	{ name: 'Аутентификация', href: AuthRoutes.Login, id: 'login' },
+	{ name: 'Аутентификация', href: AccountRoutes.Login, id: 'login' },
 	{
 		name: 'Мой профиль',
-		href: AuthRoutes.Profile,
+		href: AccountRoutes.Profile,
 		id: 'profile',
 	},
 ];
@@ -123,7 +123,7 @@ export const Navbar: React.FC = () => {
 				<List>
 					{menuElements.map(({ name, href, id }, index) => {
 						if (id === 'profile') {
-							href = isAuth ? href : AuthRoutes.Login;
+							href = isAuth ? href : AccountRoutes.Login;
 						}
 						return (
 							<ListItem key={name} disablePadding>

@@ -1,29 +1,17 @@
-import {
-	ITrack,
-	TrackState,
-	TrackAction,
-	TrackActionTypes,
-} from '../../types/track';
+import { TrackState, TrackActionTypes } from './../../types/track';
+import { AnyAction, createReducer } from '@reduxjs/toolkit';
+
 const initialState: TrackState = {
 	tracks: [],
 	error: '',
 };
 
-export const trackReducer = (
-	state = initialState,
-	action: TrackAction,
-): TrackState => {
-	switch (action.type) {
-		case TrackActionTypes.FETCH_TRACKS:
-			return { error: '', tracks: action.payload };
-		case TrackActionTypes.DELETE_TRACK:
-			return {
-				error: '',
-				tracks: state.tracks.filter(i => i._id !== action.payload._id),
-			};
-		case TrackActionTypes.FETCH_TRACKS_ERROR:
-			return { ...state, error: action.payload };
-		default:
-			return state;
-	}
-};
+function isTrackAction(action: AnyAction) {
+	return action.type === `${TrackActionTypes.FETCH_TRACKS}/fulfilled`;
+}
+
+export const trackReducer = createReducer(initialState, builder => {
+	builder.addMatcher(isTrackAction, (state, action) => {
+		state.tracks = action.payload;
+	});
+});

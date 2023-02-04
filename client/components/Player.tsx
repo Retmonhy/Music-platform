@@ -1,6 +1,7 @@
 import { Pause, PlayArrowRounded, VolumeUp } from '@material-ui/icons';
 import { Grid, IconButton } from '@mui/material';
 import { ChangeEvent, useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { generateUrl } from '../shared/api';
 import { timeConverter } from '../shared/helper';
 import { useAction, usePlayerControl, useTypedSelector } from '../shared/hooks';
@@ -12,6 +13,7 @@ export const Player: React.FC = () => {
 	const { active, currentTime, duration, pause, volume } = useTypedSelector(
 		state => state.player,
 	);
+	const dispatch = useDispatch();
 	const { playControl } = usePlayerControl();
 	const { setCurrentTime, setDuration, setVolume } = useAction()._player;
 	const changeVolume = (e: ChangeEvent<HTMLInputElement>) => {
@@ -20,7 +22,7 @@ export const Player: React.FC = () => {
 	};
 	const changeCurrentTime = (e: ChangeEvent<HTMLInputElement>) => {
 		audio.currentTime = Number(e.target.value);
-		setCurrentTime(Number(e.target.value));
+		dispatch(setCurrentTime(Number(e.target.value)));
 	};
 	useEffect(() => {
 		if (!audio) {
@@ -34,10 +36,10 @@ export const Player: React.FC = () => {
 		audio.src = generateUrl(active?.audio);
 		audio.volume = volume / 100;
 		audio.onloadedmetadata = () => {
-			setDuration(audio.duration);
+			dispatch(setDuration(audio.duration));
 		};
 		audio.ontimeupdate = () => {
-			setCurrentTime(audio.currentTime);
+			dispatch(setCurrentTime(audio.currentTime));
 		};
 	};
 	return active ? (

@@ -14,4 +14,10 @@ export class ApiError extends HttpException {
   static BadRequest(message, errors?) {
     return new ApiError(400, message, errors);
   }
+  static MissingParam(param) {
+    return new ApiError(400, `Не передан параметр: ${Object.keys(param)[0]}`);
+  }
+  static ServerError(message, errors?) {
+    return new ApiError(500, message, errors);
+  }
 }

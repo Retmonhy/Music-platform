@@ -9,4 +9,5 @@ export enum AccountEndpoints {
 	REFRESH = '/account/refresh',
 	REGISTRATION = '/account/registration',
 	UPDATE = '/account/update',
+	ADD_TRACK = '/account/music/add',
 }

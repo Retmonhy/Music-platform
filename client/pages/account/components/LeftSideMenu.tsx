@@ -1,6 +1,8 @@
 import { Box, Card, Link } from '@material-ui/core';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { merge, useAction } from '../../../shared';
 import styles from '../styles/Profile.module.scss';
 interface IMenuItem {
 	name: string;
@@ -11,7 +13,19 @@ interface ILeftSideMenuProps {
 	list: IMenuItem[];
 }
 export const LeftSideMenu: FC<ILeftSideMenuProps> = ({ list }) => {
+	const dispatch = useDispatch();
 	const router = useRouter();
+	const {
+		_account: { changeRouteTo },
+	} = useAction();
+	const navigateToRoute = (route: string) => {
+		router.push(route);
+	};
+	useEffect(() => {
+		if (window) {
+			dispatch(changeRouteTo(window.location.pathname));
+		}
+	}, []);
 	return (
 		<Box className={styles.menu}>
 			<Box className={styles.menuWrapper}>
@@ -21,11 +35,13 @@ export const LeftSideMenu: FC<ILeftSideMenuProps> = ({ list }) => {
 							<li
 								className={
 									item.isSelected
-										? [styles.listItem, styles.listItemSelected].join(' ')
-										: [styles.listItem].join(' ')
+										? merge(styles.listItem, styles.listItemSelected)
+										: merge(styles.listItem)
 								}
 								key={item.name}>
-								<Link href={`${item.href}`}>{item.name}</Link>
+								<Link onClick={() => navigateToRoute(item.href)}>
+									{item.name}
+								</Link>
 							</li>
 						);
 					})}

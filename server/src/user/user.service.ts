@@ -4,7 +4,7 @@ import { TokenService } from './../token/token.service';
 import { MailService } from './../mail/mail.service';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { Token, TokenDocument } from './schemas/token.schema';
 import * as bcrypt from 'bcrypt';
@@ -165,5 +165,19 @@ export class UserService {
     console.log('userData = ', userData);
     await userData.save();
     return new UserDto(userData);
+  }
+  async addTrack(accessToken: string, id: string) {
+    const userData = this._tokenService.validateAccessToken(accessToken);
+    if (!userData) {
+      throw ApiError.UnauthorizedError();
+    }
+    const user = await this.userModel.findById(userData.id);
+    if (!user) {
+      throw ApiError.UnauthorizedError();
+    }
+    user.tracks = [id, ...user.tracks];
+    await user.save();
+    //тут можно подумать что возвращать
+    return user;
   }
 }

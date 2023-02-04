@@ -1,13 +1,13 @@
 import { ITrack } from '../../types';
 import { api, IDeleteTrackResponse, TrackEndpoints } from '../api';
 export class TrackService {
-	static fetchTracks = () => {
+	static fetchTracksReq = () => {
 		return api.get<ITrack[]>(TrackEndpoints.TRACKS);
 	};
-	static deleteTrack = (trackId: string) => {
+	static deleteTrackReq = (trackId: string) => {
 		return api.delete<IDeleteTrackResponse>(`/tracks/${trackId}`);
 	};
-	static searchTracks = (query: string) => {
+	static searchTracksReq = (query: string) => {
 		return api.get<ITrack[]>(TrackEndpoints.SEARCH + `?query=${query}`);
 	};
 }

@@ -10,7 +10,13 @@ interface ILoginForm {
 }
 export const LoginForm: React.FC<ILoginForm> = ({ onSubmit }) => {
 	//hooks
-	const { handleSubmit, control } = useForm({ mode: 'onSubmit' });
+	const { handleSubmit, control } = useForm({
+		mode: 'onSubmit',
+		defaultValues: {
+			email: 'retmonhy@gmail.com',
+			password: 'Rektijd12',
+		},
+	});
 	const submitBtn = useRef<HTMLButtonElement>(null);
 	const { isLoading } = useTypedSelector(i => i.account);
 	//functions

@@ -2,7 +2,11 @@ import { ITrack } from '../../../types/track';
 import { Grid } from '@material-ui/core';
 import styles from '../../../shared/styles/TrackItem.module.scss';
 import { useRouter } from 'next/router';
-import { useAction, usePlayerControl } from '../../../shared/hooks';
+import {
+	useAction,
+	usePlayerControl,
+	useTypedSelector,
+} from '../../../shared/hooks';
 import { memo, MouseEventHandler, useState } from 'react';
 import { TrackTime } from './TrackTime';
 import { PlayerState } from '../../../types';
@@ -11,6 +15,8 @@ import { ActionMenu } from './ActionMenu';
 import { DeleteTrack } from './DeleteTrack';
 import { useDispatch } from 'react-redux';
 import { NextThunkDispatch } from '../../../store';
+import { AddTrack } from './AddTrack';
+import { AccountService } from '../../../shared';
 
 interface TrackItemProps {
 	track: ITrack;
@@ -19,10 +25,11 @@ interface TrackItemProps {
 export const TrackItem: React.FC<TrackItemProps> = memo(
 	({ track, playerState }) => {
 		const [isHovered, setHovered] = useState<boolean>(false);
+		const { user, accessToken } = useTypedSelector(i => i.account);
 		//проверка делаеется уровнем выше,  plaerState не будет передаваться неактивному
 		const isActive = playerState ? true : false;
 		const router = useRouter();
-		const { _player, _track } = useAction();
+		const { _player, _track, _account } = useAction();
 
 		const { playControl } = usePlayerControl();
 		const dispatch = useDispatch() as NextThunkDispatch;
@@ -30,17 +37,20 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 		const play: MouseEventHandler<HTMLDivElement> = event => {
 			event.stopPropagation();
 			if (!isActive) {
-				_player.setActive(track);
+				dispatch(_player.setActive(track));
 				return;
 			}
 			playControl();
 		};
 
-		const handleDeleteTrack = async e => {
+		// const handleDeleteTrack = e => {
+		// 	e.stopPropagation();
+		// 	dispatch(_track.deleteTrack(track));
+		// };
+		const handleAddTrack = e => {
 			e.stopPropagation();
-			dispatch(await _track.deleteTrack(track));
+			dispatch(_account.addTrackIntoMyMusic(track._id));
 		};
-
 		return (
 			<div
 				className={styles.track}
@@ -67,7 +77,12 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 				<div className={styles.trackTime}>
 					{isHovered ? (
 						<div className={styles.actionMenu}>
-							<DeleteTrack onClick={handleDeleteTrack} />
+							{user?.tracks.includes(track._id) ? (
+								<DeleteTrack onClick={() => {}} />
+							) : (
+								<AddTrack onClick={handleAddTrack} />
+							)}
+
 							<ActionMenu />
 						</div>
 					) : (

@@ -1,12 +1,13 @@
 import { IsEmail } from 'class-validator';
 
 export class UserDto {
-  id;
+  id: string;
   @IsEmail()
-  email;
-  firstname;
-  surname;
-  isActivated;
+  email: string;
+  firstname: string;
+  surname: string;
+  isActivated: boolean;
+  tracks: string[];
 
   constructor(model) {
     (this.id = model._id),
@@ -14,5 +15,6 @@ export class UserDto {
       (this.firstname = model.firstname),
       (this.surname = model.surname),
       (this.isActivated = model.isActivated);
+    this.tracks = model.tracks;
   }
 }

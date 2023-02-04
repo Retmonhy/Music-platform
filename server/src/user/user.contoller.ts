@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongoose';
 import { ApiError } from './../exceptions/api-errors';
 import { AuthGuard } from './../guards/auth.guard';
 import {
@@ -30,7 +31,6 @@ export class UserController {
     @Body(ValidationPipe) registrationDto: RegistrationDto,
     @Res() res: Response,
   ) {
-    console.log('registrationDto = ', registrationDto);
     try {
       const userData = await this._userService.registration(registrationDto);
       if (userData) {
@@ -44,10 +44,21 @@ export class UserController {
       console.log('/api/registration ERROR = ', e);
     }
   }
-  // @UsePipes(new LowerCaseEmailPipe())
+  @UsePipes(new LowerCaseEmailPipe())
   @Post('/login')
-  login(@Body() loginDto: RegistrationDto) {
-    return this._userService.login(loginDto);
+  async login(@Body() loginDto: RegistrationDto, @Res() res: Response) {
+    try {
+      const userData = await this._userService.login(loginDto);
+      if (userData) {
+        res.cookie('refreshToken', userData.refreshToken, {
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+        });
+        return res.status(200).send(userData);
+      }
+    } catch (e) {
+      console.log('/api/login ERROR = ', e);
+    }
   }
 
   @Post('/logout')
@@ -65,6 +76,9 @@ export class UserController {
     @Body() body: UpdateDto,
   ) {
     const validUser = await this._userService.validateAndThrowUser(accessToken);
+    if (!validUser) {
+      throw ApiError.UnauthorizedError();
+    }
     const user = await this._userService.updateUserInfo(validUser, body);
     if (!user) {
       return res.json({
@@ -118,6 +132,27 @@ export class UserController {
     } catch (e) {
       next(e);
       //вызывая next с ошибкой мы попадаем в мидлваре, который реаклизовали
+    }
+  }
+  @UseGuards(AuthGuard)
+  @Get('/music/add')
+  async addTrackToUserMusic(
+    @Query('id') id: string,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    if (!id) {
+      throw ApiError.MissingParam({ id });
+    }
+    try {
+      const accessToken = req.headers.authorization.split(' ')[1];
+      await this._userService.addTrack(accessToken, id);
+      return res.json({
+        isSuccess: true,
+        trackId: id,
+      });
+    } catch (error) {
+      throw ApiError.ServerError(error);
     }
   }
 }

@@ -1,8 +1,9 @@
-export enum AuthRoutes {
+export enum AccountRoutes {
+	Login = '/account/login',
 	Profile = '/account/profile',
 	Tracks = '/account/tracks',
-	Alboms = '/account/alboms',
-	Login = '/account/login',
+	Playlists = '/account/playlists',
+	Musition = '/account/musition',
 }
 export enum RegistrationModes {
 	REG = 'registration',

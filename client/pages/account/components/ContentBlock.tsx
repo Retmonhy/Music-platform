@@ -1,18 +1,17 @@
 import { Box } from '@mui/material';
-import { useRouter } from 'next/router';
-import React, { FC, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { AuthRoutes, H2, useTypedSelector } from '../../../shared';
-import { setIsLoading } from '../../../store/ActionCreators/account';
+import React, { FC, ReactNode } from 'react';
+import { H2 } from '../../../shared';
 import styles from '../styles/Profile.module.scss';
-import { UpdateProfileForm } from './';
-interface IContentBlockProps {}
-export const ContentBlock: FC<IContentBlockProps> = () => {
+interface IContentBlockProps {
+	header: string;
+	children: ReactNode;
+}
+export const ContentBlock: FC<IContentBlockProps> = ({ header, children }) => {
 	return (
 		<Box className={styles.content}>
 			<Box className={styles.contentWrapper}>
-				<H2>Личные данные</H2>
-				<UpdateProfileForm />
+				<H2>{header}</H2>
+				{children}
 			</Box>
 		</Box>
 	);

@@ -1,54 +1,33 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Dispatch } from 'react';
 import { TrackAction, TrackActionTypes, ITrack } from '../../types/track';
 import { TrackService } from '../../shared';
-export const fetchTracks = () => {
-	return async (dispatch: Dispatch<TrackAction>) => {
-		try {
-			console.log('fetchTracks = ', fetchTracks);
-			const { data } = await TrackService.fetchTracks();
-			console.log('data = ', data);
-			dispatch({
-				type: TrackActionTypes.FETCH_TRACKS,
-				payload: data,
-			});
-		} catch (e) {
-			console.log('fetchTracks error = ', e);
 
-			dispatch({
-				type: TrackActionTypes.FETCH_TRACKS_ERROR,
-				payload: 'Произошла ошибка при загрузке треков',
-			});
-		}
-	};
-};
-export const deleteTrack = (track: ITrack) => {
-	return async (dispatch: Dispatch<TrackAction>) => {
+export const fetchTracks = createAsyncThunk(
+	TrackActionTypes.FETCH_TRACKS,
+	async (_, ta) => {
 		try {
-			const { data } = await TrackService.deleteTrack(track._id);
-			dispatch({
-				type: TrackActionTypes.DELETE_TRACK,
-				payload: track,
-			});
-		} catch (e) {
-			console.log('deleteTrack error = ', e);
+			const { data } = await TrackService.fetchTracksReq();
+			if (data) {
+				return data;
+			}
+		} catch (error) {
+			console.error('fetchTracks ERROR: ', error);
+			ta.rejectWithValue(error.response.data);
 		}
-	};
-};
-export const searchTracks = (query: string) => {
-	return async (dispatch: Dispatch<TrackAction>) => {
+	},
+);
+export const searchTracks = createAsyncThunk(
+	TrackActionTypes.FETCH_TRACKS,
+	async (query: string, ta) => {
 		try {
-			const { data: response } = await TrackService.searchTracks(query);
-			dispatch({
-				type: TrackActionTypes.FETCH_TRACKS,
-				payload: response,
-			});
-		} catch (e) {
-			console.log('searchTracks error = ', e);
-
-			dispatch({
-				type: TrackActionTypes.FETCH_TRACKS_ERROR,
-				payload: 'Произошла ошибка при загрузке треков',
-			});
+			const { data } = await TrackService.searchTracksReq(query);
+			if (data) {
+				return data;
+			}
+		} catch (error) {
+			console.error('searchTracks ERROR: ', error);
+			ta.rejectWithValue(error.response.data);
 		}
-	};
-};
+	},
+);
