@@ -41,4 +41,7 @@ export class AccountService {
 			params,
 		});
 	};
+	static fetchUserMusic = async () => {
+		return api.get(AccountEndpoints.FETCH_USER_MUSIC);
+	};
 }

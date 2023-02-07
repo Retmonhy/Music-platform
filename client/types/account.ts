@@ -1,5 +1,4 @@
-import { AddTrack } from './../pages/tracks/components/AddTrack';
-import { AddRounded } from '@material-ui/icons';
+import { ITrack } from './track';
 import { ILoginUserResponse } from './../shared/api/interface';
 export enum AccountActionTypes {
 	AUTHORIZATION = 'AUTHORIZATION',
@@ -9,6 +8,7 @@ export enum AccountActionTypes {
 	UPDATE = 'UPDATE',
 	CHANGE_ROUTE = 'CHANGE_ROUTE',
 	ADD_TRACK = 'ADD_TRACK',
+	FETCH_USER_MUSIC = 'FETCH_USER_MUSIC',
 }
 export type AccountState = {
 	refreshToken: string;
@@ -17,6 +17,7 @@ export type AccountState = {
 	isLoading: boolean;
 	isAuth: boolean;
 	routes: IMenuItem[];
+	userTracks: ITrack[];
 };
 export interface IMenuItem {
 	name: string;
@@ -29,7 +30,6 @@ export interface IUser {
 	firstname: string;
 	surname: string;
 	isActivated: boolean;
-	tracks: string[];
 }
 
 export interface IAuthorizationAction {
@@ -51,6 +51,10 @@ export interface IUpdateAction {
 	type: AccountActionTypes.UPDATE;
 	payload: IUser;
 }
+export interface IFetchUserMusic {
+	type: AccountActionTypes.FETCH_USER_MUSIC;
+	payload: ITrack[];
+}
 export interface IAddTrackAction {
 	type: AccountActionTypes.ADD_TRACK;
 	payload: string;
@@ -66,4 +70,5 @@ export type AccountAction =
 	| ILoadingAction
 	| IUpdateAction
 	| IChangeRouteAction
-	| IAddTrackAction;
+	| IAddTrackAction
+	| IFetchUserMusic;

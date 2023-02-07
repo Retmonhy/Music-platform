@@ -4,12 +4,13 @@ import { TokenService } from './../token/token.service';
 import { MailService } from './../mail/mail.service';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { Token, TokenDocument } from './schemas/token.schema';
 import * as bcrypt from 'bcrypt';
 import * as uuid from 'uuid';
 import { UserDto, RegistrationDto } from './dto';
+import { GetUserModel } from './interface';
 
 export interface RegistrationResponse {
   accessToken: string;
@@ -128,9 +129,16 @@ export class UserService {
   }
   //
   //
-  async getUsers() {
-    const users = this.userModel.find();
-    return users;
+  async getUserModel(accessToken: string): Promise<GetUserModel | null> {
+    const userDto = this._tokenService.validateAccessToken(accessToken);
+    if (!userDto) {
+      throw ApiError.UnauthorizedError();
+    }
+    const userModel = await this.userModel.findById(userDto.id);
+    if (!userModel) {
+      return null;
+    }
+    return userModel;
   }
   //
   //
@@ -166,18 +174,18 @@ export class UserService {
     await userData.save();
     return new UserDto(userData);
   }
-  async addTrack(accessToken: string, id: string) {
-    const userData = this._tokenService.validateAccessToken(accessToken);
-    if (!userData) {
-      throw ApiError.UnauthorizedError();
-    }
-    const user = await this.userModel.findById(userData.id);
-    if (!user) {
-      throw ApiError.UnauthorizedError();
-    }
-    user.tracks = [id, ...user.tracks];
-    await user.save();
-    //тут можно подумать что возвращать
-    return user;
-  }
+  // async addTrack(accessToken: string, id: string) {
+  //   const userData = this._tokenService.validateAccessToken(accessToken);
+  //   if (!userData) {
+  //     throw ApiError.UnauthorizedError();
+  //   }
+  //   const user = await this.userModel.findById(userData.id);
+  //   if (!user) {
+  //     throw ApiError.UnauthorizedError();
+  //   }
+  //   user.tracks = [id, ...user.tracks];
+  //   await user.save();
+  //   //тут можно подумать что возвращать
+  //   return user;
+  // }
 }

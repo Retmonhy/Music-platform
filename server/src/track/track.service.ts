@@ -1,3 +1,5 @@
+import { ApiError } from './../exceptions/api-errors';
+import { GetUserModel } from './../user/interface/index';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -86,5 +88,18 @@ export class TrackService {
     const track = await this.trackModel.findById(id);
     track.listens += 1;
     track.save();
+  }
+  async addTrackToUser(user: GetUserModel, id: string) {
+    try {
+      user.tracks = [id, ...user.tracks];
+      const track = await this.trackModel.findById(id);
+      if (!track) {
+        throw ApiError.ServerError('Данного трека больше не существует');
+      }
+      await user.save();
+      return track;
+    } catch (error) {
+      throw ApiError.ServerError(error);
+    }
   }
 }

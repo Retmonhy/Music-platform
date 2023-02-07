@@ -1,6 +1,5 @@
 import React from 'react';
 import { Loader } from '../../components/Loader';
-import MainLayout from '../../layouts/MainLayout';
 import { useTypedSelector } from '../../shared';
 import { AccountLayout, ContentBlock } from './components';
 

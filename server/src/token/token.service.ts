@@ -22,22 +22,22 @@ export class TokenService {
 
   validateAccessToken(token: string): UserDto | null {
     try {
-      const userData = jwt.verify(
+      const userDto = jwt.verify(
         token,
         process.env.JWT_ACCESS_SECRET,
       ) as UserDto;
-      return userData;
+      return userDto;
     } catch (error) {
       return null;
     }
   }
   validateRefreshToken(token: string): UserDto | null {
     try {
-      const userData = jwt.verify(
+      const userDto = jwt.verify(
         token,
         process.env.JWT_REFRESH_SECRET,
       ) as UserDto;
-      return userData as UserDto;
+      return userDto;
     } catch (error) {
       return null;
     }

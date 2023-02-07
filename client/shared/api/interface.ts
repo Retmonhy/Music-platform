@@ -32,5 +32,5 @@ export interface IAddTrackRequest {
 }
 export interface IAddTrackResponce {
 	isSuccess: boolean;
-	trackId: string;
+	track: ITrack;
 }

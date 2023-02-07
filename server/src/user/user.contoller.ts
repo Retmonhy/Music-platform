@@ -1,3 +1,5 @@
+import { TrackService } from './../track';
+
 import { ObjectId } from 'mongoose';
 import { ApiError } from './../exceptions/api-errors';
 import { AuthGuard } from './../guards/auth.guard';
@@ -23,7 +25,10 @@ import { LowerCaseEmailPipe } from './../pipes';
 
 @Controller('/account')
 export class UserController {
-  constructor(private _userService: UserService) {}
+  constructor(
+    private _userService: UserService,
+    private _trackService: TrackService,
+  ) {}
 
   @Post('/registration')
   @UsePipes(new LowerCaseEmailPipe())
@@ -124,17 +129,6 @@ export class UserController {
     }
   }
   @UseGuards(AuthGuard)
-  @Get('/users')
-  async getUsers(@Next() next: NextFunction) {
-    try {
-      const users = await this._userService.getUsers();
-      return users;
-    } catch (e) {
-      next(e);
-      //вызывая next с ошибкой мы попадаем в мидлваре, который реаклизовали
-    }
-  }
-  @UseGuards(AuthGuard)
   @Get('/music/add')
   async addTrackToUserMusic(
     @Query('id') id: string,
@@ -146,12 +140,18 @@ export class UserController {
     }
     try {
       const accessToken = req.headers.authorization.split(' ')[1];
-      await this._userService.addTrack(accessToken, id);
+      const userModel = await this._userService.getUserModel(accessToken);
+      if (!userModel) {
+        throw ApiError.UnauthorizedError();
+      }
+      const track = await this._trackService.addTrackToUser(userModel, id);
+
       return res.json({
         isSuccess: true,
-        trackId: id,
+        track,
       });
     } catch (error) {
+      console.log('addTrackToUserMusic error = ', error);
       throw ApiError.ServerError(error);
     }
   }

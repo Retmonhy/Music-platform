@@ -2,6 +2,7 @@ import { ILoginData, IUpdateData } from '../../shared/types/auth';
 import { AccountActionTypes } from '../../types/account';
 import { AccountService, IRegistrationData, StorageKeys } from '../../shared';
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { ITrack } from '../../types';
 
 interface IArgUpdate {
 	payload: IUpdateData;
@@ -93,9 +94,27 @@ export const addTrackIntoMyMusic = createAsyncThunk(
 	async (trackId: string, ta) => {
 		try {
 			const { data } = await AccountService.addTrack({ id: trackId });
-			return data.trackId;
+			if (data.isSuccess) {
+				return data.track;
+			} else {
+				return null;
+			}
 		} catch (error) {
 			console.error('update ERROR: ', error);
+			return ta.rejectWithValue(error.response.data);
+		}
+	},
+);
+export const fetchUserMusic = createAsyncThunk(
+	AccountActionTypes.FETCH_USER_MUSIC,
+	async (_, ta) => {
+		try {
+			const { data } = await AccountService.fetchUserMusic();
+			if (data) {
+				return data;
+			}
+		} catch (error) {
+			console.error('fetchUserMusic ERROR: ', error);
 			return ta.rejectWithValue(error.response.data);
 		}
 	},

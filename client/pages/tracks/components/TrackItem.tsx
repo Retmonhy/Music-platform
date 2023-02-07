@@ -25,7 +25,7 @@ interface TrackItemProps {
 export const TrackItem: React.FC<TrackItemProps> = memo(
 	({ track, playerState }) => {
 		const [isHovered, setHovered] = useState<boolean>(false);
-		const { user, accessToken } = useTypedSelector(i => i.account);
+		const { userTracks, accessToken } = useTypedSelector(i => i.account);
 		//проверка делаеется уровнем выше,  plaerState не будет передаваться неактивному
 		const isActive = playerState ? true : false;
 		const router = useRouter();
@@ -77,7 +77,7 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 				<div className={styles.trackTime}>
 					{isHovered ? (
 						<div className={styles.actionMenu}>
-							{user?.tracks.includes(track._id) ? (
+							{userTracks.some(i => i._id === track._id) ? (
 								<DeleteTrack onClick={() => {}} />
 							) : (
 								<AddTrack onClick={handleAddTrack} />

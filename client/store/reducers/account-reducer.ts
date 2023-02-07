@@ -1,3 +1,4 @@
+import { fetchUserMusic } from './../ActionCreators/account';
 import {
 	IAuthorizationAction,
 	IUpdateAction,
@@ -58,6 +59,7 @@ const initialState: AccountState = {
 	isLoading: false,
 	isAuth: false,
 	routes: menuList,
+	userTracks: [],
 };
 export const accountReducer = createReducer(
 	initialState as AccountState,
@@ -77,14 +79,8 @@ export const accountReducer = createReducer(
 			}))
 			.addCase(addTrackIntoMyMusic.fulfilled, (state, action) => {
 				console.log('action = ', action);
-				if (state.user) {
-					return {
-						...state,
-						user: {
-							...state.user,
-							tracks: [action.payload, ...state.user.tracks],
-						},
-					};
+				if (state.isAuth && action.payload) {
+					state.userTracks = [action.payload, ...state.userTracks];
 				}
 				return state;
 			})
