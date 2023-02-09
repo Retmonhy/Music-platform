@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Card, Tab, Tabs, Typography } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import MainLayout from '../../layouts/MainLayout';
 import { useTypedSelector } from '../../shared/hooks';
 import { NextThunkDispatch } from '../../store';
 import { login, registration } from '../../store/ActionCreators/account';
 import { RegistrationForm, LoginForm } from './components';
 import {
+	AccountRoutes,
 	H1,
 	ILoginData,
 	IRegistrationData,
@@ -42,7 +43,7 @@ const AuthPage = () => {
 	const dispatch = useDispatch() as NextThunkDispatch;
 	useEffect(() => {
 		if (isAuth) {
-			router.replace('/'); // как-то долго отрабатывает
+			router.replace(AccountRoutes.Profile); // как-то долго отрабатывает
 		}
 	}, [isAuth]);
 	//functions

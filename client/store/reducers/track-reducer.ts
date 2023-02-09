@@ -11,7 +11,9 @@ function isTrackAction(action: AnyAction) {
 }
 
 export const trackReducer = createReducer(initialState, builder => {
-	builder.addMatcher(isTrackAction, (state, action) => {
-		state.tracks = action.payload;
-	});
+	builder
+		.addMatcher(isTrackAction, (state, action) => {
+			state.tracks = action.payload;
+		})
+		.addDefaultCase(store => store);
 });

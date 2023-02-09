@@ -22,10 +22,9 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 	//hooks
 	const router = useRouter();
 	const dispatch = useDispatch() as NextThunkDispatch;
-	const { user, accessToken } = useTypedSelector(i => i.account);
+	const { user, accessToken, isLoading } = useTypedSelector(i => i.account);
 	const { logout, update } = useAction()._account;
 	const submitBtn = useRef<HTMLButtonElement>(null);
-	const { isLoading } = useTypedSelector(i => i.account);
 	const { control, handleSubmit } = useForm<IUpdateProfileData>({
 		mode: 'onSubmit',
 		defaultValues: user && {

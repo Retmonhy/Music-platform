@@ -30,10 +30,6 @@ const TrackPage = ({ serverTrack }) => {
 				},
 			);
 			if (data.isSuccess) {
-				console.log(
-					'track.comments.push(data.comment) = ',
-					typeof track.comments.push(data.comment),
-				);
 				setTrack({ ...track, comments: [...track.comments, data.comment] });
 			}
 		} catch (error) {

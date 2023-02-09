@@ -1,3 +1,4 @@
+import { ITrack } from './../../types/track';
 import {
 	IUpdateProfileRequest,
 	IAddTrackResponce,
@@ -42,6 +43,6 @@ export class AccountService {
 		});
 	};
 	static fetchUserMusic = async () => {
-		return api.get(AccountEndpoints.FETCH_USER_MUSIC);
+		return api.get<ITrack[]>(AccountEndpoints.FETCH_USER_MUSIC);
 	};
 }

@@ -18,6 +18,7 @@ export type AccountState = {
 	isAuth: boolean;
 	routes: IMenuItem[];
 	userTracks: ITrack[];
+	isHidrated: boolean;
 };
 export interface IMenuItem {
 	name: string;
@@ -41,7 +42,11 @@ export interface ILogoutAction {
 }
 export interface IRefreshAction {
 	type: AccountActionTypes.REFRESH;
-	payload: IUser;
+	payload: {
+		refreshToken: string;
+		accessToken: string;
+		user: IUser;
+	};
 }
 export interface ILoadingAction {
 	type: AccountActionTypes.LOADING;

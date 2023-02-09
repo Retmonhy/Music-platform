@@ -155,4 +155,22 @@ export class UserController {
       throw ApiError.ServerError(error);
     }
   }
+  @UseGuards(AuthGuard)
+  @Get('/music')
+  async getUserMusic(@Req() req: Request, @Res() res: Response) {
+    try {
+      const accessToken = req.headers.authorization.split(' ')[1];
+      if (!accessToken) {
+        throw ApiError.UnauthorizedError();
+      }
+      const userModel = await this._userService.getUserModel(accessToken);
+      if (!userModel) {
+        throw ApiError.UnauthorizedError();
+      }
+      const tracks = await this._trackService.getUserMusic(userModel.tracks);
+      return res.json(tracks);
+    } catch (error) {
+      throw ApiError.ServerError(error);
+    }
+  }
 }

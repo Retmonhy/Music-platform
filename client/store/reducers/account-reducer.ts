@@ -1,12 +1,9 @@
+import { ITrack } from './../../types/track';
 import { fetchUserMusic } from './../ActionCreators/account';
-import {
-	IAuthorizationAction,
-	IUpdateAction,
-	IAddTrackAction,
-} from './../../types/account';
+import { IAuthorizationAction, IRefreshAction } from './../../types/account';
 import { AccountActionTypes, AccountState, IMenuItem } from '../../types';
 import { AccountRoutes } from '../../shared';
-import { AnyAction, AsyncThunk, createReducer } from '@reduxjs/toolkit';
+import { AnyAction, createReducer, PayloadAction } from '@reduxjs/toolkit';
 import {
 	addTrackIntoMyMusic,
 	changeRouteTo,
@@ -60,6 +57,7 @@ const initialState: AccountState = {
 	isAuth: false,
 	routes: menuList,
 	userTracks: [],
+	isHidrated: true,
 };
 export const accountReducer = createReducer(
 	initialState as AccountState,
@@ -77,18 +75,24 @@ export const accountReducer = createReducer(
 				...state,
 				user: action.payload,
 			}))
+			.addCase(
+				fetchUserMusic.fulfilled,
+				(state, action: PayloadAction<ITrack[]>) => {
+					state.userTracks = action.payload;
+				},
+			)
 			.addCase(addTrackIntoMyMusic.fulfilled, (state, action) => {
-				console.log('action = ', action);
 				if (state.isAuth && action.payload) {
 					state.userTracks = [action.payload, ...state.userTracks];
 				}
 				return state;
 			})
-			.addMatcher(isAuthorizationAction, (state, action) => ({
-				...state,
-				isAuth: true,
-				...action.payload,
-			}))
+			.addMatcher(isAuthorizationAction, (state, action: IRefreshAction) => {
+				state.isAuth = true;
+				state.user = action.payload.user;
+				state.accessToken = action.payload.accessToken;
+				state.refreshToken = action.payload.refreshToken;
+			})
 			//для всех промисов, которые в ожидании
 			.addMatcher(isPendingAction, state => {
 				state.isLoading = true;
@@ -100,39 +104,7 @@ export const accountReducer = createReducer(
 			//для всех промисов, которые выдают ошибку
 			.addMatcher(isRejectedAction, state => {
 				state.isLoading = false;
-			});
+			})
+			.addDefaultCase(store => store);
 	},
 );
-// export const accountReducer = createReducer(initialState as AccountState, {
-// 	[AccountActionTypes.LOADING]: (state, action: ILoadingAction) => {
-// 		state.isLoading = action.payload;
-// 	},
-// 	[login.fulfilled]: (
-// 		state,
-// 		action: IAuthorizationAction,
-// 	) => ({
-// 		...state,
-// 		isAuth: true,
-// 		...action.payload,
-// 	}),
-// 	[AccountActionTypes.LOGOUT]: () => initialState,
-// 	[AccountActionTypes.UPDATE]: (state, action: IUpdateAction) => ({
-// 		...state,
-// 		user: action.payload,
-// 	}),
-// 	[AccountActionTypes.CHANGE_ROUTE]: (state, action: IChangeRouteAction) => ({
-// 		...state,
-// 		routes: menuList.map(i =>
-// 			i.href === action.payload ? { ...i, isSelected: true } : i,
-// 		),
-// 	}),
-// 	[AccountActionTypes.ADD_TRACK]: (state, action: IAddTrackAction) => {
-// 		if (state.user) {
-// 			return {
-// 				...state,
-// 				user: { ...state.user, tracks: [action.payload, ...state.user.tracks] },
-// 			};
-// 		}
-// 		return state;
-// 	},
-// });

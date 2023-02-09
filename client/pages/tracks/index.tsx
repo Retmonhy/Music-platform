@@ -2,7 +2,7 @@ import { Box, Card, Grid } from '@material-ui/core';
 import React from 'react';
 import { useTypedSelector } from '../../shared/hooks/useTypedSelector';
 import MainLayout from '../../layouts/MainLayout';
-import { NextThunkDispatch, wrapper } from '../../store';
+import mainStore, { NextThunkDispatch, wrapper } from '../../store';
 
 import { TrackList } from './components';
 import { fetchTracks } from '../../store/ActionCreators/track';
@@ -23,12 +23,8 @@ const Index: React.FC = () => {
 					<Box p={3}>
 						<Grid container justifyContent='space-between'>
 							<h1>Список треков</h1>
-							{/* <Button onClick={() => router.push('/tracks/create')}>
-								Загрузить
-							</Button> */}
 						</Grid>
 					</Box>
-					{/* <TextField fullWidth value={query} onChange={seacrh} /> */}
 					<TrackList tracks={tracks} />
 				</Card>
 			</Grid>
@@ -42,6 +38,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
 	store => async () => {
 		const dispatch = store.dispatch as NextThunkDispatch;
 		await dispatch(fetchTracks());
-		return { props: {} };
+		//добавлено чтобы не было ошибки TS
+		return {
+			props: {},
+		};
 	},
 );

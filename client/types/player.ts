@@ -5,6 +5,7 @@ export interface PlayerState {
 	duration: number;
 	currentTime: number;
 	pause: boolean;
+	isHidrated: boolean;
 }
 
 export enum PlayerActionTypes {

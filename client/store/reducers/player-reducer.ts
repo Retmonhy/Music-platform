@@ -15,6 +15,7 @@ const initialState: PlayerState = {
 	currentTime: 0,
 	duration: 0,
 	volume: 50,
+	isHidrated: true,
 };
 export const playerReducer = createReducer(initialState, builder => {
 	builder
@@ -35,5 +36,6 @@ export const playerReducer = createReducer(initialState, builder => {
 		})
 		.addCase(setCurrentTime, (state, action) => {
 			state.currentTime = action.payload;
-		});
+		})
+		.addDefaultCase(store => store);
 });

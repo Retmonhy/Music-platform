@@ -102,4 +102,19 @@ export class TrackService {
       throw ApiError.ServerError(error);
     }
   }
+  async getUserMusic(ids: string[]) {
+    try {
+      const tracks = [];
+      for (const trackId of ids) {
+        if (!trackId) continue;
+        const track = await this.trackModel.findById(trackId);
+        if (track) {
+          tracks.push(track);
+        }
+      }
+      return tracks;
+    } catch (error) {
+      throw ApiError.ServerError(error);
+    }
+  }
 }

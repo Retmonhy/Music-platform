@@ -77,7 +77,9 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 				<div className={styles.trackTime}>
 					{isHovered ? (
 						<div className={styles.actionMenu}>
-							{userTracks.some(i => i._id === track._id) ? (
+							{userTracks.some(i => {
+								return i._id === track._id;
+							}) ? (
 								<DeleteTrack onClick={() => {}} />
 							) : (
 								<AddTrack onClick={handleAddTrack} />
