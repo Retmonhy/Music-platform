@@ -1,5 +1,9 @@
-import axios from 'axios';
+import { AccountActionTypes } from './../../types/account';
 import { StorageKeys } from '../types';
+import axios from 'axios';
+import { AccountEndpoints } from './endpoint';
+import { ILoginUserResponse } from './interface';
+import store from '../../store';
 
 export * from './endpoint';
 export * from './interface';
@@ -25,8 +29,21 @@ api.interceptors.response.use(
 	response => response,
 	error => {
 		console.log('interceptors.response ERROR = ', error);
-		// if (error.response.status === 401) {
-		// }
+		const originalReq = error.config;
+		if (error.response.status === 401) {
+			axios
+				.get<ILoginUserResponse>(AccountEndpoints.REFRESH, {
+					withCredentials: true,
+				})
+				.then(({ data }) => {
+					if (typeof window !== 'undefined') {
+						error.config.headers.Authorization = `Bearer ${data.accessToken}`;
+					}
+					localStorage.setItem(StorageKeys.accessToken, data.accessToken);
+					store.dispatch({ type: AccountActionTypes.REFRESH, payload: data });
+					axios.request(error.config);
+				});
+		}
 		return Promise.reject(error);
 	},
 );

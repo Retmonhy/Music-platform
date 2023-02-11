@@ -39,8 +39,3 @@ export interface FetchErrorTracksAction {
 	type: TrackActionTypes.FETCH_TRACKS_ERROR;
 	payload: string;
 }
-
-export type TrackAction =
-	| FetchTracksAction
-	| FetchErrorTracksAction
-	| DeleteTrackAction;

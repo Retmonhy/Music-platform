@@ -1,18 +1,18 @@
 import { IUpdateData } from './../types/auth';
 import { IComment, ITrack, IUser } from '../../types';
+export interface IDefaultResponse {
+	isSuccess: boolean;
+}
 export interface IDefaultParams {
 	accessToken: string;
 }
-export interface ICommentResponse {
-	isSuccess: boolean;
+export interface ICommentResponse extends IDefaultResponse {
 	comment: IComment;
 }
-export interface ICreateTrackResponse {
-	isSuccess: boolean;
+export interface ICreateTrackResponse extends IDefaultResponse {
 	track: ITrack;
 }
-export interface IDeleteTrackResponse {
-	isSuccess: boolean;
+export interface IDeleteTrackResponse extends IDefaultResponse {
 	trackId: string;
 }
 export interface ILoginUserResponse {
@@ -23,14 +23,15 @@ export interface ILoginUserResponse {
 export type IUpdateProfileRequest = {
 	payload: IUpdateData;
 } & IDefaultParams;
-export interface IUpdateProfileResponse {
-	isSuccess: boolean;
+export interface IUpdateProfileResponse extends IDefaultResponse {
 	user: IUser;
 }
-export interface IAddTrackRequest {
+export interface ITrackRequest {
 	id: string; //id добавляемого трека
 }
-export interface IAddTrackResponce {
-	isSuccess: boolean;
+export interface IAddTrackResponce extends IDefaultResponse {
 	track: ITrack;
+}
+export interface IRemoveTrackResponse extends IDefaultResponse {
+	id: string;
 }

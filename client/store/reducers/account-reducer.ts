@@ -1,5 +1,8 @@
 import { ITrack } from './../../types/track';
-import { fetchUserMusic } from './../ActionCreators/account';
+import {
+	fetchUserMusic,
+	removeTrackFromMyMusic,
+} from './../ActionCreators/account';
 import { IAuthorizationAction, IRefreshAction } from './../../types/account';
 import { AccountActionTypes, AccountState, IMenuItem } from '../../types';
 import { AccountRoutes } from '../../shared';
@@ -84,8 +87,17 @@ export const accountReducer = createReducer(
 			.addCase(addTrackIntoMyMusic.fulfilled, (state, action) => {
 				if (state.isAuth && action.payload) {
 					state.userTracks = [action.payload, ...state.userTracks];
+					state.user.tracks = [...state.user.tracks, action.payload._id];
 				}
 				return state;
+			})
+			.addCase(removeTrackFromMyMusic.fulfilled, (state, action) => {
+				state.userTracks = state.userTracks.filter(
+					track => track._id !== action.payload,
+				);
+				state.user.tracks = state.user.tracks.filter(
+					id => id !== action.payload,
+				);
 			})
 			.addMatcher(isAuthorizationAction, (state, action: IRefreshAction) => {
 				state.isAuth = true;

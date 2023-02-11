@@ -174,18 +174,4 @@ export class UserService {
     await userData.save();
     return new UserDto(userData);
   }
-  // async addTrack(accessToken: string, id: string) {
-  //   const userData = this._tokenService.validateAccessToken(accessToken);
-  //   if (!userData) {
-  //     throw ApiError.UnauthorizedError();
-  //   }
-  //   const user = await this.userModel.findById(userData.id);
-  //   if (!user) {
-  //     throw ApiError.UnauthorizedError();
-  //   }
-  //   user.tracks = [id, ...user.tracks];
-  //   await user.save();
-  //   //тут можно подумать что возвращать
-  //   return user;
-  // }
 }

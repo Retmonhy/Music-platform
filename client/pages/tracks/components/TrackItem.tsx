@@ -7,7 +7,7 @@ import {
 	usePlayerControl,
 	useTypedSelector,
 } from '../../../shared/hooks';
-import { memo, MouseEventHandler, useState } from 'react';
+import { memo, MouseEvent, useState } from 'react';
 import { TrackTime } from './TrackTime';
 import { PlayerState } from '../../../types';
 import { TrackImage } from './TrackImage';
@@ -16,7 +16,6 @@ import { DeleteTrack } from './DeleteTrack';
 import { useDispatch } from 'react-redux';
 import { NextThunkDispatch } from '../../../store';
 import { AddTrack } from './AddTrack';
-import { AccountService } from '../../../shared';
 
 interface TrackItemProps {
 	track: ITrack;
@@ -25,7 +24,7 @@ interface TrackItemProps {
 export const TrackItem: React.FC<TrackItemProps> = memo(
 	({ track, playerState }) => {
 		const [isHovered, setHovered] = useState<boolean>(false);
-		const { userTracks, accessToken } = useTypedSelector(i => i.account);
+		const { user, accessToken } = useTypedSelector(i => i.account);
 		//проверка делаеется уровнем выше,  plaerState не будет передаваться неактивному
 		const isActive = playerState ? true : false;
 		const router = useRouter();
@@ -34,7 +33,7 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 		const { playControl } = usePlayerControl();
 		const dispatch = useDispatch() as NextThunkDispatch;
 
-		const play: MouseEventHandler<HTMLDivElement> = event => {
+		const play = (event: MouseEvent<HTMLDivElement>) => {
 			event.stopPropagation();
 			if (!isActive) {
 				dispatch(_player.setActive(track));
@@ -42,20 +41,25 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 			}
 			playControl();
 		};
-
-		// const handleDeleteTrack = e => {
-		// 	e.stopPropagation();
-		// 	dispatch(_track.deleteTrack(track));
-		// };
-		const handleAddTrack = e => {
+		const navigateToTrackPage = (e: MouseEvent<HTMLSpanElement>) => {
+			e.stopPropagation();
+			router.push('/tracks/' + track._id);
+		};
+		const handleDeleteTrack = (e: MouseEvent<HTMLDivElement>) => {
+			e.stopPropagation();
+			dispatch(_account.removeTrackFromMyMusic(track._id));
+		};
+		const handleAddTrack = (e: MouseEvent<HTMLDivElement>) => {
 			e.stopPropagation();
 			dispatch(_account.addTrackIntoMyMusic(track._id));
 		};
+		const handleHoverOn = () => setHovered(true);
+		const handleHoverOff = () => setHovered(false);
 		return (
 			<div
 				className={styles.track}
-				onMouseEnter={() => setHovered(true)}
-				onMouseLeave={() => setHovered(false)}
+				onMouseEnter={handleHoverOn}
+				onMouseLeave={handleHoverOff}
 				onClick={play}>
 				<TrackImage
 					source={track.picture}
@@ -65,9 +69,7 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 				<div className={styles.trackInfo}>
 					<Grid container direction='column'>
 						<div>
-							<span
-								onClick={() => router.push('/tracks/' + track._id)}
-								className={styles.trackTitle}>
+							<span onClick={navigateToTrackPage} className={styles.trackTitle}>
 								{track.name}
 							</span>
 						</div>
@@ -77,10 +79,8 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 				<div className={styles.trackTime}>
 					{isHovered ? (
 						<div className={styles.actionMenu}>
-							{userTracks.some(i => {
-								return i._id === track._id;
-							}) ? (
-								<DeleteTrack onClick={() => {}} />
+							{user?.tracks.some(i => i === track._id) ? (
+								<DeleteTrack onClick={handleDeleteTrack} />
 							) : (
 								<AddTrack onClick={handleAddTrack} />
 							)}

@@ -7,12 +7,14 @@ export class UserDto {
   firstname: string;
   surname: string;
   isActivated: boolean;
+  tracks: string[];
 
   constructor(model) {
-    (this.id = model._id),
-      (this.email = model.email),
-      (this.firstname = model.firstname),
-      (this.surname = model.surname),
-      (this.isActivated = model.isActivated);
+    this.id = model._id;
+    this.email = model.email;
+    this.firstname = model.firstname;
+    this.surname = model.surname;
+    this.isActivated = model.isActivated;
+    this.tracks = model.tracks;
   }
 }

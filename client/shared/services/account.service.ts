@@ -1,15 +1,14 @@
 import { ITrack } from './../../types/track';
-import {
-	IUpdateProfileRequest,
-	IAddTrackResponce,
-	IAddTrackRequest,
-} from './../api/interface';
 import { ILoginData, IRegistrationData } from './../types/auth';
 import {
-	AccountEndpoints,
 	api,
 	baseUrl,
+	IUpdateProfileRequest,
+	IAddTrackResponce,
+	ITrackRequest,
+	IRemoveTrackResponse,
 	ILoginUserResponse,
+	AccountEndpoints,
 	IUpdateProfileResponse,
 } from '../api';
 import axios from 'axios';
@@ -37,8 +36,13 @@ export class AccountService {
 			withCredentials: true,
 		});
 	};
-	static addTrack = async (params: IAddTrackRequest) => {
+	static addTrack = async (params: ITrackRequest) => {
 		return api.get<IAddTrackResponce>(AccountEndpoints.ADD_TRACK, {
+			params,
+		});
+	};
+	static removeTrack = async (params: ITrackRequest) => {
+		return api.delete<IRemoveTrackResponse>(AccountEndpoints.REMOVE_TRACK, {
 			params,
 		});
 	};

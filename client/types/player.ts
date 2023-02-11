@@ -39,11 +39,3 @@ export interface SetVolumeAction {
 	type: PlayerActionTypes.SET_VOLUME;
 	payload: number;
 }
-
-export type PlayerAction =
-	| PlayAction
-	| PauseAction
-	| SetActiveAction
-	| SetCurrentTimeAction
-	| SetDurationAction
-	| SetVolumeAction;

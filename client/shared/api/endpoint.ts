@@ -11,4 +11,5 @@ export enum AccountEndpoints {
 	UPDATE = '/account/update',
 	FETCH_USER_MUSIC = '/account/music',
 	ADD_TRACK = '/account/music/add',
+	REMOVE_TRACK = '/account/music/remove',
 }

@@ -8,6 +8,7 @@ export enum AccountActionTypes {
 	UPDATE = 'UPDATE',
 	CHANGE_ROUTE = 'CHANGE_ROUTE',
 	ADD_TRACK = 'ADD_TRACK',
+	REMOVE_TRACK = 'REMOVE_TRACK',
 	FETCH_USER_MUSIC = 'FETCH_USER_MUSIC',
 }
 export type AccountState = {
@@ -31,6 +32,7 @@ export interface IUser {
 	firstname: string;
 	surname: string;
 	isActivated: boolean;
+	tracks: string[];
 }
 
 export interface IAuthorizationAction {
@@ -68,12 +70,3 @@ export interface IChangeRouteAction {
 	type: AccountActionTypes.CHANGE_ROUTE;
 	payload: string;
 }
-export type AccountAction =
-	| IAuthorizationAction
-	| ILogoutAction
-	| IRefreshAction
-	| ILoadingAction
-	| IUpdateAction
-	| IChangeRouteAction
-	| IAddTrackAction
-	| IFetchUserMusic;

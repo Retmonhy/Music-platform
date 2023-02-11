@@ -100,7 +100,23 @@ export const addTrackIntoMyMusic = createAsyncThunk(
 				return null;
 			}
 		} catch (error) {
-			console.error('update ERROR: ', error);
+			console.error('addTrackIntoMyMusic	 ERROR: ', error);
+			return ta.rejectWithValue(error.response.data);
+		}
+	},
+);
+export const removeTrackFromMyMusic = createAsyncThunk(
+	AccountActionTypes.REMOVE_TRACK,
+	async (trackId: string, ta) => {
+		try {
+			const { data } = await AccountService.removeTrack({ id: trackId });
+			if (data.isSuccess) {
+				return trackId;
+			} else {
+				return null;
+			}
+		} catch (error) {
+			console.error('removeTrackFromMyMusic ERROR: ', error);
 			return ta.rejectWithValue(error.response.data);
 		}
 	},

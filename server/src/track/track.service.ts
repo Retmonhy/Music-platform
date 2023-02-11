@@ -102,6 +102,15 @@ export class TrackService {
       throw ApiError.ServerError(error);
     }
   }
+  async removeTrackFromUserMusic(user: GetUserModel, id: string) {
+    try {
+      user.tracks = user.tracks.filter((trackId) => trackId !== id);
+      await user.save();
+      return true;
+    } catch (error) {
+      throw ApiError.ServerError(error);
+    }
+  }
   async getUserMusic(ids: string[]) {
     try {
       const tracks = [];

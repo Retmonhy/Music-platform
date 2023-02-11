@@ -1,11 +1,10 @@
 import { TrackService } from './../track';
-
-import { ObjectId } from 'mongoose';
 import { ApiError } from './../exceptions/api-errors';
 import { AuthGuard } from './../guards/auth.guard';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Next,
   Param,
@@ -150,6 +149,36 @@ export class UserController {
         isSuccess: true,
         track,
       });
+    } catch (error) {
+      console.log('addTrackToUserMusic error = ', error);
+      throw ApiError.ServerError(error);
+    }
+  }
+  @UseGuards(AuthGuard)
+  @Delete('/music/remove')
+  async removeTrackFromMyMusic(
+    @Query('id') id: string,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    if (!id) {
+      throw ApiError.MissingParam({ id });
+    }
+    try {
+      const accessToken = req.headers.authorization.split(' ')[1];
+      const userModel = await this._userService.getUserModel(accessToken);
+      if (!userModel) {
+        throw ApiError.UnauthorizedError();
+      }
+      const result = await this._trackService.removeTrackFromUserMusic(
+        userModel,
+        id,
+      );
+      if (result) {
+        return res.json({
+          isSuccess: true,
+        });
+      }
     } catch (error) {
       console.log('addTrackToUserMusic error = ', error);
       throw ApiError.ServerError(error);

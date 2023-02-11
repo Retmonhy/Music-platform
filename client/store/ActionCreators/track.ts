@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Dispatch } from 'react';
-import { TrackAction, TrackActionTypes, ITrack } from '../../types/track';
+import { TrackActionTypes } from '../../types/track';
 import { TrackService } from '../../shared';
 
 export const fetchTracks = createAsyncThunk(
