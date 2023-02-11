@@ -1,3 +1,4 @@
+import { generateUrl } from './../api/index';
 import { ITrack } from './../../types/track';
 import { ILoginData, IRegistrationData } from './../types/auth';
 import {
@@ -32,7 +33,7 @@ export class AccountService {
 		});
 	};
 	static checkAuth = async () => {
-		return axios.get<ILoginUserResponse>(`${baseUrl}account/refresh`, {
+		return axios.get<ILoginUserResponse>(generateUrl('/account/refresh'), {
 			withCredentials: true,
 		});
 	};

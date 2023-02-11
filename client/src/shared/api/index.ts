@@ -8,7 +8,7 @@ import store from '../../store';
 export * from './endpoint';
 export * from './interface';
 
-export const baseUrl = 'http://localhost:5000/';
+export const baseUrl = 'http://localhost:5000';
 
 export const generateUrl = (url: string = '') => {
 	return baseUrl + url;
