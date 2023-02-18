@@ -1,0 +1,15 @@
+@use '../../../../shared/styles/variables' as var;
+.playButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	border-radius: 50%;
+}
+.br8 {
+	border-radius: var.$base-radius;
+}

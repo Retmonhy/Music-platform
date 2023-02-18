@@ -14,18 +14,7 @@
 	cursor: pointer;
 	background-color: #f2f3f4;
 }
-.trackTitle {
-}
-.gray {
-	color: var.$color-gray;
-	font-size: 14px;
-}
-.trackTitle:hover,
-.trackTitle:active,
-.trackTitle:focus {
-	cursor: pointer;
-	text-decoration: underline;
-}
+
 .br8 {
 	border-radius: var.$base-radius;
 }
@@ -33,12 +22,14 @@
 	width: 400px;
 	margin: 0 20px;
 }
+//есть в general
 .backdrop {
 	position: absolute;
 	top: 0;
 	left: 0;
 	background: rgba(0, 0, 0, 0.5);
 }
+//перенести в general
 .playButton {
 	display: flex;
 	align-items: center;
@@ -52,9 +43,6 @@
 }
 .trackTime {
 	margin-left: auto;
-}
-.trackTimeWrap {
-	min-width: 40px;
 }
 .actionMenu {
 	display: flex;

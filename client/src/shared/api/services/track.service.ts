@@ -1,5 +1,5 @@
-import { ITrack } from '../../types';
-import { api, IDeleteTrackResponse, TrackEndpoints } from '../api';
+import { ITrack } from '../../../types';
+import { api, IDeleteTrackResponse, TrackEndpoints } from '..';
 export class TrackService {
 	static fetchTracksReq = () => {
 		return api.get<ITrack[]>(TrackEndpoints.TRACKS);

@@ -15,3 +15,24 @@
 	align-items: center;
 	justify-content: center;
 }
+.title {
+}
+.title:hover,
+.title:active,
+.title:focus {
+	cursor: pointer;
+	text-decoration: underline;
+}
+.gray {
+	color: var.$color-gray;
+	font-size: 14px;
+}
+.backdrop {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+}
+.relative {
+	position: relative;
+}

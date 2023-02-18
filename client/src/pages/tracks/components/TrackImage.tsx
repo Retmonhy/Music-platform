@@ -1,9 +1,13 @@
-import { FC, HTMLAttributes, ReactNode } from 'react';
-import { PlayArrow, PlayArrowRounded } from '@material-ui/icons';
-import { generateUrl, merge } from '../../../shared';
+//libraries
+import { FC } from 'react';
+import { PlayArrowRounded } from '@material-ui/icons';
 import Image from 'next/image';
-import styles from '../../../shared/styles/TrackItem.module.scss';
+//components
+import { generateUrl, merge } from '../../../shared';
 import { SquareDiv } from '../../../components';
+//styles
+import styles from '../../../shared/styles/TrackItem.module.scss';
+import general from '../../../shared/styles/General.module.scss';
 
 const imageSize = 70;
 interface TrackImageProps {
@@ -13,7 +17,7 @@ interface TrackImageProps {
 }
 export const TrackImage: FC<TrackImageProps> = ({ source, alt, isHover }) => {
 	return (
-		<div style={{ position: 'relative' }}>
+		<div className={general.relative}>
 			<SquareDiv size={imageSize}>
 				<Image
 					src={generateUrl(source)}
@@ -26,7 +30,7 @@ export const TrackImage: FC<TrackImageProps> = ({ source, alt, isHover }) => {
 			{isHover ? (
 				<SquareDiv
 					size={imageSize}
-					className={merge(styles.backdrop, styles.br8)}>
+					className={merge(general.backdrop, styles.br8)}>
 					<SquareDiv size={36} className={styles.playButton}>
 						<PlayArrowRounded />
 					</SquareDiv>

@@ -1,0 +1,34 @@
+@use '../../../../shared/styles/variables' as var;
+.uploader_wrap {
+	background: #ebedf0;
+	border: 1px solid #dbdde0;
+	border-radius: 4px;
+	overflow: hidden;
+}
+.uploader_grid {
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.uploader_plus {
+	margin-bottom: 4px;
+	color: #1976d2;
+}
+.uploader_text {
+	text-align: center;
+	color: #1976d2;
+	font-size: 13px;
+}
+.uploader_remove {
+	position: absolute;
+	top: 0;
+	right: 0;
+	color: var.$base-fillment-color;
+	padding: 0;
+	background-color: rgba(0, 0, 0, 0.4);
+	border-radius: 0 0 0 4px;
+}
+.pointer:hover {
+	cursor: pointer;
+}

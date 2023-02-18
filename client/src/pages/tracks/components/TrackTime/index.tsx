@@ -1,5 +1,5 @@
-import { timeConverter } from '../../../shared';
-import styles from '../../../shared/styles/TrackItem.module.scss';
+import { timeConverter } from '../../../../shared';
+import styles from './TrackTime.module.scss';
 
 interface TrackTimeProps {
 	currentTime: number;

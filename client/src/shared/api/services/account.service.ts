@@ -1,6 +1,6 @@
-import { generateUrl } from './../api/index';
-import { ITrack } from './../../types/track';
-import { ILoginData, IRegistrationData } from './../types/auth';
+import { generateUrl } from '../index';
+import { ITrack } from '../../../types/track';
+import { ILoginData, IRegistrationData } from '../../types/auth';
 import {
 	api,
 	baseUrl,
@@ -11,7 +11,7 @@ import {
 	ILoginUserResponse,
 	AccountEndpoints,
 	IUpdateProfileResponse,
-} from '../api';
+} from '..';
 import axios from 'axios';
 
 export class AccountService {

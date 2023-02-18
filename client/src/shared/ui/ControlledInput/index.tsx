@@ -18,13 +18,13 @@ export const ControlledInput = <T,>({
 			render={({ fieldState: { error }, field: { onChange, value } }) => {
 				return (
 					<TextField
+						{...props}
 						value={value || ''}
 						onChange={onChange}
 						classes={{ root: styles.input }}
 						label={label}
 						error={error?.type === 'required'}
 						helperText={error?.message}
-						{...props}
 					/>
 				);
 			}}

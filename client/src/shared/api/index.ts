@@ -7,6 +7,7 @@ import store from '../../store';
 
 export * from './endpoint';
 export * from './interface';
+export * from './services';
 
 export const baseUrl = 'http://localhost:5000';
 
