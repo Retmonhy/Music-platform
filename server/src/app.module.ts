@@ -7,6 +7,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { FileModule } from './file';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
+import { PlaylistModule } from './playlist/playlist.module';
 @Module({
   controllers: [],
   providers: [],
@@ -17,6 +18,7 @@ import { UserModule } from './user/user.module';
       rootPath: path.resolve(__dirname, 'static'),
     }),
     MongooseModule.forRoot(process.env.DB_MONGOOSE),
+    PlaylistModule,
     TrackModule,
     FileModule,
     UserModule,

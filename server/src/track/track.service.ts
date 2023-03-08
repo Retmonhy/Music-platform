@@ -1,12 +1,12 @@
 import { ApiError } from './../exceptions/api-errors';
-import { GetUserModel } from './../user/interface/index';
+import { UserModelType } from './../user/interface/index';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
 import { Track, Comment, CommentDocument, TrackDocument } from './schemas';
 import { CommentDto } from './dto';
-import { FileService, FileType } from '../file';
+import { ActType, FileService } from '../file';
 import { ICreateTrackResponse, ICommentResponse } from './interface';
 import * as mm from 'music-metadata';
 
@@ -29,15 +29,13 @@ export class TrackService {
 
   async create(
     dto: CreateTrackDto,
-    picture: string,
+    pict: string,
     audio: IAudioFile,
   ): Promise<ICreateTrackResponse> {
     //чтобы создать трек нам вв эту фукцию нужно получить каккие-то данные dto
-    const pictureFile = this.fileService.createFile(FileType.IMAGE, picture);
-    const audioFile = this.fileService.createFile(FileType.AUDIO, audio);
-    console.log('audio = ', audio);
+    const pictureFile = this.fileService.createFile(ActType.TrackCover, pict);
+    const audioFile = this.fileService.createFile(ActType.TrackAudio, audio);
     const metadata = await mm.parseBuffer(audio.buffer);
-    console.log('metadata = ', metadata);
     const track = await this.trackModel.create({
       ...dto,
       listens: 0,
@@ -89,7 +87,7 @@ export class TrackService {
     track.listens += 1;
     track.save();
   }
-  async addTrackToUser(user: GetUserModel, id: string) {
+  async addTrackToUser(user: UserModelType, id: string) {
     try {
       user.tracks = [id, ...user.tracks];
       const track = await this.trackModel.findById(id);
@@ -102,7 +100,7 @@ export class TrackService {
       throw ApiError.ServerError(error);
     }
   }
-  async removeTrackFromUserMusic(user: GetUserModel, id: string) {
+  async removeTrackFromUserMusic(user: UserModelType, id: string) {
     try {
       user.tracks = user.tracks.filter((trackId) => trackId !== id);
       await user.save();

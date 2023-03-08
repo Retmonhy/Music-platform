@@ -14,8 +14,10 @@ export enum AccountEndpoints {
 	REMOVE_TRACK = '/account/music/remove',
 }
 export enum FileEndpoints {
-	UPLOAD = '/upload',
+	UPLOAD = '/file/upload',
 }
 export enum PlaylistEndpoints {
 	CREATE = '/playlist/create',
+	ADD = '/playlist/add',
+	REMOVE = '/playlist/remove',
 }

@@ -1,51 +1,78 @@
 import { AccountLayout, ContentBlock } from './components';
 import React, { FC, ReactNode, useState } from 'react';
-import { H2 } from './../../shared';
+import {
+	FileService,
+	H2,
+	UploadActionType,
+	useTypedSelector,
+} from './../../shared';
 import { PlaylistItem } from './components';
 import { Box, Button } from '@mui/material';
 import { PlaylistModal } from '../tracks/components';
-import { IPlaylistPayload } from '../../widgets/PlaylistModal/model';
-import { createPlaylistReq } from '../../shared/api/services/playlist.service';
+import { PlaylistService } from '../../shared/api/services/PlaylistService';
+import { IPlaylistPayload } from '../../types';
 interface IPlaylistProps {}
 
 const data = [
 	{
-		title: 'Попса / Реп',
+		name: 'Попса / Реп',
+		description: 'description',
 		id: 'string',
-		creator: 'Dima Kuleshov',
+		owner_id: 'Dima Kuleshov',
 		numberOfTracks: 124,
 		lastUpdate: Date.now(),
-		preview: '/image/9fad3e6e-c8c5-48cc-8c0a-f5a53275b360.jpg',
+		cover: '/image/9fad3e6e-c8c5-48cc-8c0a-f5a53275b360.jpg',
 	},
 	{
-		title: 'Кей поп музыка',
+		name: 'Кей поп музыка',
+		description: 'description',
 		id: 'string1',
-		creator: 'Dima Kuleshov',
+		owner_id: 'Dima Kuleshov',
 		numberOfTracks: 102,
 		lastUpdate: Date.now(),
-		preview: '/image/9fad3e6e-c8c5-48cc-8c0a-f5a53275b360.jpg',
+		cover: '/image/9fad3e6e-c8c5-48cc-8c0a-f5a53275b360.jpg',
 	},
 	{
-		title: 'Русский рок',
+		name: 'Русский рок',
+		description: 'description',
 		id: 'string2',
-		creator: 'Dima Kuleshov',
+		owner_id: 'Dima Kuleshov',
 		numberOfTracks: 12,
 		lastUpdate: Date.now(),
-		preview: '/image/9fad3e6e-c8c5-48cc-8c0a-f5a53275b360.jpg',
+		cover: '/image/9fad3e6e-c8c5-48cc-8c0a-f5a53275b360.jpg',
 	},
 ];
 
-const createlaylistHandler = async (payload: IPlaylistPayload) => {
-	const form = new FormData();
-	form.append('name', payload.name);
-	form.append('description', payload.description);
-	form.append('cover', JSON.stringify(payload.file));
-	form.append('tracks', JSON.stringify(payload.tracks));
-	const { data } = await createPlaylistReq(form);
-};
-
 const Playlist: FC<IPlaylistProps> = () => {
+	//hooks
 	const [isVisible, setVisible] = useState<boolean>(false);
+	const { user } = useTypedSelector(i => i.account);
+	const [cover, setCover] = useState<string | null>(null);
+	//handlers
+	const createPlaylistHandler = async (payload: IPlaylistPayload) => {
+		const payloadData = { owner_id: user.id, cover, ...payload };
+		const { data } = await PlaylistService.createPlaylist(payloadData);
+		if (data.isSuccess) {
+			setVisible(false);
+		}
+	};
+
+	const close = () => setVisible(false);
+
+	const uploadFile = async (file: File | null) => {
+		if (!file) {
+			setCover(null);
+		}
+		if (file) {
+			const form = new FormData();
+			form.append('file', file);
+			const { data } = await FileService.upload(
+				UploadActionType.PlaylistCover,
+				form,
+			);
+			setCover(data.path);
+		}
+	};
 
 	return (
 		<AccountLayout>
@@ -64,8 +91,12 @@ const Playlist: FC<IPlaylistProps> = () => {
 			</ContentBlock>
 			<PlaylistModal
 				isVisible={isVisible}
-				onClose={() => setVisible(false)}
-				onSave={createlaylistHandler}
+				cover={cover}
+				handlers={{
+					onClose: close,
+					onUpload: uploadFile,
+					onSave: createPlaylistHandler,
+				}}
 			/>
 		</AccountLayout>
 	);

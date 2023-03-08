@@ -28,7 +28,6 @@ const Create = () => {
 		form.append('text', text.value);
 		form.append('picture', picture);
 		form.append('audio', audio);
-
 		const { data } = await api.post<ICreateTrackResponse>(
 			TrackEndpoints.TRACKS,
 			form,

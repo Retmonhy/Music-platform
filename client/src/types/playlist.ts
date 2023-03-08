@@ -1,8 +1,17 @@
+import { ITrack } from './track';
+
 export interface IPlaylist {
-	title: string;
 	id: string;
-	creator: string;
+	name: string;
+	owner_id: string;
+	description: string;
 	numberOfTracks: number;
-	lastUpdate: string;
-	preview: string;
+	lastUpdate: number;
+	cover: string;
+}
+export interface IPlaylistPayload {
+	name: string;
+	description: string;
+	cover: string;
+	tracks: ITrack[];
 }

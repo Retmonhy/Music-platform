@@ -10,7 +10,7 @@ import { Token, TokenDocument } from './schemas/token.schema';
 import * as bcrypt from 'bcrypt';
 import * as uuid from 'uuid';
 import { UserDto, RegistrationDto } from './dto';
-import { GetUserModel } from './interface';
+import { UserModelType } from './interface';
 
 export interface RegistrationResponse {
   accessToken: string;
@@ -129,7 +129,7 @@ export class UserService {
   }
   //
   //
-  async getUserModel(accessToken: string): Promise<GetUserModel | null> {
+  async getUserModel(accessToken: string): Promise<UserModelType | null> {
     const userDto = this._tokenService.validateAccessToken(accessToken);
     if (!userDto) {
       throw ApiError.UnauthorizedError();

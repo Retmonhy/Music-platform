@@ -1,5 +1,5 @@
 import { IUpdateData } from './../types/auth';
-import { IComment, ITrack, IUser } from '../../types';
+import { IComment, IPlaylist, ITrack, IUser } from '../../types';
 export interface IDefaultResponse {
 	isSuccess: boolean;
 }
@@ -34,4 +34,13 @@ export interface IAddTrackResponce extends IDefaultResponse {
 }
 export interface IRemoveTrackResponse extends IDefaultResponse {
 	id: string;
+}
+
+export interface IUploadResponse {
+	path: string;
+}
+
+export interface ICreatePlaylistResponse {
+	isSuccess: boolean;
+	playlist: IPlaylist;
 }

@@ -33,7 +33,7 @@ api.interceptors.response.use(
 		const originalReq = error.config;
 		if (error.response.status === 401) {
 			axios
-				.get<ILoginUserResponse>(AccountEndpoints.REFRESH, {
+				.get<ILoginUserResponse>(generateUrl(AccountEndpoints.REFRESH), {
 					withCredentials: true,
 				})
 				.then(({ data }) => {

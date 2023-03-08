@@ -1,5 +1,5 @@
 // libraries
-import React, { FC, MouseEvent } from 'react';
+import React, { FC, MouseEvent, useState } from 'react';
 import { Grid } from '@mui/material';
 import { Modal } from '@material-ui/core';
 //hooks
@@ -8,35 +8,32 @@ import { Modal } from '@material-ui/core';
 import styles from './PlaylistModal.module.scss';
 import { PlaylistFooter, PlaylistHeader, PlaylistInfo } from './ui';
 import { useForm } from 'react-hook-form';
-import { IPlaylistPayload } from './model';
+import { IPlaylistPayload } from '../../types';
+import { FileService, UploadActionType } from '../../shared';
 
-interface IPlaylistModalProps {
-	isVisible: boolean;
+interface IPlaylistModalHandlers {
 	onClose: (e: MouseEvent<HTMLDivElement>) => void;
 	onSave: (payload: IPlaylistPayload) => void;
+	onUpload: (file: File | null) => Promise<void>;
+}
+interface IPlaylistModalProps {
+	isVisible: boolean;
+	cover: string;
+	handlers: IPlaylistModalHandlers;
 }
 
 export const PlaylistModal: FC<IPlaylistModalProps> = ({
 	isVisible,
-	onClose,
-	onSave,
+	cover,
+	handlers,
 }) => {
-	if (!isVisible) return null;
-	const { control, handleSubmit, getValues } = useForm<IPlaylistPayload>({
+	const { onClose, onSave, onUpload } = handlers;
+	const onInvalid = () => console.log('inValid');
+	const { control, handleSubmit } = useForm<IPlaylistPayload>({
 		mode: 'onSubmit',
 	});
-	const saveHandler = (e: MouseEvent<HTMLButtonElement>) => {
-		handleSubmit(
-			qw => {
-				console.log('handleSubmit = ', qw);
-				onSave(qw); //наверное он должен вызываться, когда успешная валидация
-			},
-			() => {
-				console.log('inValid');
-			},
-		)();
-	};
 
+	if (!isVisible) return null;
 	return (
 		<Modal
 			style={{
@@ -45,8 +42,11 @@ export const PlaylistModal: FC<IPlaylistModalProps> = ({
 			open={true}>
 			<Grid container direction='column' className={styles.modal_grid}>
 				<PlaylistHeader title='Создание нового плейлиста' onClose={onClose} />
-				<PlaylistInfo control={control} />
-				<PlaylistFooter title='Сохранить' onClick={saveHandler} />
+				<PlaylistInfo control={control} onUpload={onUpload} cover={cover} />
+				<PlaylistFooter
+					title='Сохранить'
+					onClick={handleSubmit(onSave, onInvalid)}
+				/>
 			</Grid>
 		</Modal>
 	);

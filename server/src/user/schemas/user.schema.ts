@@ -18,5 +18,7 @@ export class User {
   activationLink: string;
   @Prop()
   tracks: string[];
+  @Prop()
+  playlists: string[];
 }
 export const UserSchema = SchemaFactory.createForClass(User);

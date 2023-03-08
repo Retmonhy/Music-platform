@@ -16,16 +16,12 @@ export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
 		<Box flexBasis={'33.33%'}>
 			<Box padding={'8px'}>
 				<SquareDiv size={'100%'}>
-					<PlaylistImage
-						source={item.preview}
-						alt={item.preview}
-						isHover={false}
-					/>
+					<PlaylistImage source={item.cover} alt={item.cover} isHover={false} />
 				</SquareDiv>
 				<MusicInfo
 					// className={}
-					title={item.title}
-					description={item.creator}
+					title={item.name}
+					description={item.owner_id}
 					titleClick={navigateToPlaylist}
 				/>
 			</Box>
