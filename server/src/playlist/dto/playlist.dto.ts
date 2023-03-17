@@ -4,6 +4,7 @@ export class PlaylistDto {
   name: string;
   description: string;
   cover: string;
+  numberOfTracks: number;
 
   constructor(model) {
     this.id = model._id;
@@ -11,5 +12,6 @@ export class PlaylistDto {
     this.name = model.name;
     this.description = model.description;
     this.cover = model.cover;
+    this.numberOfTracks = model.tracks.length;
   }
 }

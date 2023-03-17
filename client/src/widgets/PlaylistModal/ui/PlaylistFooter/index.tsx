@@ -5,24 +5,27 @@ import { Button, Grid } from '@mui/material';
 // components
 //styles
 import styles from './Footer.module.scss';
+import { SubmitHandler } from 'react-hook-form';
+import { IPlaylistPayload } from '../../../../types';
 
 interface IPlaylistFooterProps {
 	title: string;
-	onClick: (e: MouseEvent<HTMLButtonElement>) => void;
+	onClick: () => void;
 }
 export const PlaylistFooter: FC<IPlaylistFooterProps> = ({
 	title,
 	onClick,
 }) => {
+	const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+		onClick();
+	};
 	return (
 		<Grid
 			container
 			justifyContent='flex-end'
 			className={styles.footer}
 			padding='12px 24px'>
-			<Button type='submit' onSubmit={onClick} onClick={onClick}>
-				{title}
-			</Button>
+			<Button onClick={handleClick}>{title}</Button>
 		</Grid>
 	);
 };

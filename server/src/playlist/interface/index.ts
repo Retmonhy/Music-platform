@@ -5,6 +5,7 @@ export interface IPlaylist {
   cover: string;
   name: string;
   description: string;
+  owner_id: string;
   tracks: string[];
 }
 

@@ -12,6 +12,7 @@ export enum AccountEndpoints {
 	FETCH_USER_MUSIC = '/account/music',
 	ADD_TRACK = '/account/music/add',
 	REMOVE_TRACK = '/account/music/remove',
+	FETCH_USER_PLAYLISTS = '/account/playlists',
 }
 export enum FileEndpoints {
 	UPLOAD = '/file/upload',

@@ -1,3 +1,4 @@
+import { PlaylistService } from './../playlist/playlist.service';
 import { TrackService } from './../track';
 import { ApiError } from './../exceptions/api-errors';
 import { AuthGuard } from './../guards/auth.guard';
@@ -27,6 +28,7 @@ export class UserController {
   constructor(
     private _userService: UserService,
     private _trackService: TrackService,
+    private _playlistService: PlaylistService,
   ) {}
 
   @Post('/registration')
@@ -198,6 +200,26 @@ export class UserController {
       }
       const tracks = await this._trackService.getUserMusic(userModel.tracks);
       return res.json(tracks);
+    } catch (error) {
+      throw ApiError.ServerError(error);
+    }
+  }
+  @UseGuards(AuthGuard)
+  @Get('/playlists')
+  async getUserPlaylists(@Req() req: Request, @Res() res: Response) {
+    try {
+      const accessToken = req.headers.authorization.split(' ')[1];
+      if (!accessToken) {
+        throw ApiError.UnauthorizedError();
+      }
+      const userModel = await this._userService.getUserModel(accessToken);
+      if (!userModel) {
+        throw ApiError.UnauthorizedError();
+      }
+      const playlists = await this._playlistService.getUserPlaylists(
+        userModel.playlists,
+      );
+      return res.json(playlists);
     } catch (error) {
       throw ApiError.ServerError(error);
     }

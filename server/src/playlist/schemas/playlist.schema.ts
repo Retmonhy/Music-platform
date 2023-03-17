@@ -12,5 +12,7 @@ export class Playlist {
   description: string;
   @Prop()
   cover: string;
+  @Prop()
+  tracks: string[];
 }
 export const PlaylistSchema = SchemaFactory.createForClass(Playlist);

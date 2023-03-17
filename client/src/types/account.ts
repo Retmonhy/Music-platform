@@ -1,3 +1,4 @@
+import { IPlaylist } from './playlist';
 import { ITrack } from './track';
 import { ILoginUserResponse } from './../shared/api/interface';
 export enum AccountActionTypes {
@@ -10,6 +11,7 @@ export enum AccountActionTypes {
 	ADD_TRACK = 'ADD_TRACK',
 	REMOVE_TRACK = 'REMOVE_TRACK',
 	FETCH_USER_MUSIC = 'FETCH_USER_MUSIC',
+	FETCH_USER_PLAYLISTS = 'FETCH_USER_PLAYLISTS',
 }
 export type AccountState = {
 	refreshToken: string;
@@ -19,6 +21,7 @@ export type AccountState = {
 	isAuth: boolean;
 	routes: IMenuItem[];
 	userTracks: ITrack[];
+	userPlaylists: IPlaylist[];
 	isHidrated: boolean;
 };
 export interface IMenuItem {

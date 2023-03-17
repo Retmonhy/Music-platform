@@ -1,11 +1,11 @@
-import { Token, TokenDocument } from './../user/schemas/token.schema';
+//libs
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 
-import { ApiError } from './../exceptions/api-errors';
-import { Playlist, PlaylistDocument } from './schemas/playlist.schema';
 import { UserModelType } from './../user/interface/index';
+import { Playlist, PlaylistDocument } from './schemas/playlist.schema';
+import { ApiError } from './../exceptions/api-errors';
 import { CreatePlaylistDto, PlaylistDto } from './dto';
 
 @Injectable()
@@ -36,7 +36,22 @@ export class PlaylistService {
       await user.save();
       return true;
     } catch (error) {
-      throw ApiError.ServerError('Произошла ошибка при создании трека');
+      throw ApiError.ServerError('Произошла ошибка при удалении трека');
+    }
+  }
+  async getUserPlaylists(ids: string[]): Promise<PlaylistDto[]> {
+    try {
+      const playlists = new Array<PlaylistDto>();
+      for (const id of ids) {
+        const playlist = await this.playlistModel.findById(id);
+        const playlistDto = new PlaylistDto(playlist);
+        if (playlistDto) {
+          playlists.push(playlistDto);
+        }
+      }
+      return playlists;
+    } catch (error) {
+      throw ApiError.ServerError('Произошла ошибка при получении плейлистов');
     }
   }
 }

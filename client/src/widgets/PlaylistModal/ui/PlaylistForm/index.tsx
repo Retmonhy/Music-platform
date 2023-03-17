@@ -8,7 +8,7 @@ import { ControlledInput } from '../../../../shared';
 //styles
 import styles from './PlaylistModal.module.scss';
 import general from '../../styles/General.module.scss';
-import { IPlaylistPayload } from '../../model';
+import { IPlaylistPayload } from '../../../../types';
 
 interface IPlaylistForm {
 	control: Control<IPlaylistPayload>;

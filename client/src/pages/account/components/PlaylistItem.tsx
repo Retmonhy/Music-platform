@@ -15,7 +15,7 @@ export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
 	return (
 		<Box flexBasis={'33.33%'}>
 			<Box padding={'8px'}>
-				<SquareDiv size={'100%'}>
+				<SquareDiv size={'200px'}>
 					<PlaylistImage source={item.cover} alt={item.cover} isHover={false} />
 				</SquareDiv>
 				<MusicInfo

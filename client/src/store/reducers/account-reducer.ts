@@ -1,6 +1,8 @@
+import { IPlaylist } from './../../types/playlist';
 import { ITrack } from './../../types/track';
 import {
 	fetchUserMusic,
+	fetchUserPlaylists,
 	removeTrackFromMyMusic,
 } from './../ActionCreators/account';
 import { IAuthorizationAction, IRefreshAction } from './../../types/account';
@@ -60,6 +62,7 @@ const initialState: AccountState = {
 	isAuth: false,
 	routes: menuList,
 	userTracks: [],
+	userPlaylists: [],
 	isHidrated: true,
 };
 export const accountReducer = createReducer(
@@ -99,6 +102,12 @@ export const accountReducer = createReducer(
 					id => id !== action.payload,
 				);
 			})
+			.addCase(
+				fetchUserPlaylists.fulfilled,
+				(state, action: PayloadAction<IPlaylist[]>) => {
+					state.userPlaylists = action.payload;
+				},
+			)
 			.addMatcher(isAuthorizationAction, (state, action: IRefreshAction) => {
 				state.isAuth = true;
 				state.user = action.payload.user;

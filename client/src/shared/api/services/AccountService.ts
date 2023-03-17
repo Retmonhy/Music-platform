@@ -13,6 +13,7 @@ import {
 	IUpdateProfileResponse,
 } from '..';
 import axios from 'axios';
+import { IPlaylist } from '../../../types';
 
 export class AccountService {
 	static login = async (payload: ILoginData) => {
@@ -49,5 +50,8 @@ export class AccountService {
 	};
 	static fetchUserMusic = async () => {
 		return api.get<ITrack[]>(AccountEndpoints.FETCH_USER_MUSIC);
+	};
+	static fetchUserPlaylists = async () => {
+		return api.get<IPlaylist[]>(AccountEndpoints.FETCH_USER_PLAYLISTS);
 	};
 }
