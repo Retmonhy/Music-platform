@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Card, Tab, Tabs, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import MainLayout from '../../layouts/MainLayout';
-import { useTypedSelector } from '../../shared/hooks';
-import { NextThunkDispatch } from '../../store';
-import { login, registration } from '../../store/ActionCreators/account';
+import { useAction, useTypedSelector } from '../../shared/hooks';
 import { RegistrationForm, LoginForm } from './components';
 import {
 	AccountRoutes,
@@ -16,6 +13,8 @@ import {
 	TabPanelProps,
 } from '../../shared';
 import styles from './styles/Auth.module.scss';
+import { NextThunkDispatch } from '../../shared/store';
+import { MainLayout } from '../../widgets';
 
 function TabPanel(props: TabPanelProps) {
 	const { children, value, index, ...other } = props;
@@ -41,6 +40,7 @@ const AuthPage = () => {
 	const [mode, setMode] = useState<RegistrationModes>(RegistrationModes.REG);
 	const router = useRouter();
 	const dispatch = useDispatch() as NextThunkDispatch;
+	const { _account } = useAction();
 	useEffect(() => {
 		if (isAuth) {
 			router.replace(AccountRoutes.Profile); // как-то долго отрабатывает
@@ -54,10 +54,10 @@ const AuthPage = () => {
 		setMode(newValue);
 	};
 	const registrationSubmit = async (payload: IRegistrationData) => {
-		dispatch(registration(payload));
+		dispatch(_account.registration(payload));
 	};
 	const loginSubmit = async (payload: ILoginData) => {
-		dispatch(login(payload));
+		dispatch(_account.login(payload));
 	};
 	return (
 		<MainLayout>

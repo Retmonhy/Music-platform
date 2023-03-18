@@ -1,8 +1,9 @@
-import { Navbar, Player } from '../components';
 import { Container } from '@mui/material';
 import Head from 'next/head';
 import { ReactChildren, ReactElement } from 'react';
 import { ReactHTML } from 'react';
+import { Navbar } from '../Navbar';
+import { Player } from '../Player';
 
 interface IMainLayoutProps {
 	children: React.ReactNode;
@@ -11,7 +12,7 @@ interface IMainLayoutProps {
 	keywords?: string;
 }
 
-const MainLayout: React.FC<IMainLayoutProps> = ({
+export const MainLayout: React.FC<IMainLayoutProps> = ({
 	children,
 	title,
 	description,
@@ -38,4 +39,3 @@ const MainLayout: React.FC<IMainLayoutProps> = ({
 		</>
 	);
 };
-export default MainLayout;

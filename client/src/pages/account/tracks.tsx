@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Loader } from '../../components/Loader';
 import { useAction, useTypedSelector } from '../../shared';
-import { NextThunkDispatch } from '../../store';
 import { TrackList } from '../tracks/components';
 import { AccountLayout, ContentBlock } from './components';
+import { NextThunkDispatch } from '../../shared/store';
+import { Loader } from '../../shared/ui/Loader';
 
 const AccountTracks = () => {
 	const { isLoading, userTracks } = useTypedSelector(i => i.account);

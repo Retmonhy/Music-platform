@@ -5,8 +5,6 @@ import { Button, Grid } from '@mui/material';
 // components
 //styles
 import styles from './Footer.module.scss';
-import { SubmitHandler } from 'react-hook-form';
-import { IPlaylistPayload } from '../../../../types';
 
 interface IPlaylistFooterProps {
 	title: string;

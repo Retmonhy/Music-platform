@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react';
-import MainLayout from '../../../layouts/MainLayout';
 import { H1, useTypedSelector } from '../../../shared';
 import { LeftSideMenu } from './LeftSideMenu';
+import { MainLayout } from '../../../widgets';
 
 interface IAccountLayoutProps {
 	children: ReactNode;

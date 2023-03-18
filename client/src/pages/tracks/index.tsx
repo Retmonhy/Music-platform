@@ -1,13 +1,13 @@
 import { Box, Card, Grid } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useTypedSelector } from '../../shared/hooks/useTypedSelector';
-import MainLayout from '../../layouts/MainLayout';
-import mainStore, { NextThunkDispatch, wrapper } from '../../store';
 
 import { TrackList } from './components';
-import { fetchTracks } from '../../store/ActionCreators/track';
 import { useAction } from '../../shared';
 import { useDispatch } from 'react-redux';
+import { MainLayout } from '../../widgets';
+import { NextThunkDispatch, wrapper } from '../../shared/store';
+import { fetchTracks } from '../../shared/store/ActionCreators/track';
 
 const Index: React.FC = () => {
 	const { tracks, error } = useTypedSelector(st => st.track);

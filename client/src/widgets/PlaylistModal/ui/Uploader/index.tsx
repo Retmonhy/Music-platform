@@ -4,12 +4,11 @@ import { Box, Grid, Icon, IconButton, Typography } from '@mui/material';
 import { AddRounded, CloseRounded } from '@material-ui/icons';
 //hooks
 // components
-import { FileUpload, SquareDiv } from '../../../../components';
 //styles
 import styles from './Uploader.module.scss';
 import general from '../../../../shared/styles/General.module.scss';
-import { generateUrl, merge } from '../../../../shared';
-import { Loader } from '../../../../components/Loader';
+import { Loader, SquareDiv, generateUrl, merge } from '../../../../shared';
+import { FileUpload } from '../../../FileUpload';
 
 interface IUploaderProps {
 	onUpload: (file: File) => Promise<void>;

@@ -1,17 +1,17 @@
 import React from 'react';
-import MainLayout from '../../layouts/MainLayout';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Button, Grid, TextField } from '@material-ui/core';
 import { GetServerSideProps } from 'next';
 import { useInput } from '../../shared/hooks';
-import { ITrack } from '../../types/track';
 import {
 	api,
 	generateUrl,
 	TrackEndpoints,
 	ICommentResponse,
 } from '../../shared/api';
+import { ITrack } from '../../shared/types';
+import { MainLayout } from '../../widgets';
 
 const TrackPage = ({ serverTrack }) => {
 	const [track, setTrack] = React.useState<ITrack>(serverTrack);

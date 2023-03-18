@@ -1,9 +1,9 @@
-import { AccountActionTypes } from './../../types/account';
+import { AccountActionTypes } from '../types/account';
 import { StorageKeys } from '../types';
 import axios from 'axios';
 import { AccountEndpoints } from './endpoint';
 import { ILoginUserResponse } from './interface';
-import store from '../../store';
+import store from '../store';
 
 export * from './endpoint';
 export * from './interface';

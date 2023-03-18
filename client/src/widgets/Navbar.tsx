@@ -1,26 +1,20 @@
-import * as React from 'react';
+//libs
 import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
+import { ListItemText, IconButton, Typography } from '@mui/material';
+import { Box, Drawer, CssBaseline, Toolbar, List } from '@mui/material';
+import { Divider, ListItem, ListItemButton, ListItemIcon } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import {
+	ChevronRight,
+	ChevronLeft,
+	Menu,
+	Inbox,
+	Mail,
+} from '@mui/icons-material';
+
+import * as React from 'react';
 import { useRouter } from 'next/router';
 import { AccountRoutes, useTypedSelector } from '../shared';
-import store from '../store';
 
 const drawerWidth = 240;
 
@@ -91,7 +85,7 @@ export const Navbar: React.FC = () => {
 						onClick={handleDrawerOpen}
 						edge='start'
 						sx={{ mr: 2, ...(open && { display: 'none' }) }}>
-						<MenuIcon />
+						<Menu />
 					</IconButton>
 					<Typography variant='h6' noWrap component='div'>
 						Persistent drawer
@@ -112,11 +106,7 @@ export const Navbar: React.FC = () => {
 				open={open}>
 				<DrawerHeader>
 					<IconButton onClick={handleDrawerClose}>
-						{theme.direction === 'ltr' ? (
-							<ChevronLeftIcon />
-						) : (
-							<ChevronRightIcon />
-						)}
+						{theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
 					</IconButton>
 				</DrawerHeader>
 				<Divider />
@@ -129,7 +119,7 @@ export const Navbar: React.FC = () => {
 							<ListItem key={name} disablePadding>
 								<ListItemButton onClick={() => router.push(href)}>
 									<ListItemIcon>
-										{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+										{index % 2 === 0 ? <Inbox /> : <Mail />}
 									</ListItemIcon>
 									<ListItemText primary={name} />
 								</ListItemButton>

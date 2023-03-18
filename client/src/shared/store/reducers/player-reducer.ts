@@ -1,5 +1,4 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { PlayerState } from '../../types/player';
 import {
 	pauseTrack,
 	playTrack,
@@ -8,6 +7,7 @@ import {
 	setVolume,
 	setCurrentTime,
 } from '../ActionCreators/player';
+import { PlayerState } from '../../types';
 
 const initialState: PlayerState = {
 	active: null,

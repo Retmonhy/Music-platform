@@ -1,8 +1,8 @@
 import { CloseRounded } from '@material-ui/icons';
 import { Popover } from '@mui/material';
 import { FC, useState, MouseEvent, ReactNode } from 'react';
-import { SquareDiv } from '../../../components';
 import styles from '../../../shared/styles/TrackItem.module.scss';
+import { SquareDiv } from '../../../shared';
 interface IPopoverButtonProps {
 	onClick: (e: MouseEvent<HTMLDivElement>) => void;
 	text: string;

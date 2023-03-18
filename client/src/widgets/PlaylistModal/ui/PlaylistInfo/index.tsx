@@ -7,8 +7,8 @@ import { Control } from 'react-hook-form';
 //styles
 import { Uploader } from '../Uploader';
 import { PlaylistForm } from '../PlaylistForm';
-import { IPlaylistPayload } from '../../../../types';
 import styles from './../../PlaylistModal.module.scss';
+import { IPlaylistPayload } from '../../../../shared/types';
 
 interface PlaylistInfoProps {
 	cover: string;

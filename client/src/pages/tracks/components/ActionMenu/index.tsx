@@ -6,11 +6,10 @@ import {
 } from '@material-ui/icons';
 import { Box, Popper } from '@mui/material';
 import React, { useEffect, MouseEvent, FC, useContext, useState } from 'react';
-import { SquareDiv } from '../../../../components';
 import styles from './ActionMenu.module.scss';
 import ARstyles from './../ActionRow/ActionRow.module.scss';
 import { ButtonEl } from '../../../../shared/ui/ButtonEl';
-import { usePlaylist, useTypedSelector } from '../../../../shared';
+import { SquareDiv, usePlaylist, useTypedSelector } from '../../../../shared';
 import { TrackContext } from '../TrackItem';
 import { PlaylistModal } from '../../../../widgets/PlaylistModal';
 

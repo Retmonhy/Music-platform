@@ -3,9 +3,9 @@ import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { useAction, usePlaylist, useTypedSelector } from './../../shared';
 import { PlaylistItem } from './components';
 import { Box, Button } from '@mui/material';
-import { PlaylistModal } from '../tracks/components';
 import { useDispatch } from 'react-redux';
-import { NextThunkDispatch } from '../../store';
+import { PlaylistModal } from '../../widgets';
+import { NextThunkDispatch } from '../../shared/store';
 interface IPlaylistProps {}
 
 const data = [

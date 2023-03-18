@@ -3,8 +3,7 @@ import { FC } from 'react';
 import { PlayArrowRounded } from '@material-ui/icons';
 import Image from 'next/image';
 //components
-import { generateUrl, merge } from '../../../shared';
-import { SquareDiv } from '../../../components';
+import { SquareDiv, generateUrl, merge } from '../../../shared';
 //styles
 import styles from '../../../shared/styles/TrackItem.module.scss';
 import general from '../../../shared/styles/General.module.scss';

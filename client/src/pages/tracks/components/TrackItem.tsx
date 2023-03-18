@@ -1,8 +1,6 @@
 import { memo, MouseEvent, useState, createContext } from 'react';
-import { NextThunkDispatch } from '../../../store';
 //interface
-import { ITrack } from '../../../types/track';
-import { PlayerState } from '../../../types';
+
 import styles from '../../../shared/styles/TrackItem.module.scss';
 //hooks
 import { useRouter } from 'next/router';
@@ -19,8 +17,10 @@ import { DeleteTrack } from './DeleteTrack';
 import { AddTrack } from './AddTrack';
 import { TrackTime } from './TrackTime';
 import { MusicInfo } from '../../../shared';
+import { ITrack, PlayerState } from '../../../shared/types';
 import { ActionRow } from './ActionRow';
 import { Box } from '@material-ui/core';
+import { NextThunkDispatch } from '../../../shared/store';
 
 interface TrackItemProps {
 	track: ITrack;

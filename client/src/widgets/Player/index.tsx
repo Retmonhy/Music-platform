@@ -2,11 +2,15 @@ import { Pause, PlayArrowRounded, VolumeUp } from '@material-ui/icons';
 import { Grid, IconButton } from '@mui/material';
 import { ChangeEvent, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { generateUrl } from '../shared/api';
-import { timeConverter } from '../shared/helper';
-import { useAction, usePlayerControl, useTypedSelector } from '../shared/hooks';
-import styles from '../shared/styles/Player.module.scss';
-import { TrackProgress } from './TrackProgress';
+import { generateUrl } from '../../shared/api';
+import { timeConverter } from '../../shared/helper';
+import {
+	useAction,
+	usePlayerControl,
+	useTypedSelector,
+} from '../../shared/hooks';
+import styles from './Player.module.scss';
+import { TrackProgress } from '../TrackProgress';
 
 export let audio: HTMLAudioElement;
 export const Player: React.FC = () => {

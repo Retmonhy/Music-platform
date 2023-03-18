@@ -1,13 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { Loader } from '../../components/Loader';
 import { AccountRoutes, StorageKeys, useTypedSelector } from '../../shared';
-import {
-	ContentBlock,
-	LeftSideMenu,
-	UpdateProfileForm,
-	AccountLayout,
-} from './components';
+import { ContentBlock, UpdateProfileForm, AccountLayout } from './components';
+import { Loader } from '../../shared/ui';
 
 const Account = () => {
 	const { user, isLoading } = useTypedSelector(i => i.account);

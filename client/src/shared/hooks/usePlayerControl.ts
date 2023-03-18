@@ -1,8 +1,9 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { useTypedSelector } from './useTypedSelector';
 import { useAction } from './useAction';
-import { audio } from '../../components/Player';
+
 import { useDispatch } from 'react-redux';
+import { audio } from '../../widgets/Player';
 export const usePlayerControl = () => {
 	const { pauseTrack, playTrack } = useAction()._player;
 	const { pause } = useTypedSelector(st => st.player);

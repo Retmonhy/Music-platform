@@ -1,22 +1,26 @@
-import { IPlaylist } from './../../types/playlist';
-import { ITrack } from './../../types/track';
 import {
 	fetchUserMusic,
 	fetchUserPlaylists,
 	removeTrackFromMyMusic,
-} from './../ActionCreators/account';
-import { IAuthorizationAction, IRefreshAction } from './../../types/account';
-import { AccountActionTypes, AccountState, IMenuItem } from '../../types';
-import { AccountRoutes } from '../../shared';
-import { AnyAction, createReducer, PayloadAction } from '@reduxjs/toolkit';
-import {
 	addTrackIntoMyMusic,
 	changeRouteTo,
 	checkAuth,
 	logout,
 	update,
-} from '../ActionCreators/account';
+} from './../ActionCreators/account';
+
+import { AnyAction, createReducer, PayloadAction } from '@reduxjs/toolkit';
 import { FulfilledAction, PendingAction, RejectedAction } from '.';
+import {
+	IMenuItem,
+	AccountRoutes,
+	IAuthorizationAction,
+	AccountActionTypes,
+	AccountState,
+	ITrack,
+	IPlaylist,
+	IRefreshAction,
+} from '../../types';
 
 const menuList: IMenuItem[] = [
 	{

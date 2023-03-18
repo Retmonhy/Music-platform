@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { IPlaylistPayload, IUser } from '../../types';
+
 import { FileService, PlaylistService } from '../api';
-import { UploadActionType } from '../types';
+import { IPlaylistPayload, IUser, UploadActionType } from '../types';
 
 export const usePlaylist = (user: IUser) => {
 	const [isVisible, setVisible] = useState<boolean>(false);

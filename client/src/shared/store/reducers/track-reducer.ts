@@ -1,5 +1,5 @@
-import { TrackState, TrackActionTypes } from './../../types/track';
 import { AnyAction, createReducer } from '@reduxjs/toolkit';
+import { TrackActionTypes, TrackState } from '../../types';
 
 const initialState: TrackState = {
 	tracks: [],

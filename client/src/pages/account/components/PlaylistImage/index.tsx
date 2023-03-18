@@ -3,11 +3,12 @@ import React, { FC } from 'react';
 import Image from 'next/image';
 import { PlayArrowRounded } from '@material-ui/icons';
 //conponents
-import { SquareDiv } from '../../../../components';
+
 import { generateUrl, merge } from '../../../../shared';
 //styles
 import styles from './PlaylistImage.module.scss';
 import general from '../../../../shared/styles/General.module.scss';
+import { SquareDiv } from '../../../../shared/ui';
 
 const imageSize = 70;
 interface IPlaylistProps {

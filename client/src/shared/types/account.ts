@@ -1,6 +1,6 @@
+import { ILoginUserResponse } from '../api/interface';
 import { IPlaylist } from './playlist';
 import { ITrack } from './track';
-import { ILoginUserResponse } from './../shared/api/interface';
 export enum AccountActionTypes {
 	AUTHORIZATION = 'AUTHORIZATION',
 	LOGOUT = 'LOGOUT',

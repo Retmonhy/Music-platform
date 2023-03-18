@@ -1,7 +1,12 @@
-import { AccountActionTypes } from './../../types/account';
-import { ILoginData, IUpdateData } from '../../shared/types/auth';
-import { AccountService, IRegistrationData, StorageKeys } from '../../shared';
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { AccountService } from '../../api';
+import {
+	IUpdateData,
+	AccountActionTypes,
+	ILoginData,
+	StorageKeys,
+	IRegistrationData,
+} from '../../types';
 
 interface IArgUpdate {
 	payload: IUpdateData;

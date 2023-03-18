@@ -4,11 +4,10 @@ import { Box, Grid } from '@mui/material';
 //hooks
 import { Control } from 'react-hook-form';
 // components
-import { ControlledInput } from '../../../../shared';
+import { ControlledInput, IPlaylistPayload } from '../../../../shared';
 //styles
 import styles from './PlaylistModal.module.scss';
 import general from '../../styles/General.module.scss';
-import { IPlaylistPayload } from '../../../../types';
 
 interface IPlaylistForm {
 	control: Control<IPlaylistPayload>;

@@ -1,8 +1,7 @@
 import { Grid } from '@material-ui/core';
 import { TrackItem } from './TrackItem';
 import { memo } from 'react';
-import { ITrack } from '../../../types';
-import { useTypedSelector } from '../../../shared';
+import { ITrack, useTypedSelector } from '../../../shared';
 
 interface TrackListProps {
 	tracks: ITrack[];

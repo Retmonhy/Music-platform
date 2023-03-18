@@ -1,4 +1,4 @@
-import ActionCreators from '../../store/ActionCreators';
+import ActionCreators from '../store/ActionCreators';
 
 export const useAction = () => {
 	return {

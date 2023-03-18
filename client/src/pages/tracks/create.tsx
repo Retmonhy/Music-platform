@@ -2,9 +2,10 @@ import { Button, Grid, TextField } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { TrackEndpoints, ICreateTrackResponse, api } from '../../shared/api';
-import { FileUpload, StepWrapper } from '../../components';
 import { useInput } from '../../shared/hooks';
-import MainLayout from '../../layouts/MainLayout';
+import { MainLayout } from '../../widgets';
+import { StepWrapper } from '../../widgets/StepWrapper';
+import { FileUpload } from '../../widgets/FileUpload';
 
 const Create = () => {
 	const router = useRouter();

@@ -8,8 +8,9 @@ import { Modal } from '@material-ui/core';
 import styles from './PlaylistModal.module.scss';
 import { PlaylistFooter, PlaylistHeader, PlaylistInfo } from './ui';
 import { Control, SubmitHandler, useForm } from 'react-hook-form';
-import { IPlaylistPayload } from '../../types';
+
 import { PlaylistMusicControl } from './ui/PlaylistMusicControl';
+import { IPlaylistPayload } from '../../shared';
 
 interface IPlaylistModalHandlers {
 	onClose: (e: MouseEvent<HTMLDivElement>) => void;
