@@ -8,6 +8,7 @@ import { Control } from 'react-hook-form';
 import { Uploader } from '../Uploader';
 import { PlaylistForm } from '../PlaylistForm';
 import { IPlaylistPayload } from '../../../../types';
+import styles from './../../PlaylistModal.module.scss';
 
 interface PlaylistInfoProps {
 	cover: string;
@@ -22,7 +23,7 @@ export const PlaylistInfo: FC<PlaylistInfoProps> = ({
 }) => {
 	return (
 		<Box padding='24px'>
-			<Grid container direction='row' flexWrap='nowrap'>
+			<Grid container direction='row' flexWrap='nowrap' className={styles.grid}>
 				<Uploader onUpload={onUpload} cover={cover} />
 				<PlaylistForm control={control} />
 			</Grid>

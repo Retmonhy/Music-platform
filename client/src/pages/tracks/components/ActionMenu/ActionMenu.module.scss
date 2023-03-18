@@ -1,0 +1,7 @@
+@use '../../../../shared/styles/variables' as var;
+.menuBtn {
+	border-radius: 0;
+	text-transform: inherit;
+	width: 100%;
+	justify-content: flex-start;
+}

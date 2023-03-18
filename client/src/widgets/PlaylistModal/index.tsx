@@ -9,7 +9,7 @@ import styles from './PlaylistModal.module.scss';
 import { PlaylistFooter, PlaylistHeader, PlaylistInfo } from './ui';
 import { Control, SubmitHandler, useForm } from 'react-hook-form';
 import { IPlaylistPayload } from '../../types';
-import { FileService, UploadActionType } from '../../shared';
+import { PlaylistMusicControl } from './ui/PlaylistMusicControl';
 
 interface IPlaylistModalHandlers {
 	onClose: (e: MouseEvent<HTMLDivElement>) => void;
@@ -41,6 +41,7 @@ export const PlaylistModal: FC<IPlaylistModalProps> = ({
 			<Grid container direction='column' className={styles.modal_grid}>
 				<PlaylistHeader title='Создание нового плейлиста' onClose={onClose} />
 				<PlaylistInfo control={control} onUpload={onUpload} cover={cover} />
+				<PlaylistMusicControl />
 				<PlaylistFooter title='Сохранить' onClick={onSave} />
 			</Grid>
 		</Modal>

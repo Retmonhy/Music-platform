@@ -44,17 +44,6 @@
 .trackTime {
 	margin-left: auto;
 }
-.actionMenu {
-	display: flex;
-	flex-direction: row;
-}
-.actionIcons {
-	color: var.$color-gray;
-	transition: color 0.3s;
-}
-.actionIcons:hover {
-	color: darken($color: var.$color-gray, $amount: 10);
-}
 .popover {
 	padding: 8px;
 }

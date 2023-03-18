@@ -14,16 +14,22 @@ interface IPlaylistProps {
 	source: string;
 	alt: string;
 	isHover: boolean;
+	size: string | number;
 }
-export const PlaylistImage: FC<IPlaylistProps> = ({ source, alt, isHover }) => {
+export const PlaylistImage: FC<IPlaylistProps> = ({
+	source,
+	alt,
+	isHover,
+	size,
+}) => {
 	return (
 		<div className={general.relative}>
-			<SquareDiv size={'100%'}>
+			<SquareDiv size={size}>
 				<img
 					src={generateUrl(source)}
 					alt={alt}
-					width={'100%'}
-					height={'100%'}
+					width={size}
+					height={size}
 					className={styles.br8}
 				/>
 			</SquareDiv>

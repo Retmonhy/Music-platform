@@ -1,18 +1,9 @@
 import { AccountLayout, ContentBlock } from './components';
 import React, { FC, ReactNode, useEffect, useState } from 'react';
-import {
-	FileService,
-	H2,
-	UploadActionType,
-	useAction,
-	useTypedSelector,
-} from './../../shared';
+import { useAction, usePlaylist, useTypedSelector } from './../../shared';
 import { PlaylistItem } from './components';
 import { Box, Button } from '@mui/material';
 import { PlaylistModal } from '../tracks/components';
-import { PlaylistService } from '../../shared/api/services/PlaylistService';
-import { IPlaylistPayload } from '../../types';
-import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { NextThunkDispatch } from '../../store';
 interface IPlaylistProps {}
@@ -49,57 +40,19 @@ const data = [
 
 const Playlist: FC<IPlaylistProps> = () => {
 	//hooks
-	const [isVisible, setVisible] = useState<boolean>(false);
-	const [cover, setCover] = useState<string | null>(null);
 	const { user, userPlaylists } = useTypedSelector(i => i.account);
 	const { _account } = useAction();
-	const { control, handleSubmit, reset } = useForm<IPlaylistPayload>({
-		mode: 'onSubmit',
-	});
 	const dispatch = useDispatch() as NextThunkDispatch;
 	useEffect(() => {
 		dispatch(_account.fetchUserPlaylists());
 	}, []);
-
-	//handlers
-	const onInvalid = () => console.log('inValid');
-	const createPlaylistHandler = async (payload: IPlaylistPayload) => {
-		const payloadData = { owner_id: user.id, cover, ...payload };
-		const { data } = await PlaylistService.createPlaylist(payloadData);
-		if (data.isSuccess) {
-			setVisible(false);
-		}
-	};
-
-	const close = () => {
-		setVisible(false);
-		setCover(null);
-		reset();
-	};
-
-	const uploadFile = async (file: File | null) => {
-		if (!file) {
-			setCover(null);
-		}
-		if (file) {
-			const form = new FormData();
-			form.append('file', file);
-			const { data } = await FileService.upload(
-				UploadActionType.PlaylistCover,
-				form,
-			);
-			setCover(data.path);
-		}
-	};
-	const saveHandler = () => {
-		console.log('saveHandler');
-		handleSubmit(createPlaylistHandler, onInvalid)();
-	};
+	const { open, close, isVisible, onSave, onUpload, cover, control } =
+		usePlaylist(user);
 
 	return (
 		<AccountLayout>
 			<ContentBlock header='Мои плейлисты'>
-				<Button onClick={() => setVisible(true)}>Open modal</Button>
+				<Button onClick={open}>Open modal</Button>
 				<PlaylistWrapper>
 					{userPlaylists.map(playlist => (
 						<PlaylistItem key={playlist.id} item={playlist} />
@@ -112,8 +65,8 @@ const Playlist: FC<IPlaylistProps> = () => {
 				cover={cover}
 				handlers={{
 					onClose: close,
-					onUpload: uploadFile,
-					onSave: saveHandler,
+					onUpload,
+					onSave,
 				}}
 			/>
 		</AccountLayout>

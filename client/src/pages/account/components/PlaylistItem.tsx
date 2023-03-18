@@ -9,14 +9,20 @@ import { PlaylistImage } from './PlaylistImage';
 interface IPlaylistItemProps {
 	item: IPlaylist;
 }
+const imageSize = '200px';
+
 export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
 	const navigateToPlaylist = () => {};
-	const imageRef = useRef(null);
 	return (
 		<Box flexBasis={'33.33%'}>
 			<Box padding={'8px'}>
-				<SquareDiv size={'200px'}>
-					<PlaylistImage source={item.cover} alt={item.cover} isHover={false} />
+				<SquareDiv size={imageSize}>
+					<PlaylistImage
+						source={item.cover}
+						alt={item.cover}
+						isHover={false}
+						size={imageSize}
+					/>
 				</SquareDiv>
 				<MusicInfo
 					// className={}

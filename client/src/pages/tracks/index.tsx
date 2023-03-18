@@ -1,14 +1,21 @@
 import { Box, Card, Grid } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTypedSelector } from '../../shared/hooks/useTypedSelector';
 import MainLayout from '../../layouts/MainLayout';
 import mainStore, { NextThunkDispatch, wrapper } from '../../store';
 
 import { TrackList } from './components';
 import { fetchTracks } from '../../store/ActionCreators/track';
+import { useAction } from '../../shared';
+import { useDispatch } from 'react-redux';
 
 const Index: React.FC = () => {
 	const { tracks, error } = useTypedSelector(st => st.track);
+	const dispatch = useDispatch() as NextThunkDispatch;
+	const { fetchUserPlaylists } = useAction()._account;
+	useEffect(() => {
+		dispatch(fetchUserPlaylists());
+	}, []);
 	if (error) {
 		return (
 			<MainLayout>

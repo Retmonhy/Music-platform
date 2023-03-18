@@ -1,7 +1,7 @@
 import { AddRounded } from '@material-ui/icons';
 import React, { FC, MouseEvent } from 'react';
 import { PopoverButton } from './PopoverButton';
-import styles from '../../../shared/styles/TrackItem.module.scss';
+import styles from '../components/ActionRow/ActionRow.module.scss';
 interface IAddTrackProps {
 	onClick: (event: MouseEvent<HTMLDivElement>) => void;
 }

@@ -1,4 +1,4 @@
-import { memo, MouseEvent, useState } from 'react';
+import { memo, MouseEvent, useState, createContext } from 'react';
 import { NextThunkDispatch } from '../../../store';
 //interface
 import { ITrack } from '../../../types/track';
@@ -19,11 +19,17 @@ import { DeleteTrack } from './DeleteTrack';
 import { AddTrack } from './AddTrack';
 import { TrackTime } from './TrackTime';
 import { MusicInfo } from '../../../shared';
+import { ActionRow } from './ActionRow';
+import { Box } from '@material-ui/core';
 
 interface TrackItemProps {
 	track: ITrack;
 	playerState?: PlayerState;
 }
+interface ITrackContext {
+	track: ITrack;
+}
+export const TrackContext = createContext<ITrackContext>(null);
 export const TrackItem: React.FC<TrackItemProps> = memo(
 	({ track, playerState }) => {
 		const [isHovered, setHovered] = useState<boolean>(false);
@@ -59,42 +65,42 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 		const handleHoverOn = () => setHovered(true);
 		const handleHoverOff = () => setHovered(false);
 		return (
-			<div
-				className={styles.track}
-				onMouseEnter={handleHoverOn}
-				onMouseLeave={handleHoverOff}
-				onClick={play}>
-				<TrackImage
-					source={track.picture}
-					alt={track.text}
-					isHover={isHovered}
-				/>
-				<MusicInfo
-					className={styles.trackInfo}
-					title={track.name}
-					description={track.artist}
-					titleClick={navigateToTrackPage}
-				/>
-				<div className={styles.trackTime}>
-					{isHovered ? (
-						<div className={styles.actionMenu}>
-							{user?.tracks.some(i => i === track._id) ? (
-								<DeleteTrack onClick={handleDeleteTrack} />
-							) : (
-								<AddTrack onClick={handleAddTrack} />
-							)}
-
-							<ActionMenu />
-						</div>
-					) : (
-						<TrackTime
-							isActive={isActive}
-							currentTime={playerState?.currentTime}
-							duration={track.duration}
-						/>
-					)}
-				</div>
-			</div>
+			<TrackContext.Provider value={{ track: track }}>
+				<Box
+					className={styles.track}
+					onMouseEnter={handleHoverOn}
+					onMouseLeave={handleHoverOff}
+					onClick={play}>
+					<TrackImage
+						source={track.picture}
+						alt={track.text}
+						isHover={isHovered}
+					/>
+					<MusicInfo
+						className={styles.trackInfo}
+						title={track.name}
+						description={track.artist}
+						titleClick={navigateToTrackPage}
+					/>
+					<Box className={styles.trackTime}>
+						{isHovered ? (
+							<ActionRow
+								isExistInUserMusic={user?.tracks.some(i => i === track._id)}
+								handlers={{
+									addHandler: handleAddTrack,
+									deleteHandler: handleDeleteTrack,
+								}}
+							/>
+						) : (
+							<TrackTime
+								isActive={isActive}
+								currentTime={playerState?.currentTime}
+								duration={track.duration}
+							/>
+						)}
+					</Box>
+				</Box>
+			</TrackContext.Provider>
 		);
 	},
 );

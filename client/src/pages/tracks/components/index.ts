@@ -4,4 +4,3 @@ export { TrackList } from './TrackList';
 export { TrackTime } from './TrackTime';
 export { DeleteTrack } from './DeleteTrack';
 export { ActionMenu } from './ActionMenu';
-export { PlaylistModal } from '../../../widgets/PlaylistModal';

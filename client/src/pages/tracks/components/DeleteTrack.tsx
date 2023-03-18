@@ -2,7 +2,7 @@ import { CloseRounded } from '@material-ui/icons';
 import { Popover } from '@mui/material';
 import { FC, useState, MouseEvent } from 'react';
 import { SquareDiv } from '../../../components';
-import styles from '../../../shared/styles/TrackItem.module.scss';
+import styles from '../components/ActionRow/ActionRow.module.scss';
 interface IDeleteTrackProps {
 	onClick: (e: MouseEvent<HTMLDivElement>) => void;
 }

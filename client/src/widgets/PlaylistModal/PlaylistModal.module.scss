@@ -9,3 +9,6 @@
 	border-radius: var.$base-radius;
 	overflow: hidden;
 }
+.grid {
+	flex-wrap: nowrap !important;
+}

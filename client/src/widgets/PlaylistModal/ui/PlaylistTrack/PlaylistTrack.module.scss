@@ -1,0 +1,27 @@
+@use '../../../../shared/styles/variables' as var;
+.playlist_track {
+	border-radius: var.$base-radius;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.playlist_track:hover {
+	background-color: var.$track-hover-color;
+}
+.track_info {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.circle_button_wrap {
+	padding: 10px;
+}
+.circle_button {
+	background-color: var.$base-color;
+	border-radius: 50%;
+	width: 28px;
+	height: 28px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
