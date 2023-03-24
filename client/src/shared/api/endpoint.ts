@@ -19,6 +19,8 @@ export enum FileEndpoints {
 }
 export enum PlaylistEndpoints {
 	CREATE = '/playlist/create',
+	UPDATE = '/playlist/update',
 	ADD = '/playlist/add',
 	REMOVE = '/playlist/remove',
+	FETCH_TRACKS = '/playlist/tracks',
 }

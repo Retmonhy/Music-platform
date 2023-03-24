@@ -5,5 +5,6 @@ export const useAction = () => {
 		_player: ActionCreators.Player,
 		_track: ActionCreators.Track,
 		_account: ActionCreators.Account,
+		_playlist: ActionCreators.Playlist,
 	};
 };

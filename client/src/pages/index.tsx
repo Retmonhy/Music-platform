@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core';
-import { H1 } from '../../shared';
-import { MainLayout } from '../../widgets';
+import { H1 } from '../shared';
+import { MainLayout } from '../widgets';
 
 const Index = () => {
 	return (

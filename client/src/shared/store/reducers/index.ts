@@ -1,6 +1,7 @@
 import { trackReducer } from './track-reducer';
 import { playerReducer } from './player-reducer';
 import { accountReducer } from './account-reducer';
+import { playlistReducer } from './playlist-reducer';
 import { HYDRATE } from 'next-redux-wrapper';
 import { combineReducers } from 'redux';
 import { AsyncThunk } from '@reduxjs/toolkit';
@@ -9,6 +10,7 @@ const rootReducer = combineReducers({
 	player: playerReducer,
 	track: trackReducer,
 	account: accountReducer,
+	playlist: playlistReducer,
 });
 
 export const reducer = (state: RootState, action) => {

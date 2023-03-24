@@ -4,4 +4,4 @@ export { PlaylistForm } from './PlaylistForm';
 export { PlaylistFooter } from './PlaylistFooter';
 export { PlaylistHeader } from './PlaylistHeader';
 export { PlaylistMusicControl } from './PlaylistMusicControl';
-export { PlaylistTrack } from './PlaylistTrack';
+export { PltTrack } from './PltTrack';

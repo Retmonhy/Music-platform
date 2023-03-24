@@ -8,7 +8,11 @@ const Account = () => {
 	const { user, isLoading } = useTypedSelector(i => i.account);
 	const router = useRouter();
 	useEffect(() => {
-		if (!user && !localStorage.getItem(StorageKeys.accessToken)) {
+		if (
+			!user &&
+			localStorage &&
+			!localStorage.getItem(StorageKeys.accessToken)
+		) {
 			router && router.push(AccountRoutes.Login);
 		}
 	}, [user]);

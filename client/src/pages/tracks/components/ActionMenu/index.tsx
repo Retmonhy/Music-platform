@@ -9,9 +9,15 @@ import React, { useEffect, MouseEvent, FC, useContext, useState } from 'react';
 import styles from './ActionMenu.module.scss';
 import ARstyles from './../ActionRow/ActionRow.module.scss';
 import { ButtonEl } from '../../../../shared/ui/ButtonEl';
-import { SquareDiv, usePlaylist, useTypedSelector } from '../../../../shared';
+import {
+	SquareDiv,
+	useAction,
+	usePlaylist,
+	useTypedSelector,
+} from '../../../../shared';
 import { TrackContext } from '../TrackItem';
 import { PlaylistModal } from '../../../../widgets/PlaylistModal';
+import { useDispatch } from 'react-redux';
 
 const popperId = 'actionMenu';
 interface IActionMenuProps {
@@ -19,14 +25,15 @@ interface IActionMenuProps {
 }
 export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 	// hooks
-	const { user } = useTypedSelector(i => i.account);
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const [isExpand, setExpandList] = useState<boolean>(false);
+	const { _playlist } = useAction();
 	const { userPlaylists: playlists } = useTypedSelector(i => i.account);
-	const [isModalVisible, setModalVisible] = useState<boolean>(false);
+	const { selectedTracks } = useTypedSelector(i => i.playlist);
 	const { track } = useContext(TrackContext);
 	const open = Boolean(anchorEl);
-	const playlist = usePlaylist(user);
+	const playlist = usePlaylist();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		//закрывается при размонтировании попап с плейлистом
@@ -44,8 +51,13 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 	};
 	const openModal = (e: MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
+		dispatch(_playlist.addTrackToPlaylist(track));
 		playlist.open();
 	};
+	const createPlaylist = () => {
+		playlist.onSave(selectedTracks);
+	};
+
 	return (
 		<>
 			<SquareDiv
@@ -62,16 +74,7 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 					onResize={undefined}
 					onResizeCapture={undefined}
 					placement='bottom-end'>
-					<Box
-						sx={{
-							paddingY: '4px',
-							bgcolor: 'background.paper',
-							boxShadow: 1,
-							borderRadius: 1,
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'flex-start',
-						}}>
+					<Box className={styles.dropdown_box}>
 						<ButtonEl
 							endIcon={<ExpandMoreRounded className={ARstyles.actionIcons} />}
 							className={styles.menuBtn}
@@ -87,19 +90,19 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 									Новый плейлист
 								</ButtonEl>
 
-								{/* {playlists &&
-								playlists.map(pl => {
-									const handleAddToPlaylist = () => {
-										addToPlaylist(pl.id);
-									};
-									return (
-										<ButtonEl
-											className={styles.menuBtn}
-											onClick={handleAddToPlaylist}>
-											{pl.name}
-										</ButtonEl>
-									);
-								})} */}
+								{playlists &&
+									playlists.map(pl => {
+										const handleAddToPlaylist = () => {
+											addToPlaylist(pl.id);
+										};
+										return (
+											<ButtonEl
+												className={styles.menuBtn}
+												onClick={handleAddToPlaylist}>
+												{pl.name}
+											</ButtonEl>
+										);
+									})}
 							</>
 						)}
 					</Box>
@@ -108,10 +111,9 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 			<PlaylistModal
 				isVisible={playlist.isVisible}
 				control={playlist.control}
-				cover={playlist.cover}
 				handlers={{
 					onClose: playlist.close,
-					onSave: playlist.onSave,
+					onSave: createPlaylist,
 					onUpload: playlist.onUpload,
 				}}
 			/>

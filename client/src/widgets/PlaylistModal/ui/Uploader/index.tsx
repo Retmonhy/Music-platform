@@ -7,18 +7,24 @@ import { AddRounded, CloseRounded } from '@material-ui/icons';
 //styles
 import styles from './Uploader.module.scss';
 import general from '../../../../shared/styles/General.module.scss';
-import { Loader, SquareDiv, generateUrl, merge } from '../../../../shared';
+import {
+	Loader,
+	SquareDiv,
+	generateUrl,
+	merge,
+	useTypedSelector,
+} from '../../../../shared';
 import { FileUpload } from '../../../FileUpload';
 
 interface IUploaderProps {
 	onUpload: (file: File) => Promise<void>;
-	cover: string;
 }
 const typoTheme = {
 	'&.MuiTypography-body1': { fontSize: 13 },
 };
-export const Uploader: FC<IUploaderProps> = ({ cover, onUpload }) => {
+export const Uploader: FC<IUploaderProps> = ({ onUpload }) => {
 	const [isShowed, setShowed] = useState<boolean>(false);
+	const { info } = useTypedSelector(i => i.playlist);
 	const showRemoveBtn = () => setShowed(true);
 	const hideRemoveBtn = () => setShowed(false);
 	const resetFile = () => onUpload(null);
@@ -39,14 +45,14 @@ export const Uploader: FC<IUploaderProps> = ({ cover, onUpload }) => {
 		</Box>
 	) : (
 		<Box paddingRight={4}>
-			{cover ? (
+			{info?.cover ? (
 				<Box className={merge(styles.uploader_wrap, general.relative)}>
 					<SquareDiv
 						onMouseEnter={showRemoveBtn}
 						onMouseLeave={hideRemoveBtn}
 						size={80}
 						style={{
-							background: `center / contain url(${generateUrl(cover)})`,
+							background: `center / contain url(${generateUrl(info.cover)})`,
 						}}>
 						{isShowed ? (
 							<Icon

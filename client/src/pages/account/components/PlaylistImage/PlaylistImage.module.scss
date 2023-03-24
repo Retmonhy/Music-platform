@@ -1,14 +1,33 @@
 @use '../../../../shared/styles/variables' as var;
-.playButton {
+.buttons {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translateY(-50%);
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background: #fff;
-	border-radius: 50%;
+	transition: opacity 0.2s;
+	// дляиконки
+	color: var.$color-white;
+}
+.btn:hover {
+	cursor: pointer;
+	opacity: 0.8;
+}
+.play_btn {
+	// дляиконки
+	font-size: 80px;
+}
+.edit_btn {
+	// дляиконки
+	font-size: 30px;
 }
 .br8 {
 	border-radius: var.$base-radius;

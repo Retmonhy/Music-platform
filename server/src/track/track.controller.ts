@@ -52,10 +52,10 @@ export class TrackController {
     return this.trackService.delete(id);
   }
 
-  @Post('/comment')
-  addComment(@Body() dto: CommentDto) {
-    return this.trackService.addComment(dto);
-  }
+  // @Post('/comment')
+  // addComment(@Body() dto: CommentDto) {
+  //   return this.trackService.addComment(dto);
+  // }
 
   @Post('/listen/:id')
   listen(@Param('id') id: ObjectId) {

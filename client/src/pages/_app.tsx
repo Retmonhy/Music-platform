@@ -11,7 +11,7 @@ const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
 	const dispatch = store.dispatch as NextThunkDispatch;
 	const { _account } = useAction();
 	useEffect(() => {
-		if (localStorage.getItem(StorageKeys.accessToken)) {
+		if (localStorage && localStorage.getItem(StorageKeys.accessToken)) {
 			dispatch(_account.checkAuth());
 		}
 	}, []);

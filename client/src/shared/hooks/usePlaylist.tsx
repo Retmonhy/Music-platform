@@ -1,36 +1,74 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FileService, PlaylistService } from '../api';
-import { IPlaylistPayload, IUser, UploadActionType } from '../types';
+import { FileService, ICreatePlaylistResponse, PlaylistService } from '../api';
+import { IPlaylistData, PlaylistMode, UploadActionType } from '../types';
+import { useTypedSelector } from './useTypedSelector';
+import { useDispatch } from 'react-redux';
+import { NextThunkDispatch } from '../store';
+import { useAction } from './useAction';
 
-export const usePlaylist = (user: IUser) => {
-	const [isVisible, setVisible] = useState<boolean>(false);
-	const [cover, setCover] = useState<string | null>(null);
-	const { control, handleSubmit, reset } = useForm<IPlaylistPayload>({
+export const usePlaylist = () => {
+	//hooks
+	const { info, isVisible, selectedTracks, mode } = useTypedSelector(
+		i => i.playlist,
+	);
+	const { setCover, setVisible, setMode } = useAction()._playlist;
+
+	const dispatch = useDispatch() as NextThunkDispatch;
+	const { control, handleSubmit, reset } = useForm<IPlaylistData>({
 		mode: 'onSubmit',
 	});
+
+	//handlers
 	const onInvalid = () => console.log('inValid');
-	const createHandler = async (payload: IPlaylistPayload) => {
-		const payloadData = { owner_id: user.id, cover, ...payload };
-		const { data } = await PlaylistService.createPlaylist(payloadData);
-		if (data.isSuccess) {
-			setVisible(false);
-		}
+
+	const saveHandler = useCallback(
+		async (payload: IPlaylistData) => {
+			const payloadData = {
+				cover: info?.cover ?? null,
+				tracks: selectedTracks.filter(i => i.isChecked).map(i => i.track._id),
+				...payload,
+			};
+			let result: ICreatePlaylistResponse | null = null;
+			console.log('mode = ', mode);
+			if (mode === PlaylistMode.Create) {
+				const { data } = await PlaylistService.createPlaylist(payloadData);
+				result = data;
+				console.log('create');
+			}
+			if (mode === PlaylistMode.Edit) {
+				console.log('edit');
+				const { data } = await PlaylistService.updatePlaylist(
+					info.id,
+					payloadData,
+				);
+				result = data;
+			}
+			if (result.isSuccess) {
+				dispatch(setVisible(false));
+			}
+		},
+		[mode, selectedTracks],
+	);
+	const onSave = () => {
+		handleSubmit(saveHandler, onInvalid)();
 	};
 
 	const close = () => {
-		setVisible(false);
-		setCover(null);
+		dispatch(setVisible(false));
+		dispatch(setCover(null));
 		reset();
 	};
-	const open = () => {
-		setVisible(true);
+
+	const open = (mode: PlaylistMode) => {
+		dispatch(setMode(mode));
+		dispatch(setVisible(true));
 	};
 
 	const onUpload = async (file: File | null) => {
 		if (!file) {
-			setCover(null);
+			dispatch(setCover(null));
 		}
 		if (file) {
 			const form = new FormData();
@@ -39,19 +77,16 @@ export const usePlaylist = (user: IUser) => {
 				UploadActionType.PlaylistCover,
 				form,
 			);
-			setCover(data.path);
+			dispatch(setCover(data.path));
 		}
 	};
-	const onSave = () => {
-		handleSubmit(createHandler, onInvalid)();
-	};
+
 	return {
 		isVisible,
+		control,
 		open,
 		close,
 		onUpload,
 		onSave,
-		control,
-		cover,
 	};
 };

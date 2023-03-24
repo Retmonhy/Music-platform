@@ -14,9 +14,10 @@ const start = async () => {
     app.enableCors({ credentials: true, origin: process.env.CLIENT_URL });
     app.useGlobalPipes(
       new ValidationPipe({
+        enableDebugMessages: true,
         exceptionFactory: (arr) => {
-          console.log(arr);
-          // return arr;
+          console.log('ValidationPipe error: ', arr);
+          return arr;
         },
       }),
     );

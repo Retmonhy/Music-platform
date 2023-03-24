@@ -1,5 +1,5 @@
+import { IComment, IPlaylist, ITrack, IUser } from '../types';
 import { IUpdateData } from './../types/auth';
-import { IComment, IPlaylist, ITrack, IUser } from '../../types';
 export interface IDefaultResponse {
 	isSuccess: boolean;
 }

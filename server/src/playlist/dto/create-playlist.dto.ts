@@ -1,6 +1,3 @@
-export class CreatePlaylistDto {
-  owner_id: string;
-  name: string;
-  description: string;
-  cover: string;
-}
+import { BasePlaylistDto } from './base-playlist.dto';
+
+export class CreatePlaylistDto extends BasePlaylistDto {}

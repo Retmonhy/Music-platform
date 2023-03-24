@@ -4,10 +4,10 @@ import { CreateTrackDto } from './dto/create-track.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
-import { Track, Comment, CommentDocument, TrackDocument } from './schemas';
-import { CommentDto } from './dto';
+import { Track, TrackDocument } from './schemas';
+// import { CommentDto } from './dto';
 import { ActType, FileService } from '../file';
-import { ICreateTrackResponse, ICommentResponse } from './interface';
+import { ICreateTrackResponse } from './interface';
 import * as mm from 'music-metadata';
 
 interface IAudioFile {
@@ -23,7 +23,7 @@ export class TrackService {
   //это делается чтобы мы могли использовать наши модели в сервисе
   constructor(
     @InjectModel(Track.name) private trackModel: Model<TrackDocument>,
-    @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
+    // @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
     private fileService: FileService,
   ) {}
 
@@ -63,6 +63,17 @@ export class TrackService {
     const track = await this.trackModel.findById(id).populate('comments');
     return track;
   }
+  async getMany(ids: string[]): Promise<Track[]> {
+    const tracks = new Array<Track>();
+    for (const id of ids) {
+      const trackModel = await this.trackModel.findById(id);
+      if (!trackModel) {
+        continue;
+      }
+      tracks.push(trackModel);
+    }
+    return tracks;
+  }
 
   async delete(
     id: ObjectId,
@@ -74,13 +85,13 @@ export class TrackService {
     };
   }
 
-  async addComment(dto: CommentDto): Promise<ICommentResponse> {
-    const track = await this.trackModel.findById(dto.trackId);
-    const comment = await this.commentModel.create({ ...dto }); //mongo создало тут _id
-    track.comments.push(comment._id); //изменили объект track но БД еще не не знает об этом
-    await track.save(); //тут оповестили БД (сохранили изменения в ней)
-    return { isSuccess: true, comment };
-  }
+  // async addComment(dto: CommentDto): Promise<ICommentResponse> {
+  //   const track = await this.trackModel.findById(dto.trackId);
+  //   const comment = await this.commentModel.create({ ...dto }); //mongo создало тут _id
+  //   track.comments.push(comment._id); //изменили объект track но БД еще не не знает об этом
+  //   await track.save(); //тут оповестили БД (сохранили изменения в ней)
+  //   return { isSuccess: true, comment };
+  // }
 
   async listen(id: ObjectId) {
     const track = await this.trackModel.findById(id);

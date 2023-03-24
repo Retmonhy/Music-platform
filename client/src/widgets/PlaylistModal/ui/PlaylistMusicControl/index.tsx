@@ -1,14 +1,21 @@
 import React, { FC } from 'react';
-import { PlaylistTrack } from '../PlaylistTrack';
+import { PltTrack } from '../PltTrack';
 import { Box, Grid } from '@mui/material';
 import styles from './PlaylistMusicControl.module.scss';
-interface IPlaylistMusicControlProps {}
+import { PlaylistTrack } from '../../../../shared';
+interface IPlaylistMusicControlProps {
+	tracks: PlaylistTrack[];
+}
 
-export const PlaylistMusicControl: FC<IPlaylistMusicControlProps> = () => {
+export const PlaylistMusicControl: FC<IPlaylistMusicControlProps> = ({
+	tracks,
+}) => {
 	return (
 		<Box className={styles.control_wrapper}>
 			<Grid container flexDirection='column'>
-				<PlaylistTrack />
+				{tracks.map(track => {
+					return <PltTrack key={track.track._id} track={track} />;
+				})}
 			</Grid>
 		</Box>
 	);

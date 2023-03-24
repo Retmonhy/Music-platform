@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export enum AccountRoutes {
 	Login = '/account/login',
 	Profile = '/account/profile',
@@ -11,7 +13,7 @@ export enum RegistrationModes {
 }
 
 export interface TabPanelProps {
-	children?: React.ReactNode;
+	children?: ReactNode;
 	index: RegistrationModes;
 	value: RegistrationModes;
 }

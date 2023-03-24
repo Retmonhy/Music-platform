@@ -1,10 +1,20 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, MouseEvent, useState } from 'react';
 
 import { Box } from '@mui/material';
-import { IPlaylist, MusicInfo, generateUrl } from '../../../shared';
+import {
+	IPlaylist,
+	MusicInfo,
+	PlaylistMode,
+	generateUrl,
+	useAction,
+	usePlayerControl,
+	usePlaylist,
+} from '../../../shared';
 import Image from 'next/image';
 import { PlaylistImage } from './PlaylistImage';
 import { SquareDiv } from '../../../shared/ui';
+import { useDispatch } from 'react-redux';
+import { NextThunkDispatch } from '../../../shared/store';
 
 interface IPlaylistItemProps {
 	item: IPlaylist;
@@ -12,7 +22,16 @@ interface IPlaylistItemProps {
 const imageSize = '200px';
 
 export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
+	const dispatch = useDispatch() as NextThunkDispatch;
+	const { loadState } = useAction()._playlist;
+	const { open } = usePlaylist();
 	const navigateToPlaylist = () => {};
+	const editPlaylist = () => {
+		dispatch(loadState(item)).then(() => {
+			open(PlaylistMode.Edit);
+		});
+	};
+	const playPlaylist = () => {};
 	return (
 		<Box flexBasis={'33.33%'}>
 			<Box padding={'8px'}>
@@ -20,12 +39,12 @@ export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
 					<PlaylistImage
 						source={item.cover}
 						alt={item.cover}
-						isHover={false}
 						size={imageSize}
+						onEdit={editPlaylist}
+						onPlay={playPlaylist}
 					/>
 				</SquareDiv>
 				<MusicInfo
-					// className={}
 					title={item.name}
 					description={item.owner_id}
 					titleClick={navigateToPlaylist}
