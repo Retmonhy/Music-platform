@@ -16,12 +16,16 @@ export class PlaylistService {
     @InjectModel(Playlist.name) private playlistModel: Model<PlaylistDocument>,
   ) {}
   async create(data: CreatePlaylistDto): Promise<PlaylistDto> {
-    const playlist = await this.playlistModel.create(data);
-    if (!playlist) {
-      throw ApiError.ServerError('Произошла ошибка при создании плейлиста');
+    try {
+      const playlist = await this.playlistModel.create(data);
+      if (!playlist) {
+        throw ApiError.ServerError('Произошла ошибка при создании плейлиста');
+      }
+      const dto = new PlaylistDto(playlist);
+      return dto;
+    } catch (error) {
+      throw ApiError.ServerError(error.message);
     }
-    const dto = new PlaylistDto(playlist);
-    return dto;
   }
   async updatePlaylist(id: string, data: UpdatePlaylistDto) {
     const playlistModel = await this.playlistModel.findById(id);
@@ -77,6 +81,24 @@ export class PlaylistService {
       return playlistModel.tracks;
     } catch (error) {
       throw ApiError.ServerError('Произошла ошибка при получении треков');
+    }
+  }
+  //удалить, в случае наличия, или добавить трек, в случае отсутсвия
+  async managePlaylistTracks(id: string, trackId: string) {
+    try {
+      const playlistModel = await this.playlistModel.findById(id);
+      if (!playlistModel) {
+        throw ApiError.ServerError('Плейлист не найден');
+      }
+      if (playlistModel.tracks.findIndex((i) => trackId === i) >= 0) {
+        playlistModel.tracks.filter((i) => i !== trackId);
+      } else {
+        playlistModel.tracks = [trackId, ...playlistModel.tracks];
+      }
+      await playlistModel.save();
+      return new PlaylistDto(playlistModel);
+    } catch (error) {
+      throw ApiError.ServerError('Не удалось добавить трек в плейлист');
     }
   }
 }

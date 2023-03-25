@@ -18,7 +18,7 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 export class TrackController {
   //после описания логики всервисе пишем запрос
   constructor(private trackService: TrackService) {}
-  @Post()
+  @Post('/create')
   //это загрузка нескольких файлов сразу. Массивом
   @UseInterceptors(
     FileFieldsInterceptor([

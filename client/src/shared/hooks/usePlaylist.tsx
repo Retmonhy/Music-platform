@@ -49,7 +49,7 @@ export const usePlaylist = () => {
 				dispatch(setVisible(false));
 			}
 		},
-		[mode, selectedTracks],
+		[mode, selectedTracks, info && info.cover],
 	);
 	const onSave = () => {
 		handleSubmit(saveHandler, onInvalid)();
@@ -71,11 +71,9 @@ export const usePlaylist = () => {
 			dispatch(setCover(null));
 		}
 		if (file) {
-			const form = new FormData();
-			form.append('file', file);
 			const { data } = await FileService.upload(
 				UploadActionType.PlaylistCover,
-				form,
+				file,
 			);
 			dispatch(setCover(data.path));
 		}

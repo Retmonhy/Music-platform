@@ -17,6 +17,7 @@ import {
 import { Response, Request } from 'express';
 import { PlaylistService } from './playlist.service';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
+import { IManagePlaylistTracksQuery } from './interface';
 
 @Controller('playlist')
 export class PlaylistController {
@@ -37,12 +38,15 @@ export class PlaylistController {
     if (!userModel) {
       throw ApiError.UnauthorizedError();
     }
-    const ownerId = userModel._id;
+    const ownerId = userModel._id.toString();
     const playlistInfo = Object.assign({ ownerId }, body);
     try {
       const playlist = await this._playlistService.create(playlistInfo);
       if (playlist) {
-        this._playlistService.addPlaylistToUser(userModel, playlist.id);
+        const res = await this._playlistService.addPlaylistToUser(
+          userModel,
+          playlist.id,
+        );
       }
       return res.json({ isSuccess: true, playlist });
     } catch (error) {
@@ -59,13 +63,11 @@ export class PlaylistController {
     @Query('id') id: string,
     @Body() body: UpdatePlaylistDto,
   ) {
-    console.log('info = ', body);
     const accessToken = req.headers.authorization.split(' ')[1];
     const userModel = await this._userService.getUserModel(accessToken);
     if (!userModel) {
       throw ApiError.UnauthorizedError();
     }
-    console.log('info = ');
     const playlist = await this._playlistService.updatePlaylist(id, body);
 
     return res.json({ isSuccess: true, playlist });
@@ -94,6 +96,7 @@ export class PlaylistController {
       throw ApiError.ServerError('Что-то пошло не так');
     }
   }
+  @UseGuards(AuthGuard)
   @Delete('/remove:id')
   async removePlaylistFromUser(
     @Req() req: Request,
@@ -135,6 +138,35 @@ export class PlaylistController {
       return res.json(tracks);
     } catch (error) {
       throw ApiError.ServerError(error);
+    }
+  }
+  @UseGuards(AuthGuard)
+  @Post('/tracks/manage')
+  //удалить, в случае наличия, или добавить трек, в случае отсутсвия
+  async managePlaylistTracks(
+    @Req() req: Request,
+    @Query() query: IManagePlaylistTracksQuery,
+    @Res() res: Response,
+  ) {
+    try {
+      const { playlistId, trackId } = query;
+      if (!playlistId) return ApiError.MissingParam(playlistId);
+      if (!trackId) return ApiError.MissingParam(trackId);
+
+      const accessToken = req.headers.authorization.split(' ')[1];
+      const userModel = await this._userService.getUserModel(accessToken);
+      if (!userModel) {
+        throw ApiError.UnauthorizedError();
+      }
+      const playlist = this._playlistService.managePlaylistTracks(
+        playlistId,
+        trackId,
+      );
+      return res.json(playlist);
+    } catch (error) {
+      return ApiError.ServerError(
+        'Что-то пошло не так при создании / удалении трека из плейлиста',
+      );
     }
   }
 }

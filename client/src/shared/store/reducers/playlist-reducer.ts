@@ -1,15 +1,15 @@
-import { fetchTracks } from './../ActionCreators/track';
 import {
 	setCover,
 	toggleCheckbox,
 	loadState,
 	setMode,
+	managePlaylistTracks,
 } from './../ActionCreators/playlist';
-import { PlaylistMode, PlaylistTrack } from './../../types/playlist';
+import { PlaylistMode, PlaylistTrack, IPlaylist } from './../../types/playlist';
 import { createReducer } from '@reduxjs/toolkit';
 import { IPlaylistState } from '../../types';
 import {
-	addTrackToPlaylist,
+	addToCurrentPlaylist,
 	resetModalState,
 	setVisible,
 } from '../ActionCreators/playlist';
@@ -24,7 +24,7 @@ const initialState: IPlaylistState = {
 
 export const playlistReducer = createReducer(initialState, builder => {
 	builder
-		.addCase(addTrackToPlaylist, (state, action) => {
+		.addCase(addToCurrentPlaylist, (state, action) => {
 			state.selectedTracks = [
 				new PlaylistTrack(action.payload),
 				...state.selectedTracks,
@@ -35,6 +35,7 @@ export const playlistReducer = createReducer(initialState, builder => {
 			state.isVisible = action.payload;
 		})
 		.addCase(setCover, (state, action) => {
+			if (!state.info) state.info = {} as IPlaylist;
 			state.info.cover = action.payload;
 		})
 		.addCase(toggleCheckbox, (state, action) => {
@@ -54,4 +55,7 @@ export const playlistReducer = createReducer(initialState, builder => {
 		.addCase(setMode, (state, action) => {
 			state.mode = action.payload;
 		});
+	// .addCase(managePlaylistTracks.fulfilled, (state, action) => {
+	// 	state
+	// })
 });

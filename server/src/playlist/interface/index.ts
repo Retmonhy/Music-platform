@@ -14,3 +14,8 @@ export type PlaylistModelType =
       Document<any, any, any> & {
         _id: Types.ObjectId;
       };
+
+export interface IManagePlaylistTracksQuery {
+  playlistId: string;
+  trackId: string;
+}

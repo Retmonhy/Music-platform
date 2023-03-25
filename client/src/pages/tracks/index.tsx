@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 import { useTypedSelector } from '../../shared/hooks/useTypedSelector';
 
 import { TrackList } from './components';
-import { useAction } from '../../shared';
+import { useAction, usePlaylist } from '../../shared';
 import { useDispatch } from 'react-redux';
-import { MainLayout } from '../../widgets';
+import { MainLayout, PlaylistModal } from '../../widgets';
 import { NextThunkDispatch, wrapper } from '../../shared/store';
 import { fetchTracks } from '../../shared/store/ActionCreators/track';
 
@@ -23,6 +23,8 @@ const Index: React.FC = () => {
 			</MainLayout>
 		);
 	}
+
+	const playlist = usePlaylist();
 	return (
 		<MainLayout title={'Список треков - музыкальная площадка'}>
 			<Grid container justifyContent='center'>
@@ -35,6 +37,15 @@ const Index: React.FC = () => {
 					<TrackList tracks={tracks} />
 				</Card>
 			</Grid>
+			<PlaylistModal
+				isVisible={playlist.isVisible}
+				control={playlist.control}
+				handlers={{
+					onClose: playlist.close,
+					onSave: playlist.onSave,
+					onUpload: playlist.onUpload,
+				}}
+			/>
 		</MainLayout>
 	);
 };

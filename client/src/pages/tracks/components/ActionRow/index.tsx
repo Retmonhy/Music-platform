@@ -25,7 +25,7 @@ export const ActionRow: FC<IActionRowProps> = ({
 			) : (
 				<AddTrack onClick={addHandler} />
 			)}
-			<ActionMenu />
+			<ActionMenu addToPlaylist={() => {}} />
 		</Box>
 	);
 };

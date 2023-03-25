@@ -10,6 +10,7 @@ import styles from './ActionMenu.module.scss';
 import ARstyles from './../ActionRow/ActionRow.module.scss';
 import { ButtonEl } from '../../../../shared/ui/ButtonEl';
 import {
+	PlaylistMode,
 	SquareDiv,
 	useAction,
 	usePlaylist,
@@ -25,20 +26,15 @@ interface IActionMenuProps {
 }
 export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 	// hooks
+	const { _playlist } = useAction();
+	const { track } = useContext(TrackContext);
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const [isExpand, setExpandList] = useState<boolean>(false);
-	const { _playlist } = useAction();
 	const { userPlaylists: playlists } = useTypedSelector(i => i.account);
-	const { selectedTracks } = useTypedSelector(i => i.playlist);
-	const { track } = useContext(TrackContext);
-	const open = Boolean(anchorEl);
 	const playlist = usePlaylist();
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		//закрывается при размонтировании попап с плейлистом
-		// return
-	}, []);
+	const open = Boolean(anchorEl);
 
 	// handlers
 	const handlePopoverClose = () => setAnchorEl(null);
@@ -51,11 +47,8 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 	};
 	const openModal = (e: MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation();
-		dispatch(_playlist.addTrackToPlaylist(track));
-		playlist.open();
-	};
-	const createPlaylist = () => {
-		playlist.onSave(selectedTracks);
+		dispatch(_playlist.addToCurrentPlaylist(track));
+		playlist.open(PlaylistMode.Create);
 	};
 
 	return (
@@ -93,7 +86,7 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 								{playlists &&
 									playlists.map(pl => {
 										const handleAddToPlaylist = () => {
-											addToPlaylist(pl.id);
+											console.log('Добавить трек в существующий лист');
 										};
 										return (
 											<ButtonEl
@@ -108,15 +101,6 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 					</Box>
 				</Popper>
 			</SquareDiv>
-			<PlaylistModal
-				isVisible={playlist.isVisible}
-				control={playlist.control}
-				handlers={{
-					onClose: playlist.close,
-					onSave: createPlaylist,
-					onUpload: playlist.onUpload,
-				}}
-			/>
 		</>
 	);
 };

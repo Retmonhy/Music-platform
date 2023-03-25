@@ -1,11 +1,18 @@
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { TrackEndpoints, ICreateTrackResponse, api } from '../../shared/api';
+import {
+	TrackEndpoints,
+	ICreateTrackResponse,
+	api,
+	FileService,
+	TrackService,
+} from '../../shared/api';
 import { useInput } from '../../shared/hooks';
 import { MainLayout } from '../../widgets';
 import { StepWrapper } from '../../widgets/StepWrapper';
 import { FileUpload } from '../../widgets/FileUpload';
+import { UploadActionType } from '../../shared';
 
 const Create = () => {
 	const router = useRouter();
@@ -29,13 +36,25 @@ const Create = () => {
 		form.append('text', text.value);
 		form.append('picture', picture);
 		form.append('audio', audio);
-		const { data } = await api.post<ICreateTrackResponse>(
-			TrackEndpoints.TRACKS,
-			form,
-		);
+		const { data } = await TrackService.createTrack(form);
 		if (data.isSuccess) {
 			router.push('/tracks');
 		}
+	};
+	const uploadCover = async (images: File[]) => {
+		const { data } = await FileService.upload(
+			UploadActionType.TrackCover,
+			images[0],
+		);
+		if (data.path) setPicture(data.path);
+	};
+	const uploadTrack = async (tracks: File[]) => {
+		console.log('tracks = ', tracks[0]);
+		const { data } = await FileService.upload(
+			UploadActionType.TrackAudio,
+			tracks[0],
+		);
+		if (data.path) setAudio(data.path);
 	};
 
 	return (
@@ -64,14 +83,22 @@ const Create = () => {
 						</Grid>
 					)}
 					{activeStep === 1 && (
-						<FileUpload accept='image/*' setFile={file => setPicture(file[0])}>
-							<Button>Загрузить файл</Button>
-						</FileUpload>
+						<>
+							<FileUpload
+								accept='image/*'
+								setFile={file => setPicture(file[0])}>
+								<Button>Загрузить обложку</Button>
+							</FileUpload>
+							<Typography>{picture ? 'Обложка загружена' : ''}</Typography>
+						</>
 					)}
 					{activeStep === 2 && (
-						<FileUpload accept='audio/*' setFile={file => setAudio(file[0])}>
-							<Button>Загрузить файл</Button>
-						</FileUpload>
+						<>
+							<FileUpload accept='audio/*' setFile={file => setAudio(file[0])}>
+								<Button>Загрузить аудиодорожку</Button>
+							</FileUpload>
+							<Typography>{audio ? 'Аудиодорожка загружена' : ''}</Typography>
+						</>
 					)}
 				</StepWrapper>
 				<Grid container justifyContent='space-between'>

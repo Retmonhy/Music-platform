@@ -1,4 +1,4 @@
-import { ITrack } from '../../types';
+import { IPlaylist, ITrack } from '../../types';
 import { PlaylistEndpoints } from '../endpoint';
 import { ICreatePlaylistResponse, api } from '..';
 import { IPlaylistPayload } from '../../types';
@@ -19,4 +19,11 @@ export class PlaylistService {
 			{ params: { id } },
 		);
 	}
+	static managePlaylistTracks = (playlistId: string, trackId: string) => {
+		return api.post<IPlaylist>(
+			PlaylistEndpoints.MANAGE_PLAYLIST_TRACKS,
+			{},
+			{ params: { playlistId, trackId } },
+		);
+	};
 }

@@ -5,7 +5,7 @@ export type PlaylistDocument = Playlist & Document;
 @Schema()
 export class Playlist {
   @Prop({ type: String, required: true })
-  owner_id: string;
+  ownerId: string;
   @Prop({ type: String, required: true })
   name: string;
   @Prop()
