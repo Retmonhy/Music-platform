@@ -39,21 +39,20 @@ export const Player: React.FC = () => {
 		if (!audio) {
 			setAudioInstance(new Audio());
 		}
-		if (!active) {
-			setAudio();
-		}
+		console.log('useEffect = ', active);
+		setAudio();
 		playTrack();
 	}, [active]);
 
 	const setAudio = () => {
 		audio.src = generateUrl(active?.audio);
-		audio.volume = volume / 100;
-		audio.onloadedmetadata = () => {
-			dispatch(setDuration(audio.duration));
-		};
-		audio.ontimeupdate = () => {
-			dispatch(setCurrentTime(audio.currentTime));
-		};
+		// audio.volume = volume / 100;
+		// audio.onloadedmetadata = () => {
+		// 	dispatch(setDuration(audio.duration));
+		// };
+		// audio.ontimeupdate = () => {
+		// 	dispatch(setCurrentTime(audio.currentTime));
+		// };
 	};
 	const playPrevTrack = e => {
 		e.stopPropagation();

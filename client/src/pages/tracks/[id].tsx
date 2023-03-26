@@ -38,46 +38,46 @@ const TrackPage = ({ serverTrack }) => {
 	};
 
 	return (
-		<MainLayout
-			title={`${track.artist} - ${track.name} Музыкальная площадка`}
-			keywords={`музыка, артисты, песня, слушать, ${track.name}, ${track.artist}`}>
-			<>
-				<Button variant='outlined' onClick={() => router.push('/tracks')}>
-					К списку
-				</Button>
-				<Grid container>
-					<Image src={generateUrl(track.picture)} width={200} height={200} />
-					<div>
-						<h1>Нахвание трека - {track.name}</h1>
-						<h1>Исполнитель - {track.artist}</h1>
-						<h1>Прослушиваний {track.listens}</h1>
-					</div>
-				</Grid>
-				<h1>Слова песни</h1>
-				<p>{track.text}</p>
-				<Grid container>
-					<TextField label='Ваше имя' {...username} fullWidth />
-					<TextField
-						label='Комментарий'
-						{...text}
-						fullWidth
-						multiline
-						minRows={4}
-					/>
-					<Button onClick={sendComment}>Отправить</Button>
-				</Grid>
+		// <MainLayout
+		// 	title={`${track.artist} - ${track.name} Музыкальная площадка`}
+		// 	keywords={`музыка, артисты, песня, слушать, ${track.name}, ${track.artist}`}>
+		<>
+			<Button variant='outlined' onClick={() => router.push('/tracks')}>
+				К списку
+			</Button>
+			<Grid container>
+				<Image src={generateUrl(track.picture)} width={200} height={200} />
 				<div>
-					{track.comments.map(comment => {
-						return (
-							<div key={comment._id}>
-								<div>Автор - {comment.username}</div>
-								<div>Комментарий - {comment.text}</div>
-							</div>
-						);
-					})}
+					<h1>Название трека - {track.name}</h1>
+					<h1>Исполнитель - {track.artist}</h1>
+					<h1>Прослушиваний {track.listens}</h1>
 				</div>
-			</>
-		</MainLayout>
+			</Grid>
+			<h1>Слова песни</h1>
+			<p>{track.text}</p>
+			<Grid container>
+				<TextField label='Ваше имя' {...username} fullWidth />
+				<TextField
+					label='Комментарий'
+					{...text}
+					fullWidth
+					multiline
+					minRows={4}
+				/>
+				<Button onClick={sendComment}>Отправить</Button>
+			</Grid>
+			<div>
+				{track.comments.map(comment => {
+					return (
+						<div key={comment._id}>
+							<div>Автор - {comment.username}</div>
+							<div>Комментарий - {comment.text}</div>
+						</div>
+					);
+				})}
+			</div>
+		</>
+		// </MainLayout>
 	);
 };
 

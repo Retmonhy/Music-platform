@@ -4,6 +4,7 @@ import { AppProps } from 'next/app';
 import { StorageKeys, useAction } from '../shared';
 import '../shared/styles/global.css';
 import { NextThunkDispatch, wrapper } from '../shared/store';
+import { MainLayout } from '../widgets';
 
 export let audio: HTMLAudioElement | null = null;
 export const setAudioInstance = (newAudio: HTMLAudioElement) => {
@@ -21,7 +22,9 @@ const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
 	}, []);
 	return (
 		<Provider store={store}>
-			<Component {...pageProps} />
+			<MainLayout>
+				<Component {...pageProps} />
+			</MainLayout>
 		</Provider>
 	);
 };

@@ -58,59 +58,55 @@ const Create = () => {
 	};
 
 	return (
-		<MainLayout>
-			<>
-				<StepWrapper activeStep={activeStep}>
-					{activeStep === 0 && (
-						<Grid container direction='column' style={{ padding: '20px' }}>
-							<TextField
-								{...name}
-								style={{ marginTop: '10px' }}
-								label='Название трека'
-							/>
-							<TextField
-								{...artist}
-								style={{ marginTop: '10px' }}
-								label='Автор трека'
-							/>
-							<TextField
-								{...text}
-								style={{ marginTop: '10px' }}
-								label='Текст песни'
-								multiline
-								minRows={2}
-							/>
-						</Grid>
-					)}
-					{activeStep === 1 && (
-						<>
-							<FileUpload
-								accept='image/*'
-								setFile={file => setPicture(file[0])}>
-								<Button>Загрузить обложку</Button>
-							</FileUpload>
-							<Typography>{picture ? 'Обложка загружена' : ''}</Typography>
-						</>
-					)}
-					{activeStep === 2 && (
-						<>
-							<FileUpload accept='audio/*' setFile={file => setAudio(file[0])}>
-								<Button>Загрузить аудиодорожку</Button>
-							</FileUpload>
-							<Typography>{audio ? 'Аудиодорожка загружена' : ''}</Typography>
-						</>
-					)}
-				</StepWrapper>
-				<Grid container justifyContent='space-between'>
-					<Button onClick={prev} disabled={activeStep === 0}>
-						Назад
-					</Button>
-					<Button onClick={activeStep === 2 ? sendTrack : next}>
-						{activeStep === 2 ? 'Загрузить' : 'Врепед'}
-					</Button>
-				</Grid>
-			</>
-		</MainLayout>
+		<>
+			<StepWrapper activeStep={activeStep}>
+				{activeStep === 0 && (
+					<Grid container direction='column' style={{ padding: '20px' }}>
+						<TextField
+							{...name}
+							style={{ marginTop: '10px' }}
+							label='Название трека'
+						/>
+						<TextField
+							{...artist}
+							style={{ marginTop: '10px' }}
+							label='Автор трека'
+						/>
+						<TextField
+							{...text}
+							style={{ marginTop: '10px' }}
+							label='Текст песни'
+							multiline
+							minRows={2}
+						/>
+					</Grid>
+				)}
+				{activeStep === 1 && (
+					<>
+						<FileUpload accept='image/*' setFile={file => setPicture(file[0])}>
+							<Button>Загрузить обложку</Button>
+						</FileUpload>
+						<Typography>{picture ? 'Обложка загружена' : ''}</Typography>
+					</>
+				)}
+				{activeStep === 2 && (
+					<>
+						<FileUpload accept='audio/*' setFile={file => setAudio(file[0])}>
+							<Button>Загрузить аудиодорожку</Button>
+						</FileUpload>
+						<Typography>{audio ? 'Аудиодорожка загружена' : ''}</Typography>
+					</>
+				)}
+			</StepWrapper>
+			<Grid container justifyContent='space-between'>
+				<Button onClick={prev} disabled={activeStep === 0}>
+					Назад
+				</Button>
+				<Button onClick={activeStep === 2 ? sendTrack : next}>
+					{activeStep === 2 ? 'Загрузить' : 'Врепед'}
+				</Button>
+			</Grid>
+		</>
 	);
 };
 export default Create;

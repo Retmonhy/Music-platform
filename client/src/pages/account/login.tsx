@@ -60,37 +60,35 @@ const AuthPage = () => {
 		dispatch(_account.login(payload));
 	};
 	return (
-		<MainLayout>
-			<Box maxWidth={600} margin='0 auto' pt={4}>
-				<H1>Представьтесь, пожалуйста</H1>
-				<Card>
-					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-						<Tabs
-							variant='fullWidth'
-							value={mode}
-							onChange={handleChange}
-							aria-label='auth tabs'>
-							<Tab
-								className={styles.tab}
-								label='Регистрация'
-								value={RegistrationModes.REG}
-							/>
-							<Tab
-								className={styles.tab}
-								label='Логин'
-								value={RegistrationModes.LOGIN}
-							/>
-						</Tabs>
-						<TabPanel value={mode} index={RegistrationModes.REG}>
-							<RegistrationForm onSubmit={registrationSubmit} />
-						</TabPanel>
-						<TabPanel value={mode} index={RegistrationModes.LOGIN}>
-							<LoginForm onSubmit={loginSubmit} />
-						</TabPanel>
-					</Box>
-				</Card>
-			</Box>
-		</MainLayout>
+		<Box maxWidth={600} margin='0 auto' pt={4}>
+			<H1>Представьтесь, пожалуйста</H1>
+			<Card>
+				<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+					<Tabs
+						variant='fullWidth'
+						value={mode}
+						onChange={handleChange}
+						aria-label='auth tabs'>
+						<Tab
+							className={styles.tab}
+							label='Регистрация'
+							value={RegistrationModes.REG}
+						/>
+						<Tab
+							className={styles.tab}
+							label='Логин'
+							value={RegistrationModes.LOGIN}
+						/>
+					</Tabs>
+					<TabPanel value={mode} index={RegistrationModes.REG}>
+						<RegistrationForm onSubmit={registrationSubmit} />
+					</TabPanel>
+					<TabPanel value={mode} index={RegistrationModes.LOGIN}>
+						<LoginForm onSubmit={loginSubmit} />
+					</TabPanel>
+				</Box>
+			</Card>
+		</Box>
 	);
 };
 export default AuthPage;

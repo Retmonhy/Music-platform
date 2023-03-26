@@ -16,16 +16,12 @@ const Index: React.FC = () => {
 		dispatch(fetchUserPlaylists());
 	}, []);
 	if (error) {
-		return (
-			<MainLayout>
-				<h1>{error}</h1>
-			</MainLayout>
-		);
+		return <h1>{error}</h1>;
 	}
 
 	const playlist = usePlaylist();
 	return (
-		<MainLayout title={'Список треков - музыкальная площадка'}>
+		<>
 			<Grid container justifyContent='center'>
 				<Card style={{ width: '900px' }}>
 					<Box p={3}>
@@ -45,7 +41,7 @@ const Index: React.FC = () => {
 					onUpload: playlist.onUpload,
 				}}
 			/>
-		</MainLayout>
+		</>
 	);
 };
 

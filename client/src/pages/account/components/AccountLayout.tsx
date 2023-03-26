@@ -9,12 +9,12 @@ interface IAccountLayoutProps {
 export const AccountLayout: FC<IAccountLayoutProps> = ({ children }) => {
 	const { routes } = useTypedSelector(i => i.account);
 	return (
-		<MainLayout>
+		<>
 			<H1>Мой профиль</H1>
 			<div className='content'>
 				<LeftSideMenu list={routes} />
 				{children}
 			</div>
-		</MainLayout>
+		</>
 	);
 };
