@@ -39,12 +39,10 @@ export const Player: React.FC = () => {
 		if (!audio) {
 			setAudioInstance(new Audio());
 		}
-		//из-за этого условия возникает ошибка и треки просто не запускаются
-		// erro text: The play() request was interrupted by a call to pause()
-		// if (!active) {
-		setAudio();
+		if (!active) {
+			setAudio();
+		}
 		playTrack();
-		// }
 	}, [active]);
 
 	const setAudio = () => {
