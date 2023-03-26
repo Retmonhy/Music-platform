@@ -5,15 +5,8 @@ import {
 	SkipPreviousRounded,
 	VolumeUp,
 } from '@material-ui/icons';
-import { Box, Grid, IconButton, IconButtonProps } from '@mui/material';
-import {
-	ChangeEvent,
-	FC,
-	ReactComponentElement,
-	ReactNode,
-	useCallback,
-	useEffect,
-} from 'react';
+import { Box, IconButton, IconButtonProps } from '@mui/material';
+import { FC, ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { generateUrl } from '../../shared/api';
 import { timeConverter } from '../../shared/helper';
@@ -25,9 +18,8 @@ import {
 import styles from './Player.module.scss';
 import { TrackProgress } from '../TrackProgress';
 import general from './../../shared/styles/General.module.scss';
-import { playTrack } from '../../shared/store/ActionCreators/player';
+import { audio, setAudioInstance } from '../../pages/_app';
 
-export let audio: HTMLAudioElement;
 export const Player: React.FC = () => {
 	const { active, currentTime, duration, pause, volume } = useTypedSelector(
 		state => state.player,
@@ -45,7 +37,7 @@ export const Player: React.FC = () => {
 	// };
 	useEffect(() => {
 		if (!audio) {
-			audio = new Audio();
+			setAudioInstance(new Audio());
 		}
 		//из-за этого условия возникает ошибка и треки просто не запускаются
 		// erro text: The play() request was interrupted by a call to pause()

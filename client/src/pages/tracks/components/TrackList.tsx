@@ -8,7 +8,6 @@ import {
 	useTypedSelector,
 } from '../../../shared';
 import { useDispatch } from 'react-redux';
-import { audio } from '../../../widgets/Player';
 
 interface TrackListProps {
 	tracks: ITrack[];

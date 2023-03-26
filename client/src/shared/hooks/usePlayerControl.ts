@@ -2,7 +2,7 @@ import { useTypedSelector } from './useTypedSelector';
 import { useAction } from './useAction';
 
 import { useDispatch } from 'react-redux';
-import { audio } from '../../widgets/Player';
+import { audio } from '../../pages/_app';
 export const usePlayerControl = () => {
 	const { _player } = useAction();
 	const { pause } = useTypedSelector(st => st.player);
