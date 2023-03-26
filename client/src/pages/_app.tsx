@@ -5,6 +5,7 @@ import { StorageKeys, useAction } from '../shared';
 import '../shared/styles/global.css';
 import { NextThunkDispatch, wrapper } from '../shared/store';
 
+// let audio: HTMLAudioElement = null;
 const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
 	const { store, props } = wrapper.useWrappedStore(pageProps);
 	//так как WrappedApp вызывается при рендере кадой страницы, то наверное будет вызыватьсяэтот юзЭффект всегда

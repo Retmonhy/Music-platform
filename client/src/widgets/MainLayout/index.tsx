@@ -1,9 +1,6 @@
 import { Container } from '@mui/material';
 import Head from 'next/head';
-import { ReactChildren, ReactElement } from 'react';
-import { ReactHTML } from 'react';
 import { Navbar } from '../Navbar';
-import { Player } from '../Player';
 
 interface IMainLayoutProps {
 	children: React.ReactNode;
@@ -35,7 +32,6 @@ export const MainLayout: React.FC<IMainLayoutProps> = ({
 			</Head>
 			<Navbar />
 			<Container style={{ margin: '90px auto' }}>{children}</Container>
-			<Player />
 		</>
 	);
 };

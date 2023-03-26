@@ -15,13 +15,14 @@ import {
 import * as React from 'react';
 import { useRouter } from 'next/router';
 import { AccountRoutes, useTypedSelector } from '../shared';
+import { Player } from './Player';
 
 const drawerWidth = 240;
 
 const menuElements = [
 	{ name: 'Главная', href: '/', id: 'main' },
 	{ name: 'Список треков', href: '/tracks', id: 'tracks' },
-	{ name: 'Список альбомов', href: '/albums', id: 'albums' },
+	// { name: 'Список альбомов', href: '/albums', id: 'albums' },
 	{ name: 'Аутентификация', href: AccountRoutes.Login, id: 'login' },
 	{
 		name: 'Мой профиль',
@@ -78,7 +79,7 @@ export const Navbar: React.FC = () => {
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
 			<AppBar position='fixed' open={open}>
-				<Toolbar>
+				<Toolbar style={{ minHeight: '48px' }}>
 					<IconButton
 						color='inherit'
 						aria-label='open drawer'
@@ -87,9 +88,12 @@ export const Navbar: React.FC = () => {
 						sx={{ mr: 2, ...(open && { display: 'none' }) }}>
 						<Menu />
 					</IconButton>
-					<Typography variant='h6' noWrap component='div'>
-						Persistent drawer
-					</Typography>
+					<>
+						<Typography variant='h6' noWrap component='div'>
+							Persistent drawer
+						</Typography>
+						<Player />
+					</>
 				</Toolbar>
 			</AppBar>
 			<Drawer
@@ -104,7 +108,7 @@ export const Navbar: React.FC = () => {
 				variant='persistent'
 				anchor='left'
 				open={open}>
-				<DrawerHeader>
+				<DrawerHeader style={{ minHeight: '50px' }}>
 					<IconButton onClick={handleDrawerClose}>
 						{theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
 					</IconButton>

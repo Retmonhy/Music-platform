@@ -7,7 +7,6 @@ import { useAction, usePlaylist } from '../../shared';
 import { useDispatch } from 'react-redux';
 import { MainLayout, PlaylistModal } from '../../widgets';
 import { NextThunkDispatch, wrapper } from '../../shared/store';
-import { fetchTracks } from '../../shared/store/ActionCreators/track';
 
 const Index: React.FC = () => {
 	const { tracks, error } = useTypedSelector(st => st.track);
@@ -55,7 +54,8 @@ export default Index;
 export const getServerSideProps = wrapper.getServerSideProps(
 	store => async () => {
 		const dispatch = store.dispatch as NextThunkDispatch;
-		await dispatch(fetchTracks());
+		const { _track } = useAction();
+		await dispatch(_track.fetchTracks());
 		//добавлено чтобы не было ошибки TS
 		return {
 			props: {},

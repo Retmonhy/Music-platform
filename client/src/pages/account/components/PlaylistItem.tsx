@@ -1,16 +1,13 @@
-import React, { FC, useRef, MouseEvent, useState } from 'react';
+import React, { FC } from 'react';
 
 import { Box } from '@mui/material';
 import {
 	IPlaylist,
 	MusicInfo,
 	PlaylistMode,
-	generateUrl,
 	useAction,
-	usePlayerControl,
 	usePlaylist,
 } from '../../../shared';
-import Image from 'next/image';
 import { PlaylistImage } from './PlaylistImage';
 import { SquareDiv } from '../../../shared/ui';
 import { useDispatch } from 'react-redux';

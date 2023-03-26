@@ -2,6 +2,7 @@ import { CloseRounded } from '@material-ui/icons';
 import { Popover } from '@mui/material';
 import { FC, useState, MouseEvent } from 'react';
 import styles from '../components/ActionRow/ActionRow.module.scss';
+import general from './../../../shared/styles/General.module.scss';
 import { SquareDiv } from '../../../shared';
 interface IDeleteTrackProps {
 	onClick: (e: MouseEvent<HTMLDivElement>) => void;
@@ -22,7 +23,7 @@ export const DeleteTrack: FC<IDeleteTrackProps> = ({ onClick }) => {
 				onMouseEnter={handlePopoverOpen}
 				onMouseLeave={handlePopoverClose}
 				onClick={onClick}>
-				<CloseRounded className={styles.actionIcons} />
+				<CloseRounded className={general.iconButton} />
 				<Popover
 					classes={{ paper: styles.popover }}
 					sx={{

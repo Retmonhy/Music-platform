@@ -1,6 +1,19 @@
-import { Pause, PlayArrowRounded, VolumeUp } from '@material-ui/icons';
-import { Grid, IconButton } from '@mui/material';
-import { ChangeEvent, useCallback, useEffect } from 'react';
+import {
+	Pause,
+	PlayArrowRounded,
+	SkipNextRounded,
+	SkipPreviousRounded,
+	VolumeUp,
+} from '@material-ui/icons';
+import { Box, Grid, IconButton, IconButtonProps } from '@mui/material';
+import {
+	ChangeEvent,
+	FC,
+	ReactComponentElement,
+	ReactNode,
+	useCallback,
+	useEffect,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import { generateUrl } from '../../shared/api';
 import { timeConverter } from '../../shared/helper';
@@ -11,6 +24,8 @@ import {
 } from '../../shared/hooks';
 import styles from './Player.module.scss';
 import { TrackProgress } from '../TrackProgress';
+import general from './../../shared/styles/General.module.scss';
+import { playTrack } from '../../shared/store/ActionCreators/player';
 
 export let audio: HTMLAudioElement;
 export const Player: React.FC = () => {
@@ -18,22 +33,26 @@ export const Player: React.FC = () => {
 		state => state.player,
 	);
 	const dispatch = useDispatch();
-	const { playControl } = usePlayerControl();
+	const { playControl, nextTrack, prevTrack, playTrack } = usePlayerControl();
 	const { setCurrentTime, setDuration, setVolume } = useAction()._player;
-	const changeVolume = (e: ChangeEvent<HTMLInputElement>) => {
-		audio.volume = Number(e.target.value) / 100;
-		setVolume(Number(e.target.value));
-	};
-	const changeCurrentTime = (e: ChangeEvent<HTMLInputElement>) => {
-		audio.currentTime = Number(e.target.value);
-		dispatch(setCurrentTime(Number(e.target.value)));
-	};
+	// const changeVolume = (e: ChangeEvent<HTMLInputElement>) => {
+	// 	audio.volume = Number(e.target.value) / 100;
+	// 	setVolume(Number(e.target.value));
+	// };
+	// const changeCurrentTime = (e: ChangeEvent<HTMLInputElement>) => {
+	// 	audio.currentTime = Number(e.target.value);
+	// 	dispatch(setCurrentTime(Number(e.target.value)));
+	// };
 	useEffect(() => {
 		if (!audio) {
 			audio = new Audio();
 		}
+		//из-за этого условия возникает ошибка и треки просто не запускаются
+		// erro text: The play() request was interrupted by a call to pause()
+		// if (!active) {
 		setAudio();
-		playControl();
+		playTrack();
+		// }
 	}, [active]);
 
 	const setAudio = () => {
@@ -46,16 +65,57 @@ export const Player: React.FC = () => {
 			dispatch(setCurrentTime(audio.currentTime));
 		};
 	};
+	const playPrevTrack = e => {
+		e.stopPropagation();
+		prevTrack();
+	};
+	const playPause = e => {
+		e.stopPropagation();
+		playControl();
+	};
+	const playNextTrack = e => {
+		e.stopPropagation();
+		nextTrack();
+	};
+	const playerClick = e => {
+		e.stopPropagation();
+	};
 	return active ? (
-		<div className={styles.player}>
-			<IconButton onClick={playControl}>
+		<Box className={styles.player} onClick={playerClick}>
+			<Box className={styles.player__wrapper}>
+				<CustomIconBtn onClick={playPrevTrack}>
+					<SkipPreviousRounded className={general.iconButton} />
+				</CustomIconBtn>
+
+				<CustomIconBtn onClick={playPause}>
+					{pause ? (
+						<PlayArrowRounded className={general.iconButton} />
+					) : (
+						<Pause className={general.iconButton} />
+					)}
+				</CustomIconBtn>
+
+				<CustomIconBtn onClick={playNextTrack}>
+					<SkipNextRounded className={general.iconButton} />
+				</CustomIconBtn>
+
+				<Box className={styles.player__text}>
+					{active.artist} &ndash; {active?.name}
+				</Box>
+			</Box>
+		</Box>
+	) : null;
+};
+
+{
+	/* <IconButton onClick={playControl}>
 				{pause ? <PlayArrowRounded /> : <Pause />}
 			</IconButton>
 			<Grid
 				container
 				direction='column'
 				style={{ width: '200px', margin: '0 20px' }}>
-				<div>{active?.name}</div>
+				<div>{active?.name}</div>	
 				<div style={{ color: 'gray', fontSize: '12px' }}>{active?.artist}</div>
 			</Grid>
 			<TrackProgress
@@ -65,7 +125,20 @@ export const Player: React.FC = () => {
 				converter={timeConverter}
 			/>
 			<VolumeUp style={{ marginLeft: 'auto' }} />
-			<TrackProgress left={volume} right={100} onChange={changeVolume} />
-		</div>
-	) : null;
+			<TrackProgress left={volume} right={100} onChange={changeVolume} /> */
+}
+
+interface ICustomIconBtn extends IconButtonProps {
+	children: ReactNode;
+}
+const CustomIconBtn: FC<ICustomIconBtn> = ({ children, ...props }) => {
+	return (
+		<IconButton
+			{...props}
+			disableRipple
+			disableFocusRipple
+			style={{ padding: 0 }}>
+			{children}
+		</IconButton>
+	);
 };

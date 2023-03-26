@@ -5,16 +5,9 @@ import styles from '../../../shared/styles/TrackItem.module.scss';
 //hooks
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import {
-	useAction,
-	usePlayerControl,
-	useTypedSelector,
-} from '../../../shared/hooks';
+import { useAction, useTypedSelector } from '../../../shared/hooks';
 //components
 import { TrackImage } from './TrackImage';
-import { ActionMenu } from './ActionMenu';
-import { DeleteTrack } from './DeleteTrack';
-import { AddTrack } from './AddTrack';
 import { TrackTime } from './TrackTime';
 import { MusicInfo } from '../../../shared';
 import { ITrack, PlayerState } from '../../../shared/types';
@@ -25,30 +18,25 @@ import { NextThunkDispatch } from '../../../shared/store';
 interface TrackItemProps {
 	track: ITrack;
 	playerState?: PlayerState;
+	onClick: () => void;
 }
 interface ITrackContext {
 	track: ITrack;
 }
 export const TrackContext = createContext<ITrackContext>(null);
 export const TrackItem: React.FC<TrackItemProps> = memo(
-	({ track, playerState }) => {
+	({ track, playerState, onClick }) => {
 		const [isHovered, setHovered] = useState<boolean>(false);
 		const { user, accessToken } = useTypedSelector(i => i.account);
 		//проверка делаеется уровнем выше,  plaerState не будет передаваться неактивному
 		const isActive = playerState ? true : false;
 		const router = useRouter();
-		const { _player, _track, _account } = useAction();
-
-		const { playControl } = usePlayerControl();
+		const { _player, _account } = useAction();
 		const dispatch = useDispatch() as NextThunkDispatch;
 
 		const play = (event: MouseEvent<HTMLDivElement>) => {
 			event.stopPropagation();
-			if (!isActive) {
-				dispatch(_player.setActive(track));
-				return;
-			}
-			playControl();
+			onClick();
 		};
 		const navigateToTrackPage = (e: MouseEvent<HTMLSpanElement>) => {
 			e.stopPropagation();
