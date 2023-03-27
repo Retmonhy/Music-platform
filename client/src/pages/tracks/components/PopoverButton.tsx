@@ -2,6 +2,7 @@ import { CloseRounded } from '@material-ui/icons';
 import { Popover } from '@mui/material';
 import { FC, useState, MouseEvent, ReactNode } from 'react';
 import styles from '../../../shared/styles/TrackItem.module.scss';
+import general from '../../../shared/styles/General.module.scss';
 import { SquareDiv } from '../../../shared';
 interface IPopoverButtonProps {
 	onClick: (e: MouseEvent<HTMLDivElement>) => void;
@@ -24,7 +25,7 @@ export const PopoverButton: FC<IPopoverButtonProps> = ({
 		<>
 			<SquareDiv
 				size={30}
-				style={{ position: 'relative' }}
+				className={general.relative}
 				onMouseEnter={handlePopoverOpen}
 				onMouseLeave={handlePopoverClose}
 				onClick={onClick}>

@@ -26,7 +26,8 @@ export const Player: React.FC = () => {
 	);
 	const dispatch = useDispatch();
 	const { playControl, nextTrack, prevTrack, playTrack } = usePlayerControl();
-	const { setCurrentTime, setDuration, setVolume } = useAction()._player;
+	const { setCurrentTime, setDuration, setVolume, startNext } =
+		useAction()._player;
 	// const changeVolume = (e: ChangeEvent<HTMLInputElement>) => {
 	// 	audio.volume = Number(e.target.value) / 100;
 	// 	setVolume(Number(e.target.value));
@@ -39,7 +40,6 @@ export const Player: React.FC = () => {
 		if (!audio) {
 			setAudioInstance(new Audio());
 		}
-		console.log('useEffect = ', active);
 		setAudio();
 		playTrack();
 	}, [active]);
@@ -52,6 +52,9 @@ export const Player: React.FC = () => {
 		};
 		audio.ontimeupdate = () => {
 			dispatch(setCurrentTime(audio.currentTime));
+		};
+		audio.onended = () => {
+			dispatch(startNext());
 		};
 	};
 	const playPrevTrack = e => {

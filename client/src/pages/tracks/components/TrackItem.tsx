@@ -1,19 +1,20 @@
+//libs
 import { memo, MouseEvent, useState, createContext } from 'react';
-//interface
-
-import styles from '../../../shared/styles/TrackItem.module.scss';
-//hooks
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
+import { NextThunkDispatch } from '../../../shared/store';
+//interface
+import { ITrack, PlayerState } from '../../../shared/types';
+//styles
+import styles from '../../../shared/styles/TrackItem.module.scss';
+//hooks
 import { useAction, useTypedSelector } from '../../../shared/hooks';
 //components
+import { Box } from '@material-ui/core';
 import { TrackImage } from './TrackImage';
 import { TrackTime } from './TrackTime';
-import { MusicInfo } from '../../../shared';
-import { ITrack, PlayerState } from '../../../shared/types';
+import { MusicInfo, merge } from '../../../shared';
 import { ActionRow } from './ActionRow';
-import { Box } from '@material-ui/core';
-import { NextThunkDispatch } from '../../../shared/store';
 
 interface TrackItemProps {
 	track: ITrack;
@@ -50,12 +51,16 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 			e.stopPropagation();
 			dispatch(_account.addTrackIntoMyMusic(track._id));
 		};
+		const handleAddToQueue = (e: MouseEvent<HTMLDivElement>) => {
+			e.stopPropagation();
+			dispatch(_player.addTrackInQueue(track));
+		};
 		const handleHoverOn = () => setHovered(true);
 		const handleHoverOff = () => setHovered(false);
 		return (
 			<TrackContext.Provider value={{ track: track }}>
 				<Box
-					className={styles.track}
+					className={merge(styles.track, isActive ? styles.track__active : '')}
 					onMouseEnter={handleHoverOn}
 					onMouseLeave={handleHoverOff}
 					onClick={play}>
@@ -73,10 +78,12 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 					<Box className={styles.trackTime}>
 						{isHovered ? (
 							<ActionRow
+								isActive={isActive}
 								isExistInUserMusic={user?.tracks.some(i => i === track._id)}
 								handlers={{
 									addHandler: handleAddTrack,
 									deleteHandler: handleDeleteTrack,
+									queueAddHandler: handleAddToQueue,
 								}}
 							/>
 						) : (

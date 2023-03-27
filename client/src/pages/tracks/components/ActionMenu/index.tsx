@@ -90,6 +90,7 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 										};
 										return (
 											<ButtonEl
+												key={pl.id}
 												className={styles.menuBtn}
 												onClick={handleAddToPlaylist}>
 												{pl.name}

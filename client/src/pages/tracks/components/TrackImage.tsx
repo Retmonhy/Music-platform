@@ -7,6 +7,7 @@ import { SquareDiv, generateUrl, merge } from '../../../shared';
 //styles
 import styles from '../../../shared/styles/TrackItem.module.scss';
 import general from '../../../shared/styles/General.module.scss';
+import { Box } from '@mui/material';
 
 const imageSize = 70;
 interface TrackImageProps {
@@ -16,7 +17,7 @@ interface TrackImageProps {
 }
 export const TrackImage: FC<TrackImageProps> = ({ source, alt, isHover }) => {
 	return (
-		<div className={general.relative}>
+		<Box className={general.relative}>
 			<SquareDiv size={imageSize}>
 				<Image
 					src={generateUrl(source)}
@@ -35,6 +36,6 @@ export const TrackImage: FC<TrackImageProps> = ({ source, alt, isHover }) => {
 					</SquareDiv>
 				</SquareDiv>
 			) : null}
-		</div>
+		</Box>
 	);
 };

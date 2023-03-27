@@ -6,7 +6,8 @@ export interface PlayerState {
 	currentTime: number;
 	pause: boolean;
 	isHidrated: boolean;
-	trackOrder: ITrack[];
+	queueStack: ITrack[];
+	currentPlaylist: ITrack[];
 }
 
 export enum PlayerActionTypes {
@@ -18,6 +19,6 @@ export enum PlayerActionTypes {
 	SET_DURATION = 'SET_DURATION',
 	SET_CURRENT_TIME = 'SET_CURRENT_TIME',
 	SET_VOLUME = 'SET_VOLUME',
-	SET_TRACK_ORDER = 'SET_TRACK_ORDER',
-	ADD_TRACK_IN_ORDER_TOP = 'ADD_TRACK_IN_ORDER_TOP',
+	SET_CURRENT_PLAYLIST = 'SET_CURRENT_PLAYLIST',
+	ADD_TRACK_IN_QUEUE = 'ADD_TRACK_IN_QUEUE',
 }
