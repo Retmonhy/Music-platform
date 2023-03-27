@@ -14,9 +14,10 @@ export const setVolume = createAction<number>(PlayerActionTypes.SET_VOLUME);
 export const setCurrentTime = createAction<number>(
 	PlayerActionTypes.SET_CURRENT_TIME,
 );
-export const setCurrentPlaylist = createAction<ITrack[]>(
-	PlayerActionTypes.SET_CURRENT_PLAYLIST,
-);
+export const setCurrentPlaylist = createAction<{
+	tracks: ITrack[];
+	track: ITrack;
+}>(PlayerActionTypes.SET_CURRENT_PLAYLIST);
 export const addTrackInQueue = createAction<ITrack>(
 	PlayerActionTypes.ADD_TRACK_IN_QUEUE,
 );

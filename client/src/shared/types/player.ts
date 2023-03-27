@@ -7,7 +7,7 @@ export interface PlayerState {
 	pause: boolean;
 	isHidrated: boolean;
 	queueStack: ITrack[];
-	currentPlaylist: ITrack[];
+	listenedTracks: ITrack[];
 }
 
 export enum PlayerActionTypes {

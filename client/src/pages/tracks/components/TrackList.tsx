@@ -25,7 +25,7 @@ export const TrackList: React.FC<TrackListProps> = memo(({ tracks }) => {
 			playControl();
 		}
 		if (!isActive) {
-			dispatch(_player.setCurrentPlaylist(tracks));
+			dispatch(_player.setCurrentPlaylist({ tracks, track }));
 			dispatch(_player.setActive(track));
 			playControl();
 		}

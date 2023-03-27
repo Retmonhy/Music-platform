@@ -21,41 +21,36 @@ const initialState: PlayerState = {
 	volume: 50,
 	isHidrated: true,
 	queueStack: [],
-	currentPlaylist: [],
+	listenedTracks: [],
 };
 
 const playNextTrack = (state: PlayerState) => {
 	if (!state.active) return state;
-	const currentTrackIndex = state.currentPlaylist
-		.map(i => i._id)
-		.indexOf(state.active._id);
-	if (currentTrackIndex < 0) return state;
-	const lastIndex = state.currentPlaylist.length - 1;
-	if (currentTrackIndex + 1 > lastIndex) {
-		state.active = state.currentPlaylist[0]; //первый трек
-		return state;
-	}
-	if (currentTrackIndex + 1 <= state.currentPlaylist.length) {
-		state.active = state.currentPlaylist[currentTrackIndex + 1];
+	state.listenedTracks = [...state.listenedTracks, state.active];
+	if (state.queueStack.length > 0) {
+		//если в очереди еще что-то есть
+		state.active = state.queueStack[0];
+		state.queueStack.shift();
+	} else {
+		//если очередь кончилась(послений трек), надо начать проигрывание заново иил не надо. Тут по разному у платформ
+		state.active = state.listenedTracks[0];
+		state.queueStack = state.listenedTracks.slice(1);
+		state.listenedTracks = [];
 	}
 };
 const playPrevTrack = (state: PlayerState) => {
 	if (!state.active) return state;
-	const currentTrackIndex = state.currentPlaylist
-		.map(i => i._id)
-		.indexOf(state.active._id);
-	if (currentTrackIndex < 0) return state;
-	if (currentTrackIndex - 1 < 0) {
-		state.currentTime = 0;
+	if (state.listenedTracks.length > 0) {
+		state.queueStack = [state.active, ...state.queueStack];
+		state.active = state.listenedTracks.at(-1);
+		state.listenedTracks.pop();
 	}
-	if (currentTrackIndex - 1 >= 0) {
-		state.active = state.currentPlaylist[currentTrackIndex - 1];
+	if (state.listenedTracks.length === 0) {
+		state.currentTime = 0;
 	}
 };
 const addInQueue = (state: PlayerState, action: PayloadAction<ITrack>) => {
-	// const index = state.currentPlaylist.map(i => i._id).indexOf(state.active._id);
-	// state.currentPlaylist.splice(index + 1, 0, action.payload); //берем элемент за текущим, и вставляем перед ним новый трек
-	state.queueStack = [...state.queueStack, action.payload];
+	state.queueStack = [action.payload, ...state.queueStack];
 };
 
 export const playerReducer = createReducer(initialState, builder => {
@@ -81,7 +76,10 @@ export const playerReducer = createReducer(initialState, builder => {
 			state.currentTime = action.payload;
 		})
 		.addCase(setCurrentPlaylist, (state, action) => {
-			state.currentPlaylist = action.payload;
+			const { tracks, track } = action.payload;
+			const index = tracks.indexOf(track);
+			state.listenedTracks = tracks.slice(0, index);
+			state.queueStack = tracks.slice(index + 1);
 		})
 		.addCase(addTrackInQueue, addInQueue)
 		.addDefaultCase(store => store);
