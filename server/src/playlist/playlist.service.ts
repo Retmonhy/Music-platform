@@ -1,3 +1,4 @@
+import { ManageTracksAction } from './interface/index';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 //libs
 import { InjectModel } from '@nestjs/mongoose';
@@ -5,7 +6,6 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 
 import { UserModelType } from './../user/interface/index';
-import { Track } from './../track/schemas';
 import { Playlist, PlaylistDocument } from './schemas/playlist.schema';
 import { ApiError } from './../exceptions/api-errors';
 import { CreatePlaylistDto, PlaylistDto } from './dto';
@@ -15,7 +15,9 @@ export class PlaylistService {
   constructor(
     @InjectModel(Playlist.name) private playlistModel: Model<PlaylistDocument>,
   ) {}
-  async create(data: CreatePlaylistDto): Promise<PlaylistDto> {
+  async create(
+    data: CreatePlaylistDto & { ownerId: string },
+  ): Promise<PlaylistDto> {
     try {
       const playlist = await this.playlistModel.create(data);
       if (!playlist) {
@@ -84,17 +86,25 @@ export class PlaylistService {
     }
   }
   //удалить, в случае наличия, или добавить трек, в случае отсутсвия
-  async managePlaylistTracks(id: string, trackId: string) {
+  async managePlaylistTracks(
+    id: string,
+    trackId: string,
+    action: ManageTracksAction,
+  ) {
     try {
       const playlistModel = await this.playlistModel.findById(id);
       if (!playlistModel) {
         throw ApiError.ServerError('Плейлист не найден');
       }
-      if (playlistModel.tracks.findIndex((i) => trackId === i) >= 0) {
-        playlistModel.tracks.filter((i) => i !== trackId);
-      } else {
+      if (action == ManageTracksAction.Remove) {
+        playlistModel.tracks = playlistModel.tracks.filter(
+          (i) => i !== trackId,
+        );
+      }
+      if (action == ManageTracksAction.Add) {
         playlistModel.tracks = [trackId, ...playlistModel.tracks];
       }
+
       await playlistModel.save();
       return new PlaylistDto(playlistModel);
     } catch (error) {

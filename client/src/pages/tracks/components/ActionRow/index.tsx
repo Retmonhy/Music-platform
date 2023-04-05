@@ -3,7 +3,7 @@ import { DeleteTrack } from '../DeleteTrack';
 import { AddTrack } from '../AddTrack';
 import { ActionMenu } from '../ActionMenu';
 import styles from './ActionRow.module.scss';
-import { Box } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { QueueAdd } from '../QueueAdd';
 interface IActionRowHandlers {
 	deleteHandler: (e: MouseEvent<HTMLDivElement>) => void;
@@ -23,7 +23,7 @@ export const ActionRow: FC<IActionRowProps> = ({
 }) => {
 	const { addHandler, deleteHandler, queueAddHandler } = handlers;
 	return (
-		<Box className={styles.actionRow}>
+		<Grid container direction='row' wrap='nowrap'>
 			{!isActive && <QueueAdd onClick={queueAddHandler} />}
 			{isExistInUserMusic ? (
 				<DeleteTrack onClick={deleteHandler} />
@@ -31,6 +31,6 @@ export const ActionRow: FC<IActionRowProps> = ({
 				<AddTrack onClick={addHandler} />
 			)}
 			<ActionMenu addToPlaylist={() => {}} />
-		</Box>
+		</Grid>
 	);
 };

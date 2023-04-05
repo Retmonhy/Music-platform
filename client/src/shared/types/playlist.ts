@@ -6,11 +6,11 @@ export interface IPlaylistData {
 }
 export interface IPlaylist extends IPlaylistData {
 	id: string;
-	owner_id: string;
+	ownerId: string;
 	numberOfTracks: number;
 	lastUpdate: number;
 	cover: string;
-	tracks: string;
+	tracks: string[];
 }
 export interface IPlaylistPayload extends IPlaylistData {
 	cover: string;
@@ -37,6 +37,7 @@ export interface IPlaylistState {
 }
 export enum PlaylistActionTypes {
 	SEARCH = 'PLAYLIST_SEARCH',
+	CREATE_PLAYLIST = 'CREATE_PLAYLIST',
 	ADD_TO_CURRENT_PLAYLIST = 'ADD_TO_CURRENT_PLAYLIST',
 	ADD_TO_PLAYLIST = 'ADD_TO_PLAYLIST',
 	CHECK_TRACK = 'PLAYLIST_CHECK_TRACK',
@@ -47,4 +48,13 @@ export enum PlaylistActionTypes {
 	LOAD_PLAYLIST_STATE = 'LOAD_PLAYLIST_STATE',
 	UPDATE_PLAYLIST = 'UPDATE_PLAYLIST',
 	SET_MODE = 'SET_MODE',
+}
+export interface IManagePlaylistTracksPayload {
+	playlistId: string;
+	trackId: string;
+	action: ManageAction;
+}
+export enum ManageAction {
+	Remove,
+	Add,
 }

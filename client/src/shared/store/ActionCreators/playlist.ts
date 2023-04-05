@@ -1,6 +1,9 @@
-import { PlaylistMode } from './../../types/playlist';
+import {
+	IManagePlaylistTracksPayload,
+	ManageAction,
+	PlaylistMode,
+} from './../../types/playlist';
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { searchTracks } from './track';
 import {
 	IPlaylist,
 	IPlaylistPayload,
@@ -27,25 +30,28 @@ export const toggleCheckbox = createAction<string>(
 );
 export const loadState = createAsyncThunk(
 	PlaylistActionTypes.LOAD_PLAYLIST_STATE,
-	async (loadingState: IPlaylist) => {
-		const { data } = await PlaylistService.fetchPlaylistTracks(loadingState.id);
-		return { info: loadingState, tracks: data };
+	async (loadingState: IPlaylist, ta) => {
+		try {
+			const { data } = await PlaylistService.fetchPlaylistTracks(
+				loadingState.id,
+			);
+			return { info: loadingState, tracks: data };
+		} catch (error) {
+			console.error('loadPlaylistState ERROR: ', error);
+			return ta.rejectWithValue(error.response.data);
+		}
 	},
 );
-interface IManagePlaylistTracksPayload {
-	playlistId: string;
-	trackId: string;
-}
 export const managePlaylistTracks = createAsyncThunk(
 	PlaylistActionTypes.ADD_TO_PLAYLIST,
-	async (input: IManagePlaylistTracksPayload, ta) => {
+	async (params: IManagePlaylistTracksPayload, ta) => {
 		try {
-			const { playlistId, trackId } = input;
-			const { data } = await PlaylistService.managePlaylistTracks(
-				playlistId,
-				trackId,
-			);
-			return { playlist: data };
-		} catch (error) {}
+			const { action } = params;
+			const { data } = await PlaylistService.managePlaylistTracks(params);
+			return { playlist: data, action };
+		} catch (error) {
+			console.error('managePlaylistTracks ERROR: ', error);
+			return ta.rejectWithValue(error.response.data);
+		}
 	},
 );

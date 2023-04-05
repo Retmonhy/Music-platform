@@ -34,17 +34,17 @@ export const PlaylistModal: FC<IPlaylistModalProps> = ({
 	const { _playlist } = useAction();
 	const dispatch = useDispatch();
 	useEffect(() => {
-		return () => {
+		//сбрасываем стейт при закрытии модалки
+		if (!isVisible) {
 			dispatch(_playlist.resetModalState());
-		};
-	}, []);
-	if (!isVisible) return null;
+		}
+	}, [isVisible]);
 	return (
 		<Modal
 			style={{
 				outline: 0,
 			}}
-			open={true}>
+			open={isVisible}>
 			<Grid container direction='column' className={styles.modal_grid}>
 				<PlaylistHeader title='Создание нового плейлиста' onClose={onClose} />
 				<PlaylistInfo control={control} onUpload={onUpload} />

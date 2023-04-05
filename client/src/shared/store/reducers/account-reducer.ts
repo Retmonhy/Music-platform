@@ -4,13 +4,12 @@ import {
 	removeTrackFromMyMusic,
 	addTrackIntoMyMusic,
 	changeRouteTo,
-	checkAuth,
 	logout,
 	update,
 } from './../ActionCreators/account';
 
-import { AnyAction, createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { FulfilledAction, PendingAction, RejectedAction } from '.';
+import { createReducer, PayloadAction } from '@reduxjs/toolkit';
+
 import {
 	IMenuItem,
 	AccountRoutes,
@@ -20,7 +19,10 @@ import {
 	ITrack,
 	IPlaylist,
 	IRefreshAction,
+	ManageAction,
 } from '../../types';
+import { isFulfilledAction, isPendingAction, isRejectedAction } from '.';
+import { managePlaylistTracks } from '../ActionCreators/playlist';
 
 const menuList: IMenuItem[] = [
 	{
@@ -45,15 +47,6 @@ const menuList: IMenuItem[] = [
 	},
 ];
 
-function isPendingAction(action: AnyAction): action is PendingAction {
-	return action.type.endsWith('/pending');
-}
-function isRejectedAction(action: AnyAction): action is RejectedAction {
-	return action.type.endsWith('/rejected');
-}
-function isFulfilledAction(action: AnyAction): action is FulfilledAction {
-	return action.type.endsWith('/fulfilled');
-}
 function isAuthorizationAction(action: IAuthorizationAction) {
 	return action.type === `${AccountActionTypes.AUTHORIZATION}/fulfilled`;
 }
@@ -63,6 +56,7 @@ const initialState: AccountState = {
 	refreshToken: null,
 	user: null,
 	isLoading: false,
+	isPlaylistLoading: false,
 	isAuth: false,
 	routes: menuList,
 	userTracks: [],
@@ -79,7 +73,6 @@ export const accountReducer = createReducer(
 					i.href === action.payload ? { ...i, isSelected: true } : i,
 				),
 			}))
-
 			.addCase(logout.fulfilled, () => initialState)
 			.addCase(update.fulfilled, (state, action) => ({
 				...state,
@@ -98,6 +91,14 @@ export const accountReducer = createReducer(
 				}
 				return state;
 			})
+			.addCase(managePlaylistTracks.fulfilled, (state, action) => {
+				state.userPlaylists = state.userPlaylists.map(pl => {
+					if (pl.id === action.payload.playlist.id) {
+						return action.payload.playlist;
+					}
+					return pl;
+				});
+			})
 			.addCase(removeTrackFromMyMusic.fulfilled, (state, action) => {
 				state.userTracks = state.userTracks.filter(
 					track => track._id !== action.payload,
@@ -110,8 +111,15 @@ export const accountReducer = createReducer(
 				fetchUserPlaylists.fulfilled,
 				(state, action: PayloadAction<IPlaylist[]>) => {
 					state.userPlaylists = action.payload;
+					state.isPlaylistLoading = false;
 				},
 			)
+			.addCase(fetchUserPlaylists.rejected, state => {
+				state.isPlaylistLoading = false;
+			})
+			.addCase(fetchUserPlaylists.pending, state => {
+				state.isPlaylistLoading = true;
+			})
 			.addMatcher(isAuthorizationAction, (state, action: IRefreshAction) => {
 				state.isAuth = true;
 				state.user = action.payload.user;

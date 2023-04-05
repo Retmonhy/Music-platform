@@ -1,8 +1,10 @@
 import { Grid } from '@material-ui/core';
 import { TrackItem } from './TrackItem';
-import { memo } from 'react';
+import general from './../../../shared/styles/General.module.scss';
+import { memo, useCallback } from 'react';
 import {
 	ITrack,
+	Loader,
 	useAction,
 	usePlayerControl,
 	useTypedSelector,
@@ -17,21 +19,31 @@ export const TrackList: React.FC<TrackListProps> = memo(({ tracks }) => {
 	//сделать запуск музыки как в вк
 	const dispatch = useDispatch();
 	const player = useTypedSelector(st => st.player);
+	const { isLoading } = useTypedSelector(i => i.track);
 	const { _player } = useAction();
 	const { playControl } = usePlayerControl();
-	const clickHandler = (track: ITrack, isActive: boolean) => {
-		console.log('isActive = ', isActive);
-		if (isActive) {
-			playControl();
-		}
-		if (!isActive) {
-			dispatch(_player.setCurrentPlaylist({ tracks, track }));
-			dispatch(_player.setActive(track));
-			playControl();
-		}
-	};
+	const clickHandler = useCallback(
+		(track: ITrack, isActive: boolean) => {
+			if (isActive) {
+				playControl();
+			}
+			if (!isActive) {
+				dispatch(_player.setCurrentPlaylist({ tracks, track }));
+				dispatch(_player.setActive(track));
+				playControl();
+			}
+		},
+		[tracks, playControl],
+	);
+	if (isLoading) {
+		return (
+			<Grid container direction='column' className={general.relative}>
+				<Loader />
+			</Grid>
+		);
+	}
 	return (
-		<Grid container direction='column'>
+		<Grid container direction='column' className={general.relative}>
 			{tracks.map(track => {
 				const isActive = player.active?._id === track._id;
 				const onClick = () => {

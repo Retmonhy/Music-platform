@@ -15,16 +15,12 @@ const AccountTracks = () => {
 	}, []);
 	return (
 		<AccountLayout>
-			{isLoading ? (
-				<Loader />
-			) : (
-				<ContentBlock header='Моя музыка'>
-					<div>Тут будут треки</div>
-					пока треков нету нужно будет выводить информацию об этом и предлагать
-					загрузить трек
-					<TrackList tracks={userTracks} />
-				</ContentBlock>
-			)}
+			<ContentBlock header='Моя музыка'>
+				<div>Тут будут треки</div>
+				пока треков нету нужно будет выводить информацию об этом и предлагать
+				загрузить трек
+				{isLoading ? <Loader /> : <TrackList tracks={userTracks} />}
+			</ContentBlock>
 		</AccountLayout>
 	);
 };

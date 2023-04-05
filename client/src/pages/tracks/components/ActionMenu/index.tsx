@@ -5,11 +5,19 @@ import {
 	MoreHorizRounded,
 } from '@material-ui/icons';
 import { Box, Popper } from '@mui/material';
-import React, { useEffect, MouseEvent, FC, useContext, useState } from 'react';
+import React, {
+	useEffect,
+	MouseEvent,
+	FC,
+	useContext,
+	useState,
+	memo,
+} from 'react';
 import styles from './ActionMenu.module.scss';
-import ARstyles from './../ActionRow/ActionRow.module.scss';
+import general from './../../../../shared/styles/General.module.scss';
 import { ButtonEl } from '../../../../shared/ui/ButtonEl';
 import {
+	ManageAction,
 	PlaylistMode,
 	SquareDiv,
 	useAction,
@@ -17,14 +25,15 @@ import {
 	useTypedSelector,
 } from '../../../../shared';
 import { TrackContext } from '../TrackItem';
-import { PlaylistModal } from '../../../../widgets/PlaylistModal';
 import { useDispatch } from 'react-redux';
+import { NextThunkDispatch } from '../../../../shared/store';
+import { CheckboxButton } from '../CheckboxButton';
 
 const popperId = 'actionMenu';
 interface IActionMenuProps {
-	addToPlaylist: (playlistId: string) => void;
+	// addToPlaylist: (playlistId: string) => void;
 }
-export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
+export const ActionMenu: FC<IActionMenuProps> = memo(() => {
 	// hooks
 	const { _playlist } = useAction();
 	const { track } = useContext(TrackContext);
@@ -32,7 +41,7 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 	const [isExpand, setExpandList] = useState<boolean>(false);
 	const { userPlaylists: playlists } = useTypedSelector(i => i.account);
 	const playlist = usePlaylist();
-	const dispatch = useDispatch();
+	const dispatch = useDispatch() as NextThunkDispatch;
 
 	const open = Boolean(anchorEl);
 
@@ -50,6 +59,7 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 		dispatch(_playlist.addToCurrentPlaylist(track));
 		playlist.open(PlaylistMode.Create);
 	};
+	const showAllPlaylists = () => {};
 
 	return (
 		<>
@@ -58,7 +68,7 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 				onMouseEnter={handlePopoverOpen}
 				onMouseLeave={handlePopoverClose}
 				aria-describedby={popperId}>
-				<MoreHorizRounded className={ARstyles.actionIcons} />
+				<MoreHorizRounded className={general.iconButton} />
 				<Popper
 					id={popperId}
 					open={open}
@@ -69,7 +79,7 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 					placement='bottom-end'>
 					<Box className={styles.dropdown_box}>
 						<ButtonEl
-							endIcon={<ExpandMoreRounded className={ARstyles.actionIcons} />}
+							endIcon={<ExpandMoreRounded className={general.iconButton} />}
 							className={styles.menuBtn}
 							onMouseEnter={handleExpandList}>
 							Добавить в плейлист
@@ -77,26 +87,41 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 						{isExpand && (
 							<>
 								<ButtonEl
-									startIcon={<AddRounded className={ARstyles.actionIcons} />}
+									startIcon={<AddRounded className={general.iconButton} />}
 									className={styles.menuBtn}
 									onClick={openModal}>
 									Новый плейлист
 								</ButtonEl>
 
 								{playlists &&
-									playlists.map(pl => {
+									playlists.map((pl, ind) => {
+										if (ind > 2) {
+											return;
+										}
 										const handleAddToPlaylist = () => {
-											console.log('Добавить трек в существующий лист');
+											dispatch(
+												_playlist.managePlaylistTracks({
+													playlistId: pl.id,
+													trackId: track._id,
+													action: pl.tracks.includes(track._id)
+														? ManageAction.Remove
+														: ManageAction.Add,
+												}),
+											);
 										};
 										return (
-											<ButtonEl
+											<CheckboxButton
 												key={pl.id}
+												title={pl.name}
 												className={styles.menuBtn}
-												onClick={handleAddToPlaylist}>
-												{pl.name}
-											</ButtonEl>
+												isChecked={pl.tracks.includes(track._id)}
+												onClick={handleAddToPlaylist}
+											/>
 										);
 									})}
+								<ButtonEl className={styles.menuBtn} onClick={showAllPlaylists}>
+									Показать все...
+								</ButtonEl>
 							</>
 						)}
 					</Box>
@@ -104,4 +129,4 @@ export const ActionMenu: FC<IActionMenuProps> = ({ addToPlaylist }) => {
 			</SquareDiv>
 		</>
 	);
-};
+});

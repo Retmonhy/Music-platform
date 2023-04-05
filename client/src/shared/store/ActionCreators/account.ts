@@ -142,7 +142,6 @@ export const fetchUserMusic = createAsyncThunk(
 export const fetchUserPlaylists = createAsyncThunk(
 	AccountActionTypes.FETCH_USER_PLAYLISTS,
 	async (_, ta) => {
-		console.log('fetchUserPlaylists');
 		try {
 			const { data } = await AccountService.fetchUserPlaylists();
 			if (data) {

@@ -1,7 +1,12 @@
 import React from 'react';
 
-import general from '../../styles/General.module.scss';
+import styles from './Loader.module.scss';
+import { Box } from '@mui/material';
 
 export const Loader = () => {
-	return <div className={general.loader}>Загрузка...</div>;
+	return (
+		<Box className={styles.loader_wrapper}>
+			<Box className={styles.loader}></Box>
+		</Box>
+	);
 };

@@ -13,6 +13,7 @@ export const usePlaylist = () => {
 	const { info, isVisible, selectedTracks, mode } = useTypedSelector(
 		i => i.playlist,
 	);
+	const { _account } = useAction();
 	const { setCover, setVisible, setMode } = useAction()._playlist;
 
 	const dispatch = useDispatch() as NextThunkDispatch;
@@ -31,14 +32,11 @@ export const usePlaylist = () => {
 				...payload,
 			};
 			let result: ICreatePlaylistResponse | null = null;
-			console.log('mode = ', mode);
 			if (mode === PlaylistMode.Create) {
 				const { data } = await PlaylistService.createPlaylist(payloadData);
 				result = data;
-				console.log('create');
 			}
 			if (mode === PlaylistMode.Edit) {
-				console.log('edit');
 				const { data } = await PlaylistService.updatePlaylist(
 					info.id,
 					payloadData,
@@ -47,6 +45,7 @@ export const usePlaylist = () => {
 			}
 			if (result.isSuccess) {
 				dispatch(setVisible(false));
+				dispatch(_account.fetchUserPlaylists());
 			}
 		},
 		[mode, selectedTracks, info && info.cover],

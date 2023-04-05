@@ -3,11 +3,12 @@ import {
 	ButtonBaseProps,
 	ButtonProps,
 	createTheme,
+	darken,
 	ThemeProvider,
 } from '@mui/material';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 interface IButtonEl extends ButtonProps {
-	children: string;
+	children: ReactNode;
 }
 const theme = createTheme({
 	components: {

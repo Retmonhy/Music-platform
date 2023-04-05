@@ -43,7 +43,7 @@ export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
 				</SquareDiv>
 				<MusicInfo
 					title={item.name}
-					description={item.owner_id}
+					description={item.ownerId}
 					titleClick={navigateToPlaylist}
 				/>
 			</Box>

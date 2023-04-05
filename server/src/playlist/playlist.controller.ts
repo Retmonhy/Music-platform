@@ -1,3 +1,4 @@
+import { IPlaylist } from './../../../client/src/shared/types/playlist';
 import { TrackService } from './../track/track.service';
 import { UserService } from './../user/user.service';
 import { CreatePlaylistDto } from './dto';
@@ -38,8 +39,12 @@ export class PlaylistController {
     if (!userModel) {
       throw ApiError.UnauthorizedError();
     }
-    const ownerId = userModel._id.toString();
-    const playlistInfo = Object.assign({ ownerId }, body);
+    const ownerId: string = userModel._id.toString();
+    const playlistInfo: CreatePlaylistDto & { ownerId: string } = {
+      ownerId,
+      ...body,
+    };
+
     try {
       const playlist = await this._playlistService.create(playlistInfo);
       if (playlist) {
@@ -149,7 +154,7 @@ export class PlaylistController {
     @Res() res: Response,
   ) {
     try {
-      const { playlistId, trackId } = query;
+      const { playlistId, trackId, action } = query;
       if (!playlistId) return ApiError.MissingParam(playlistId);
       if (!trackId) return ApiError.MissingParam(trackId);
 
@@ -158,9 +163,10 @@ export class PlaylistController {
       if (!userModel) {
         throw ApiError.UnauthorizedError();
       }
-      const playlist = this._playlistService.managePlaylistTracks(
+      const playlist = await this._playlistService.managePlaylistTracks(
         playlistId,
         trackId,
+        action,
       );
       return res.json(playlist);
     } catch (error) {

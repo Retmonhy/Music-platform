@@ -1,6 +1,6 @@
 export class PlaylistDto {
   id: string;
-  owner_id: string;
+  ownerId: string;
   name: string;
   description: string;
   cover: string;
@@ -9,7 +9,7 @@ export class PlaylistDto {
 
   constructor(model) {
     this.id = model._id;
-    this.owner_id = model.owner_id;
+    this.ownerId = model.ownerId;
     this.name = model.name;
     this.description = model.description;
     this.cover = model.cover;

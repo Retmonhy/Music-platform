@@ -5,7 +5,7 @@ export interface IPlaylist {
   cover: string;
   name: string;
   description: string;
-  owner_id: string;
+  ownerId: string;
   tracks: string[];
 }
 
@@ -15,7 +15,12 @@ export type PlaylistModelType =
         _id: Types.ObjectId;
       };
 
+export enum ManageTracksAction {
+  Remove = 0,
+  Add = 1,
+}
 export interface IManagePlaylistTracksQuery {
   playlistId: string;
   trackId: string;
+  action: ManageTracksAction;
 }

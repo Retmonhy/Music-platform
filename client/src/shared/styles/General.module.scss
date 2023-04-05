@@ -4,7 +4,7 @@
 }
 .btn {
 	background-color: var.$base-color;
-	color: #fff;
+	color: var.$color-white;
 	padding: 8px 12px;
 }
 .btn:hover {
@@ -40,6 +40,9 @@
 .iconButton {
 	color: var.$color-gray;
 	transition: color 0.3s;
+}
+.iconChecked {
+	color: var.$color-white;
 }
 .iconButton:hover {
 	color: darken($color: var.$color-gray, $amount: 5);

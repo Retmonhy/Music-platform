@@ -5,7 +5,12 @@ import {
 	setMode,
 	managePlaylistTracks,
 } from './../ActionCreators/playlist';
-import { PlaylistMode, PlaylistTrack, IPlaylist } from './../../types/playlist';
+import {
+	PlaylistMode,
+	PlaylistTrack,
+	IPlaylist,
+	ManageAction,
+} from './../../types/playlist';
 import { createReducer } from '@reduxjs/toolkit';
 import { IPlaylistState } from '../../types';
 import {
@@ -30,7 +35,10 @@ export const playlistReducer = createReducer(initialState, builder => {
 				...state.selectedTracks,
 			];
 		})
-		.addCase(resetModalState, () => initialState)
+		.addCase(resetModalState, state => {
+			state = { ...initialState };
+			return state;
+		})
 		.addCase(setVisible, (state, action) => {
 			state.isVisible = action.payload;
 		})
@@ -55,7 +63,4 @@ export const playlistReducer = createReducer(initialState, builder => {
 		.addCase(setMode, (state, action) => {
 			state.mode = action.payload;
 		});
-	// .addCase(managePlaylistTracks.fulfilled, (state, action) => {
-	// 	state
-	// })
 });

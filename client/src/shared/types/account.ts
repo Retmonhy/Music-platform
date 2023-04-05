@@ -18,6 +18,7 @@ export type AccountState = {
 	accessToken: string;
 	user: IUser;
 	isLoading: boolean;
+	isPlaylistLoading: boolean;
 	isAuth: boolean;
 	routes: IMenuItem[];
 	userTracks: ITrack[];
