@@ -216,7 +216,7 @@ export class UserController {
       if (!userModel) {
         throw ApiError.UnauthorizedError();
       }
-      const playlists = await this._playlistService.getUserPlaylists(
+      const playlists = await this._playlistService.getPlaylistListByIds(
         userModel.playlists,
       );
       return res.json(playlists);

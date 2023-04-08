@@ -15,9 +15,7 @@ export class PlaylistService {
   constructor(
     @InjectModel(Playlist.name) private playlistModel: Model<PlaylistDocument>,
   ) {}
-  async create(
-    data: CreatePlaylistDto & { ownerId: string },
-  ): Promise<PlaylistDto> {
+  async create(data: CreatePlaylistDto): Promise<PlaylistDto> {
     try {
       const playlist = await this.playlistModel.create(data);
       if (!playlist) {
@@ -59,7 +57,7 @@ export class PlaylistService {
       throw ApiError.ServerError('Произошла ошибка при удалении трека');
     }
   }
-  async getUserPlaylists(ids: string[]): Promise<PlaylistDto[]> {
+  async getPlaylistListByIds(ids: string[]): Promise<PlaylistDto[]> {
     try {
       const playlists = new Array<PlaylistDto>();
       for (const id of ids) {

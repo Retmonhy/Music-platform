@@ -1,11 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC, createContext } from 'react';
 
 import { Box } from '@mui/material';
 import {
 	IPlaylist,
 	MusicInfo,
 	PlaylistMode,
+	PlaylistService,
 	useAction,
+	usePlayerControl,
 	usePlaylist,
 } from '../../../shared';
 import { PlaylistImage } from './PlaylistImage';
@@ -18,6 +20,8 @@ interface IPlaylistItemProps {
 }
 const imageSize = '200px';
 
+export const PlaylistContext = createContext<IPlaylist | null>(null);
+
 export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
 	const dispatch = useDispatch() as NextThunkDispatch;
 	const { loadState } = useAction()._playlist;
@@ -28,25 +32,43 @@ export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
 			open(PlaylistMode.Edit);
 		});
 	};
-	const playPlaylist = () => {};
+	const { _player } = useAction();
+	const { playControl } = usePlayerControl();
+	const playPlaylist = () => {
+		const playlistTracks = PlaylistService.fetchPlaylistTracks(item.id);
+		playlistTracks.then(result => {
+			const { data: tracks } = result;
+			if (tracks.length > 0) {
+				dispatch(
+					_player.setCurrentPlaylist({ tracks, currentTrack: tracks[0] }),
+				);
+				dispatch(_player.setActive(tracks[0]));
+				dispatch(playControl);
+			}
+		});
+	};
 	return (
-		<Box flexBasis={'33.33%'}>
-			<Box padding={'8px'}>
-				<SquareDiv size={imageSize}>
-					<PlaylistImage
-						source={item.cover}
-						alt={item.cover}
-						size={imageSize}
-						onEdit={editPlaylist}
-						onPlay={playPlaylist}
+		<PlaylistContext.Provider value={item}>
+			<Box flexBasis={'33.33%'}>
+				<Box padding={'8px'}>
+					<SquareDiv size={imageSize}>
+						<PlaylistImage
+							source={item.cover}
+							alt={`Обложка плейлиста ${item.name}`}
+							size={imageSize}
+							handlers={{
+								onEdit: editPlaylist,
+								onPlay: playPlaylist,
+							}}
+						/>
+					</SquareDiv>
+					<MusicInfo
+						title={item.name}
+						description={item.owner.fullname}
+						titleClick={navigateToPlaylist}
 					/>
-				</SquareDiv>
-				<MusicInfo
-					title={item.name}
-					description={item.ownerId}
-					titleClick={navigateToPlaylist}
-				/>
+				</Box>
 			</Box>
-		</Box>
+		</PlaylistContext.Provider>
 	);
 };

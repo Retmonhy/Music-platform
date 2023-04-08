@@ -17,7 +17,9 @@ const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
 	const { _account } = useAction();
 	useEffect(() => {
 		if (localStorage && localStorage.getItem(StorageKeys.accessToken)) {
-			dispatch(_account.checkAuth());
+			dispatch(_account.checkAuth()).then(() => {
+				dispatch(_account.fetchUserPlaylists());
+			});
 		}
 	}, []);
 	return (

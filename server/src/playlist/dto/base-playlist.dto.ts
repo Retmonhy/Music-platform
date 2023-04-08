@@ -1,4 +1,11 @@
-import { IsArray, IsString, IsNotEmpty, IsOptional } from 'class-validator';
+import { UserDto } from './../../user/dto/user.dto';
+import {
+  IsArray,
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsObject,
+} from 'class-validator';
 
 export class BasePlaylistDto {
   @IsString()
@@ -11,4 +18,6 @@ export class BasePlaylistDto {
   cover: string;
   @IsArray({})
   tracks: string[];
+  @IsObject()
+  owner: UserDto;
 }

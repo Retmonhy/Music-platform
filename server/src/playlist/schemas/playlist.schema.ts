@@ -1,11 +1,11 @@
+import { UserDto } from './../../user/dto/user.dto';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 export type PlaylistDocument = Playlist & Document;
-
 @Schema()
 export class Playlist {
-  @Prop({ type: String, required: true })
-  ownerId: string;
+  @Prop({ type: UserDto, required: true })
+  owner: UserDto;
   @Prop({ type: String, required: true })
   name: string;
   @Prop()

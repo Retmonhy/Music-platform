@@ -16,7 +16,7 @@ export enum AccountActionTypes {
 export type AccountState = {
 	refreshToken: string;
 	accessToken: string;
-	user: IUser;
+	user: User;
 	isLoading: boolean;
 	isPlaylistLoading: boolean;
 	isAuth: boolean;
@@ -37,6 +37,25 @@ export interface IUser {
 	surname: string;
 	isActivated: boolean;
 	tracks: string[];
+}
+export class User {
+	id: string;
+	email: string;
+	firstname: string;
+	surname: string;
+	isActivated: boolean;
+	tracks: string[];
+	constructor(user: IUser) {
+		this.id = user.id;
+		this.email = user.email;
+		this.firstname = user.firstname;
+		this.surname = user.surname;
+		this.isActivated = user.isActivated;
+		this.tracks = user.tracks;
+	}
+	get fullname() {
+		return this.surname + ' ' + this.firstname;
+	}
 }
 
 export interface IAuthorizationAction {

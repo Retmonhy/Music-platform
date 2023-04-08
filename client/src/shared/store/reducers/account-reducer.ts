@@ -1,3 +1,4 @@
+import { StorageKeys } from './../../types/localStorage';
 import {
 	fetchUserMusic,
 	fetchUserPlaylists,
@@ -19,7 +20,7 @@ import {
 	ITrack,
 	IPlaylist,
 	IRefreshAction,
-	ManageAction,
+	User,
 } from '../../types';
 import { isFulfilledAction, isPendingAction, isRejectedAction } from '.';
 import { managePlaylistTracks } from '../ActionCreators/playlist';
@@ -73,10 +74,16 @@ export const accountReducer = createReducer(
 					i.href === action.payload ? { ...i, isSelected: true } : i,
 				),
 			}))
-			.addCase(logout.fulfilled, () => initialState)
+			.addCase(logout.fulfilled, () => {
+				if (localStorage) {
+					localStorage.removeItem(StorageKeys.accessToken);
+					localStorage.removeItem(StorageKeys.refreshToken);
+				}
+				return initialState;
+			})
 			.addCase(update.fulfilled, (state, action) => ({
 				...state,
-				user: action.payload,
+				user: new User(action.payload),
 			}))
 			.addCase(
 				fetchUserMusic.fulfilled,
@@ -110,7 +117,10 @@ export const accountReducer = createReducer(
 			.addCase(
 				fetchUserPlaylists.fulfilled,
 				(state, action: PayloadAction<IPlaylist[]>) => {
-					state.userPlaylists = action.payload;
+					state.userPlaylists = action.payload.map(i => ({
+						...i,
+						owner: new User(i.owner),
+					}));
 					state.isPlaylistLoading = false;
 				},
 			)
@@ -122,7 +132,7 @@ export const accountReducer = createReducer(
 			})
 			.addMatcher(isAuthorizationAction, (state, action: IRefreshAction) => {
 				state.isAuth = true;
-				state.user = action.payload.user;
+				state.user = new User(action.payload.user);
 				state.accessToken = action.payload.accessToken;
 				state.refreshToken = action.payload.refreshToken;
 			})

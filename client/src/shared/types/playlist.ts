@@ -1,3 +1,4 @@
+import { User } from './account';
 import { ITrack } from './track';
 
 export interface IPlaylistData {
@@ -6,7 +7,7 @@ export interface IPlaylistData {
 }
 export interface IPlaylist extends IPlaylistData {
 	id: string;
-	ownerId: string;
+	owner: User;
 	numberOfTracks: number;
 	lastUpdate: number;
 	cover: string;

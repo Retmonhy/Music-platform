@@ -1,3 +1,3 @@
 import { BasePlaylistDto } from './base-playlist.dto';
 
-export class UpdatePlaylistDto extends BasePlaylistDto {}
+export type UpdatePlaylistDto = Omit<BasePlaylistDto, 'owner'>;

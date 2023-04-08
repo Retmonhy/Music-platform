@@ -76,8 +76,8 @@ export const playerReducer = createReducer(initialState, builder => {
 			state.currentTime = action.payload;
 		})
 		.addCase(setCurrentPlaylist, (state, action) => {
-			const { tracks, track } = action.payload;
-			const index = tracks.indexOf(track);
+			const { tracks, currentTrack } = action.payload;
+			const index = tracks.indexOf(currentTrack);
 			state.listenedTracks = tracks.slice(0, index);
 			state.queueStack = tracks.slice(index + 1);
 		})

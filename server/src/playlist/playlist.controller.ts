@@ -1,3 +1,4 @@
+import { UserDto } from './../user/dto/user.dto';
 import { TrackService } from './../track/track.service';
 import { UserService } from './../user/user.service';
 import { CreatePlaylistDto } from './dto';
@@ -30,7 +31,7 @@ export class PlaylistController {
   @Post('/create')
   async create(
     @Req() req: Request,
-    @Body() body: CreatePlaylistDto,
+    @Body() body: Omit<CreatePlaylistDto, 'owner'>,
     @Res() res: Response,
   ) {
     const accessToken = req.headers.authorization.split(' ')[1];
@@ -38,19 +39,16 @@ export class PlaylistController {
     if (!userModel) {
       throw ApiError.UnauthorizedError();
     }
-    const ownerId: string = userModel._id.toString();
-    const playlistInfo: CreatePlaylistDto & { ownerId: string } = {
-      ownerId,
+    const owner = new UserDto(userModel);
+    const playlistInfo: CreatePlaylistDto = {
+      owner,
       ...body,
     };
 
     try {
       const playlist = await this._playlistService.create(playlistInfo);
       if (playlist) {
-        const res = await this._playlistService.addPlaylistToUser(
-          userModel,
-          playlist.id,
-        );
+        await this._playlistService.addPlaylistToUser(userModel, playlist.id);
       }
       return res.json({ isSuccess: true, playlist });
     } catch (error) {
