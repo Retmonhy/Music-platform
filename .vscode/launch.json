@@ -3,11 +3,10 @@
 	"configurations": [
 		{
 			"type": "node",
-			"request": "launch",
-			"name": "Launch Program",
-			"skipFiles": ["<node_internals>/**"],
-			"program": "${workspaceFolder}/server/src/main.ts",
-			// "outFiles": ["${workspaceFolder}/**/*.js"]
+			"request": "attach",
+			"name": "Attach NestJS WS",
+			"port": 9229,
+			"restart": true
 		}
 	]
 }

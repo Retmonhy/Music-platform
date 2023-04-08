@@ -1,4 +1,3 @@
-import { IPlaylist } from './../../../client/src/shared/types/playlist';
 import { TrackService } from './../track/track.service';
 import { UserService } from './../user/user.service';
 import { CreatePlaylistDto } from './dto';

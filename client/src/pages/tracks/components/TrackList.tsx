@@ -36,11 +36,7 @@ export const TrackList: React.FC<TrackListProps> = memo(({ tracks }) => {
 		[tracks, playControl],
 	);
 	if (isLoading) {
-		return (
-			<Grid container direction='column' className={general.relative}>
-				<Loader />
-			</Grid>
-		);
+		return <Loader />;
 	}
 	return (
 		<Grid container direction='column' className={general.relative}>
