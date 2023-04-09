@@ -4,11 +4,7 @@ import { Box, Grid } from '@mui/material';
 //hooks
 import { Control } from 'react-hook-form';
 // components
-import {
-	ControlledInput,
-	IPlaylistData,
-	useTypedSelector,
-} from '../../../../shared';
+import { ControlledInput, IPlaylistData, useTypedSelector } from '@shared';
 //styles
 import styles from './PlaylistModal.module.scss';
 import general from '../../styles/General.module.scss';

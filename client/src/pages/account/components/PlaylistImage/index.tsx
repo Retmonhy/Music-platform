@@ -7,11 +7,11 @@ import {
 } from '@material-ui/icons';
 //conponents
 
-import { generateUrl, merge } from '../../../../shared';
+import { generateUrl, merge } from '@shared';
 //styles
 import styles from './PlaylistImage.module.scss';
-import general from '../../../../shared/styles/General.module.scss';
-import { SquareDiv } from '../../../../shared/ui';
+import general from '@shared/styles/General.module.scss';
+import { SquareDiv } from '@shared/ui';
 import { Box, Typography } from '@mui/material';
 import { PlaylistContext } from '../PlaylistItem';
 

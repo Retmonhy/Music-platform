@@ -8,7 +8,7 @@ import { Control } from 'react-hook-form';
 import { Uploader } from '../Uploader';
 import { PlaylistForm } from '../PlaylistForm';
 import styles from './../../PlaylistModal.module.scss';
-import { IPlaylistData } from '../../../../shared/types';
+import { IPlaylistData } from '@shared/types';
 
 interface IPlaylistInfoProps {
 	control: Control<IPlaylistData>;

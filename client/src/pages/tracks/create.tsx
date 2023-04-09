@@ -7,12 +7,12 @@ import {
 	api,
 	FileService,
 	TrackService,
-} from '../../shared/api';
-import { useInput } from '../../shared/hooks';
+} from '@shared/api';
+import { useInput } from '@shared/hooks';
 import { MainLayout } from '../../widgets';
 import { StepWrapper } from '../../widgets/StepWrapper';
 import { FileUpload } from '../../widgets/FileUpload';
-import { UploadActionType } from '../../shared';
+import { UploadActionType } from '@shared';
 
 const Create = () => {
 	const router = useRouter();

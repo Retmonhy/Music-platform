@@ -14,8 +14,8 @@ import React, {
 	memo,
 } from 'react';
 import styles from './ActionMenu.module.scss';
-import general from './../../../../shared/styles/General.module.scss';
-import { ButtonEl } from '../../../../shared/ui/ButtonEl';
+import general from '@shared/styles/General.module.scss';
+import { ButtonEl } from '@shared/ui/ButtonEl';
 import {
 	ManageAction,
 	PlaylistMode,
@@ -23,10 +23,10 @@ import {
 	useAction,
 	usePlaylist,
 	useTypedSelector,
-} from '../../../../shared';
+} from '@shared';
 import { TrackContext } from '../TrackItem';
 import { useDispatch } from 'react-redux';
-import { NextThunkDispatch } from '../../../../shared/store';
+import { NextThunkDispatch } from '@shared/store';
 import { CheckboxButton } from '../CheckboxButton';
 
 const popperId = 'actionMenu';

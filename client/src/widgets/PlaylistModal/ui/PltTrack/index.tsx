@@ -4,7 +4,7 @@ import { Box, Checkbox, IconButton } from '@mui/material';
 import { PlayArrowRounded } from '@material-ui/icons';
 import styles from './PltTrack.module.scss';
 import { Typography } from '@material-ui/core';
-import { ITrack, PlaylistTrack, useAction } from '../../../../shared';
+import { ITrack, PlaylistTrack, useAction } from '@shared';
 import { useDispatch } from 'react-redux';
 interface IPltTrackProps {
 	track: PlaylistTrack;

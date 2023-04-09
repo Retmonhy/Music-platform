@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { AppProps } from 'next/app';
-import { StorageKeys, useAction } from '../shared';
-import '../shared/styles/global.css';
-import { NextThunkDispatch, wrapper } from '../shared/store';
+import { StorageKeys, useAction } from '@shared';
+import { NextThunkDispatch, wrapper } from '@shared/store';
+import '@shared/styles/global.css';
 import { MainLayout } from '../widgets';
 
 export let audio: HTMLAudioElement | null = null;

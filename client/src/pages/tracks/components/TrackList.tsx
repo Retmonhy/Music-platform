@@ -1,6 +1,6 @@
 import { Grid } from '@material-ui/core';
 import { TrackItem } from './TrackItem';
-import general from './../../../shared/styles/General.module.scss';
+import general from '@shared/styles/General.module.scss';
 import { memo, useCallback } from 'react';
 import {
 	ITrack,
@@ -8,7 +8,7 @@ import {
 	useAction,
 	usePlayerControl,
 	useTypedSelector,
-} from '../../../shared';
+} from '@shared';
 import { useDispatch } from 'react-redux';
 
 interface TrackListProps {

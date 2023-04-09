@@ -1,17 +1,17 @@
 import { AccountLayout, ContentBlock } from './components';
-import React, { FC, ReactNode, useEffect, useState } from 'react';
+import React, { FC, ReactNode, useEffect } from 'react';
 import {
 	Loader,
 	PlaylistMode,
 	useAction,
 	usePlaylist,
 	useTypedSelector,
-} from './../../shared';
+} from '@shared';
 import { PlaylistItem } from './components';
 import { Button, Grid } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { PlaylistModal } from '../../widgets';
-import { NextThunkDispatch } from '../../shared/store';
+import { NextThunkDispatch } from '@shared/store';
 interface IPlaylistProps {}
 
 const Playlist: FC<IPlaylistProps> = () => {

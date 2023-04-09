@@ -8,13 +8,13 @@ import {
 	IRegistrationData,
 	useAction,
 	useTypedSelector,
-} from '../../../shared';
-import general from '../../../shared/styles/General.module.scss';
-import vars from '../../../shared/styles/Variables.module.scss';
+} from '@shared';
+import general from '@shared/styles/General.module.scss';
+import vars from '@shared/styles/Variables.module.scss';
 import { useDispatch } from 'react-redux';
 
 import { useRouter } from 'next/router';
-import { NextThunkDispatch } from '../../../shared/store';
+import { NextThunkDispatch } from '@shared/store';
 
 type IUpdateProfileData = Omit<IRegistrationData, 'password'>;
 export interface IUpdateProfileForm {}

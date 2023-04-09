@@ -1,6 +1,6 @@
 import { CloseRounded } from '@material-ui/icons';
 import { FC, MouseEvent } from 'react';
-import general from './../../../shared/styles/General.module.scss';
+import general from '@shared/styles/General.module.scss';
 import { PopoverButton } from './PopoverButton';
 interface IDeleteTrackProps {
 	onClick: (e: MouseEvent<HTMLDivElement>) => void;

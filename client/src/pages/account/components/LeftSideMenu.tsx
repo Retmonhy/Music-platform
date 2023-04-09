@@ -2,7 +2,7 @@ import { Box, Card, Link } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { merge, useAction } from '../../../shared';
+import { merge, useAction } from '@shared';
 import styles from '../styles/Profile.module.scss';
 interface IMenuItem {
 	name: string;

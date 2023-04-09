@@ -2,18 +2,18 @@
 import { memo, MouseEvent, useState, createContext } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import { NextThunkDispatch } from '../../../shared/store';
+import { NextThunkDispatch } from '@shared/store';
 //interface
-import { ITrack, PlayerState } from '../../../shared/types';
+import { ITrack, PlayerState } from '@shared/types';
 //styles
-import styles from '../../../shared/styles/TrackItem.module.scss';
+import styles from '@shared/styles/TrackItem.module.scss';
 //hooks
-import { useAction, useTypedSelector } from '../../../shared/hooks';
+import { useAction, useTypedSelector } from '@shared/hooks';
 //components
 import { Box } from '@material-ui/core';
 import { TrackImage } from './TrackImage';
 import { TrackTime } from './TrackTime';
-import { MusicInfo, merge } from '../../../shared';
+import { MusicInfo, merge } from '@shared';
 import { ActionRow } from './ActionRow';
 
 interface TrackItemProps {

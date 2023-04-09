@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Box, Card, Tab, Tabs, Typography } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { useAction, useTypedSelector } from '../../shared/hooks';
+import { Box, Card, Tab, Tabs } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { useAction, useTypedSelector } from '@shared/hooks';
 import { RegistrationForm, LoginForm } from './components';
 import {
 	AccountRoutes,
@@ -11,10 +11,9 @@ import {
 	IRegistrationData,
 	RegistrationModes,
 	TabPanelProps,
-} from '../../shared';
+} from '@shared';
 import styles from './styles/Auth.module.scss';
-import { NextThunkDispatch } from '../../shared/store';
-import { MainLayout } from '../../widgets';
+import { NextThunkDispatch } from '@shared/store';
 
 function TabPanel(props: TabPanelProps) {
 	const { children, value, index, ...other } = props;

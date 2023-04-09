@@ -6,14 +6,14 @@ import { AddRounded, CloseRounded } from '@material-ui/icons';
 // components
 //styles
 import styles from './Uploader.module.scss';
-import general from '../../../../shared/styles/General.module.scss';
+import general from '@shared/styles/General.module.scss';
 import {
 	Loader,
 	SquareDiv,
 	generateUrl,
 	merge,
 	useTypedSelector,
-} from '../../../../shared';
+} from '@shared';
 import { FileUpload } from '../../../FileUpload';
 
 interface IUploaderProps {

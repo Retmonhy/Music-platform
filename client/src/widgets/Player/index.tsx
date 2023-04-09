@@ -8,16 +8,12 @@ import {
 import { Box, IconButton, IconButtonProps } from '@mui/material';
 import { FC, ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { generateUrl } from '../../shared/api';
-import { timeConverter } from '../../shared/helper';
-import {
-	useAction,
-	usePlayerControl,
-	useTypedSelector,
-} from '../../shared/hooks';
+import { generateUrl } from '@shared/api';
+import { timeConverter } from '@shared/helper';
+import { useAction, usePlayerControl, useTypedSelector } from '@shared/hooks';
 import styles from './Player.module.scss';
 import { TrackProgress } from '../TrackProgress';
-import general from './../../shared/styles/General.module.scss';
+import general from '@shared/styles/General.module.scss';
 import { audio, setAudioInstance } from '../../pages/_app';
 
 export const Player: React.FC = () => {

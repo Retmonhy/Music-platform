@@ -8,26 +8,45 @@ import {
 	ChevronRight,
 	ChevronLeft,
 	Menu,
-	Inbox,
-	Mail,
+	HomeRounded,
+	LibraryMusicRounded,
+	LoginRounded,
+	PersonRounded,
+	QueueMusicRounded,
 } from '@mui/icons-material';
 
-import * as React from 'react';
+import { FC, useState } from 'react';
 import { useRouter } from 'next/router';
-import { AccountRoutes, useTypedSelector } from '../shared';
+import { AccountRoutes, useTypedSelector } from '@shared';
 import { Player } from './Player';
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 const menuElements = [
-	{ name: 'Главная', href: '/', id: 'main' },
-	{ name: 'Список треков', href: '/tracks', id: 'tracks' },
-	// { name: 'Список альбомов', href: '/albums', id: 'albums' },
-	{ name: 'Аутентификация', href: AccountRoutes.Login, id: 'login' },
+	{ name: 'Главная', href: '/', id: 'main', icon: <HomeRounded /> },
+	{
+		name: 'Список треков',
+		href: '/tracks',
+		id: 'tracks',
+		icon: <LibraryMusicRounded />,
+	},
+	{
+		name: 'Список плейлистов',
+		href: '/playlists',
+		id: 'playlists',
+		icon: <QueueMusicRounded />,
+	},
+	{
+		name: 'Аутентификация',
+		href: AccountRoutes.Login,
+		id: 'login',
+		icon: <LoginRounded />,
+	},
 	{
 		name: 'Мой профиль',
 		href: AccountRoutes.Profile,
 		id: 'profile',
+		icon: <PersonRounded />,
 	},
 ];
 
@@ -56,16 +75,15 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	display: 'flex',
 	alignItems: 'center',
 	padding: theme.spacing(0, 1),
-	// necessary for content to be below app bar
 	...theme.mixins.toolbar,
 	justifyContent: 'flex-end',
 }));
 
-export const Navbar: React.FC = () => {
+export const Navbar: FC = () => {
+	const { user } = useTypedSelector(i => i.account);
 	const theme = useTheme();
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
 	const router = useRouter();
-	const { isAuth } = useTypedSelector(i => i.account);
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -90,7 +108,7 @@ export const Navbar: React.FC = () => {
 					</IconButton>
 					<>
 						<Typography variant='h6' noWrap component='div'>
-							Persistent drawer
+							UpMusic
 						</Typography>
 						<Player />
 					</>
@@ -115,16 +133,17 @@ export const Navbar: React.FC = () => {
 				</DrawerHeader>
 				<Divider />
 				<List>
-					{menuElements.map(({ name, href, id }, index) => {
-						if (id === 'profile') {
-							href = isAuth ? href : AccountRoutes.Login;
-						}
+					{menuElements.map(({ name, href, id, icon }) => {
+						if (id === 'profile' && !user) return null;
+						if (id === 'login' && user) return null;
+						const handleClick = () => {
+							router.push(href);
+							setOpen(false);
+						};
 						return (
 							<ListItem key={name} disablePadding>
-								<ListItemButton onClick={() => router.push(href)}>
-									<ListItemIcon>
-										{index % 2 === 0 ? <Inbox /> : <Mail />}
-									</ListItemIcon>
+								<ListItemButton onClick={handleClick}>
+									<ListItemIcon>{icon}</ListItemIcon>
 									<ListItemText primary={name} />
 								</ListItemButton>
 							</ListItem>

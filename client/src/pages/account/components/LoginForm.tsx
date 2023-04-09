@@ -2,8 +2,8 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Button, Grid } from '@mui/material';
 import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { ControlledInput, ILoginData, useTypedSelector } from '../../../shared';
-import general from '../../../shared/styles/General.module.scss';
+import { ControlledInput, ILoginData, useTypedSelector } from '@shared';
+import general from '@shared/styles/General.module.scss';
 
 interface ILoginForm {
 	onSubmit: (data: ILoginData) => void;

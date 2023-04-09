@@ -1,4 +1,4 @@
-import { timeConverter } from '../../../../shared';
+import { timeConverter } from '@shared';
 import styles from './TrackTime.module.scss';
 
 interface TrackTimeProps {

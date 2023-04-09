@@ -10,7 +10,7 @@ import { PlaylistFooter, PlaylistHeader, PlaylistInfo } from './ui';
 import { Control } from 'react-hook-form';
 
 import { PlaylistMusicControl } from './ui/PlaylistMusicControl';
-import { IPlaylistData, useAction, useTypedSelector } from '../../shared';
+import { IPlaylistData, useAction, useTypedSelector } from '@shared';
 import { useDispatch } from 'react-redux';
 
 interface IPlaylistModalHandlers {

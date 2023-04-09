@@ -2,12 +2,8 @@ import { Box, Grid, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-	ControlledInput,
-	IRegistrationData,
-	useTypedSelector,
-} from '../../../shared';
-import general from '../../../shared/styles/General.module.scss';
+import { ControlledInput, IRegistrationData, useTypedSelector } from '@shared';
+import general from '@shared/styles/General.module.scss';
 export interface IRegistrationForm {
 	onSubmit: (data: IRegistrationData) => void;
 }

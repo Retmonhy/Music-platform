@@ -30,7 +30,7 @@ export const ActionRow: FC<IActionRowProps> = ({
 			) : (
 				<AddTrack onClick={addHandler} />
 			)}
-			<ActionMenu addToPlaylist={() => {}} />
+			<ActionMenu />
 		</Grid>
 	);
 };

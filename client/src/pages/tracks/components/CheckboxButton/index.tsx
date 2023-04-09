@@ -1,8 +1,8 @@
 import React, { FC, MouseEvent, useState } from 'react';
-import { ButtonEl } from '../../../../shared/ui/ButtonEl';
+import { ButtonEl } from '@shared/ui/ButtonEl';
 import { ButtonProps } from '@mui/material';
 import { DoneRounded } from '@mui/icons-material';
-import general from './../../../../shared/styles/General.module.scss';
+import general from '@shared/styles/General.module.scss';
 interface ICheckboxButtonProps extends ButtonProps {
 	title: string;
 	isChecked: boolean;

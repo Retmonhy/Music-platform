@@ -3,15 +3,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Button, Grid, TextField } from '@material-ui/core';
 import { GetServerSideProps } from 'next';
-import { useInput } from '../../shared/hooks';
+import { useInput } from '@shared/hooks';
 import {
 	api,
 	generateUrl,
 	TrackEndpoints,
 	ICommentResponse,
-} from '../../shared/api';
-import { ITrack } from '../../shared/types';
-import { MainLayout } from '../../widgets';
+} from '@shared/api';
+import { ITrack } from '@shared/types';
 
 const TrackPage = ({ serverTrack }) => {
 	const [track, setTrack] = React.useState<ITrack>(serverTrack);

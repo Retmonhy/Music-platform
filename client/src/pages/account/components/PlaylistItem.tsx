@@ -9,11 +9,11 @@ import {
 	useAction,
 	usePlayerControl,
 	usePlaylist,
-} from '../../../shared';
+} from '@shared';
 import { PlaylistImage } from './PlaylistImage';
-import { SquareDiv } from '../../../shared/ui';
+import { SquareDiv } from '@shared/ui';
 import { useDispatch } from 'react-redux';
-import { NextThunkDispatch } from '../../../shared/store';
+import { NextThunkDispatch } from '@shared/store';
 
 interface IPlaylistItemProps {
 	item: IPlaylist;
