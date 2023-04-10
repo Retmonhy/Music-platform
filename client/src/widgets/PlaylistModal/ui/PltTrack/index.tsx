@@ -4,15 +4,15 @@ import { Box, Checkbox, IconButton } from '@mui/material';
 import { PlayArrowRounded } from '@material-ui/icons';
 import styles from './PltTrack.module.scss';
 import { Typography } from '@material-ui/core';
-import { ITrack, PlaylistTrack, useAction } from '@shared';
-import { useDispatch } from 'react-redux';
+import { PlaylistTrack, useAction } from '@shared';
+import { useAppDispatch } from '@shared/store';
 interface IPltTrackProps {
 	track: PlaylistTrack;
 }
 
 export const PltTrack: FC<IPltTrackProps> = ({ track }) => {
 	const trackInfo = track.track;
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const { _playlist } = useAction();
 	const toggle = () => dispatch(_playlist.toggleCheckbox(track.track._id));
 	return (

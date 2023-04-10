@@ -25,8 +25,7 @@ import {
 	useTypedSelector,
 } from '@shared';
 import { TrackContext } from '../TrackItem';
-import { useDispatch } from 'react-redux';
-import { NextThunkDispatch } from '@shared/store';
+import { NextThunkDispatch, useAppDispatch } from '@shared/store';
 import { CheckboxButton } from '../CheckboxButton';
 
 const popperId = 'actionMenu';
@@ -39,9 +38,9 @@ export const ActionMenu: FC<IActionMenuProps> = memo(() => {
 	const { track } = useContext(TrackContext);
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const [isExpand, setExpandList] = useState<boolean>(false);
-	const { userPlaylists: playlists } = useTypedSelector(i => i.account);
+	const { userPlaylists: playlists } = useTypedSelector(i => i.playlists);
 	const playlist = usePlaylist();
-	const dispatch = useDispatch() as NextThunkDispatch;
+	const dispatch = useAppDispatch();
 
 	const open = Boolean(anchorEl);
 

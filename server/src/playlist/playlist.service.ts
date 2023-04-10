@@ -27,6 +27,15 @@ export class PlaylistService {
       throw ApiError.ServerError(error.message);
     }
   }
+  async delete(id: string) {
+    try {
+      const result = await this.playlistModel.deleteOne({ id });
+      //надо чистить привязки. Нужно удалить этот плейлист у всех пользователей, у которых он был
+      return { isSuccess: result.deletedCount > 0 };
+    } catch (error) {
+      throw ApiError.ServerError('Произошла ошибка при удалении трека');
+    }
+  }
   async updatePlaylist(id: string, data: UpdatePlaylistDto) {
     const playlistModel = await this.playlistModel.findById(id);
     if (!playlistModel) {
@@ -62,6 +71,7 @@ export class PlaylistService {
       const playlists = new Array<PlaylistDto>();
       for (const id of ids) {
         const playlist = await this.playlistModel.findById(id);
+        if (!playlist) continue;
         const playlistDto = new PlaylistDto(playlist);
         if (playlistDto) {
           playlists.push(playlistDto);

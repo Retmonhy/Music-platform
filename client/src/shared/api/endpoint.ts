@@ -16,7 +16,6 @@ export enum AccountEndpoints {
 	ADD_TRACK = '/account/music/add',
 	REMOVE_TRACK = '/account/music/remove',
 	//playlists
-	FETCH_USER_PLAYLISTS = '/account/playlists',
 	ADD_PLAYLIST_TO_USER = '/account/playlists/add',
 	REMOVE_PLAYLIST_FROM_USER = '/account/playlists/remove',
 }
@@ -25,9 +24,11 @@ export enum FileEndpoints {
 }
 export enum PlaylistEndpoints {
 	CREATE = '/playlist/create',
+	DELETE = '/playlist/delete',
 	UPDATE = '/playlist/update',
 	ADD = '/playlist/add',
 	REMOVE = '/playlist/remove',
+	FETCH_PLAYLISTS = '/playlist',
 	FETCH_TRACKS = '/playlist/tracks',
 	MANAGE_PLAYLIST_TRACKS = '/playlist/tracks/manage',
 }

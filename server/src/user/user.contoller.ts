@@ -18,7 +18,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { Response, NextFunction, Request } from 'express';
+import { Response, Request } from 'express';
 import { UserService } from '.';
 import { RegistrationDto, UpdateDto } from './dto';
 import { LowerCaseEmailPipe } from './../pipes';
@@ -44,10 +44,11 @@ export class UserController {
           maxAge: 30 * 24 * 60 * 60 * 1000,
           httpOnly: true,
         });
-        return res.status(200).send(userData);
+        return res.status(200).send({ isSuccess: true, ...userData });
       }
     } catch (e) {
       console.log('/api/registration ERROR = ', e);
+      return res.json({ isSuccess: false, message: e.message });
     }
   }
   @UsePipes(new LowerCaseEmailPipe())
@@ -60,10 +61,11 @@ export class UserController {
           maxAge: 30 * 24 * 60 * 60 * 1000,
           httpOnly: true,
         });
-        return res.status(200).send(userData);
+        return res.status(200).send({ isSuccess: true, ...userData });
       }
     } catch (e) {
       console.log('/api/login ERROR = ', e);
+      return res.json({ isSuccess: false, message: e.message });
     }
   }
 
@@ -100,11 +102,7 @@ export class UserController {
   }
 
   @Get('/refresh')
-  async refresh(
-    @Res() res: Response,
-    @Req() req: Request,
-    @Next() next: NextFunction,
-  ) {
+  async refresh(@Res() res: Response, @Req() req: Request) {
     try {
       const { refreshToken } = req.cookies;
       const userData = await this._userService.refresh(refreshToken);
@@ -112,9 +110,9 @@ export class UserController {
         httpOnly: true,
         maxAge: 30 * 24 * 60 * 60 * 1000,
       });
-      res.json(userData);
+      return res.json({ isSuccess: true, ...userData });
     } catch (e) {
-      next(e);
+      return res.json({ isSuccess: false, message: e.message });
     }
   }
 
@@ -200,26 +198,6 @@ export class UserController {
       }
       const tracks = await this._trackService.getUserMusic(userModel.tracks);
       return res.json(tracks);
-    } catch (error) {
-      throw ApiError.ServerError(error);
-    }
-  }
-  @UseGuards(AuthGuard)
-  @Get('/playlists')
-  async getUserPlaylists(@Req() req: Request, @Res() res: Response) {
-    try {
-      const accessToken = req.headers.authorization.split(' ')[1];
-      if (!accessToken) {
-        throw ApiError.UnauthorizedError();
-      }
-      const userModel = await this._userService.getUserModel(accessToken);
-      if (!userModel) {
-        throw ApiError.UnauthorizedError();
-      }
-      const playlists = await this._playlistService.getPlaylistListByIds(
-        userModel.playlists,
-      );
-      return res.json(playlists);
     } catch (error) {
       throw ApiError.ServerError(error);
     }

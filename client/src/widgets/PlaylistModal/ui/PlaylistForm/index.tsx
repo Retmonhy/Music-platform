@@ -6,14 +6,12 @@ import { Control } from 'react-hook-form';
 // components
 import { ControlledInput, IPlaylistData, useTypedSelector } from '@shared';
 //styles
-import styles from './PlaylistModal.module.scss';
-import general from '../../styles/General.module.scss';
 
 interface IPlaylistForm {
 	control: Control<IPlaylistData>;
 }
 export const PlaylistForm: FC<IPlaylistForm> = ({ control }) => {
-	const { info } = useTypedSelector(i => i.playlist);
+	const { info } = useTypedSelector(i => i.playlistModal);
 	return (
 		<Box width={'100%'}>
 			<Grid container direction='column'>

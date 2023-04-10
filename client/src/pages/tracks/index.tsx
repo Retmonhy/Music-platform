@@ -4,16 +4,15 @@ import { useTypedSelector } from '@shared/hooks/useTypedSelector';
 
 import { TrackList } from './components';
 import { useAction, usePlaylist } from '@shared';
-import { useDispatch } from 'react-redux';
-import { MainLayout, PlaylistModal } from '../../widgets';
-import { NextThunkDispatch, wrapper } from '@shared/store';
+import { PlaylistModal } from '../../widgets';
+import { NextThunkDispatch, useAppDispatch, wrapper } from '@shared/store';
 
 const Index: React.FC = () => {
 	const { tracks, error } = useTypedSelector(st => st.track);
-	const dispatch = useDispatch() as NextThunkDispatch;
-	const { fetchUserPlaylists } = useAction()._account;
+	const dispatch = useAppDispatch();
+	const { _playlist } = useAction();
 	useEffect(() => {
-		dispatch(fetchUserPlaylists());
+		dispatch(_playlist.fetchPlaylists());
 	}, []);
 	if (error) {
 		return <h1>{error}</h1>;

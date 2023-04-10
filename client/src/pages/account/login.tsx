@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Card, Tab, Tabs } from '@mui/material';
-import { useDispatch } from 'react-redux';
 import { useAction, useTypedSelector } from '@shared/hooks';
 import { RegistrationForm, LoginForm } from './components';
 import {
@@ -13,7 +12,7 @@ import {
 	TabPanelProps,
 } from '@shared';
 import styles from './styles/Auth.module.scss';
-import { NextThunkDispatch } from '@shared/store';
+import { NextThunkDispatch, useAppDispatch } from '@shared/store';
 
 function TabPanel(props: TabPanelProps) {
 	const { children, value, index, ...other } = props;
@@ -38,7 +37,7 @@ const AuthPage = () => {
 	const { isAuth, isLoading } = useTypedSelector(i => i.account);
 	const [mode, setMode] = useState<RegistrationModes>(RegistrationModes.REG);
 	const router = useRouter();
-	const dispatch = useDispatch() as NextThunkDispatch;
+	const dispatch = useAppDispatch();
 	const { _account } = useAction();
 	useEffect(() => {
 		if (isAuth) {

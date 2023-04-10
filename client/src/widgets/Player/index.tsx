@@ -7,20 +7,18 @@ import {
 } from '@material-ui/icons';
 import { Box, IconButton, IconButtonProps } from '@mui/material';
 import { FC, ReactNode, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { generateUrl } from '@shared/api';
-import { timeConverter } from '@shared/helper';
 import { useAction, usePlayerControl, useTypedSelector } from '@shared/hooks';
 import styles from './Player.module.scss';
-import { TrackProgress } from '../TrackProgress';
 import general from '@shared/styles/General.module.scss';
 import { audio, setAudioInstance } from '../../pages/_app';
+import { useAppDispatch } from '@shared/store';
 
 export const Player: React.FC = () => {
 	const { active, currentTime, duration, pause, volume } = useTypedSelector(
 		state => state.player,
 	);
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const { playControl, nextTrack, prevTrack, playTrack } = usePlayerControl();
 	const { setCurrentTime, setDuration, setVolume, startNext } =
 		useAction()._player;

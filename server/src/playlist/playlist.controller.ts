@@ -7,7 +7,6 @@ import { AuthGuard } from './../guards/auth.guard';
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Post,
   Query,
@@ -27,6 +26,25 @@ export class PlaylistController {
     private _userService: UserService,
     private _trackService: TrackService,
   ) {}
+  @Get('/')
+  async getPlaylists(@Req() req: Request, @Res() res: Response) {
+    try {
+      const accessToken = req.headers.authorization.split(' ')[1];
+      if (!accessToken) {
+        throw ApiError.UnauthorizedError();
+      }
+      const userModel = await this._userService.getUserModel(accessToken);
+      if (!userModel) {
+        throw ApiError.UnauthorizedError();
+      }
+      const playlists = await this._playlistService.getPlaylistListByIds(
+        userModel.playlists,
+      );
+      return res.json(playlists);
+    } catch (error) {
+      throw ApiError.ServerError(error);
+    }
+  }
   @UseGuards(AuthGuard)
   @Post('/create')
   async create(
@@ -58,6 +76,29 @@ export class PlaylistController {
     }
   }
   @UseGuards(AuthGuard)
+  @Post('/delete')
+  async delete(
+    @Req() req: Request,
+    @Body('id') id: string,
+    @Res() res: Response,
+  ) {
+    const accessToken = req.headers.authorization.split(' ')[1];
+    const userModel = await this._userService.getUserModel(accessToken);
+    if (!userModel) {
+      throw ApiError.UnauthorizedError();
+    }
+
+    try {
+      const deleteResult = await this._playlistService.delete(id);
+      await this._userService.deletePlaylistFromAllUsers(id);
+      if (deleteResult.isSuccess) {
+        return res.json(deleteResult);
+      }
+    } catch (error) {
+      return res.json(error);
+    }
+  }
+  @UseGuards(AuthGuard)
   @Post('/update')
   async update(
     @Req() req: Request,
@@ -75,7 +116,7 @@ export class PlaylistController {
     return res.json({ isSuccess: true, playlist });
   }
   @UseGuards(AuthGuard)
-  @Get('/add:id')
+  @Post('/add')
   async addPlaylistToUser(
     @Req() req: Request,
     @Query('id') id: string,
@@ -99,7 +140,7 @@ export class PlaylistController {
     }
   }
   @UseGuards(AuthGuard)
-  @Delete('/remove:id')
+  @Post('/remove')
   async removePlaylistFromUser(
     @Req() req: Request,
     @Query('id') id: string,
@@ -107,9 +148,6 @@ export class PlaylistController {
   ) {
     try {
       const accessToken = req.headers.authorization.split(' ')[1];
-      if (!accessToken) {
-        return ApiError.UnauthorizedError();
-      }
       const userModel = await this._userService.getUserModel(accessToken);
       if (!userModel) {
         throw ApiError.UnauthorizedError();

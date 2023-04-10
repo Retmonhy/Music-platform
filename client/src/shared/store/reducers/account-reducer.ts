@@ -1,7 +1,6 @@
 import { StorageKeys } from './../../types/localStorage';
 import {
 	fetchUserMusic,
-	fetchUserPlaylists,
 	removeTrackFromMyMusic,
 	addTrackIntoMyMusic,
 	changeRouteTo,
@@ -18,12 +17,11 @@ import {
 	AccountActionTypes,
 	AccountState,
 	ITrack,
-	IPlaylist,
-	IRefreshAction,
 	User,
 } from '../../types';
 import { isFulfilledAction, isPendingAction, isRejectedAction } from '.';
-import { managePlaylistTracks } from '../ActionCreators/playlist';
+import { managePlaylistTracks } from '../ActionCreators/playlists';
+import { ILoginUserResponse } from '@shared/api';
 
 const menuList: IMenuItem[] = [
 	{
@@ -53,15 +51,15 @@ function isAuthorizationAction(action: IAuthorizationAction) {
 }
 
 const initialState: AccountState = {
+	isAuth: false,
+	user: null,
 	accessToken: null,
 	refreshToken: null,
-	user: null,
 	isLoading: false,
-	isPlaylistLoading: false,
-	isAuth: false,
 	routes: menuList,
+
 	userTracks: [],
-	userPlaylists: [],
+
 	isHidrated: true,
 };
 export const accountReducer = createReducer(
@@ -98,14 +96,6 @@ export const accountReducer = createReducer(
 				}
 				return state;
 			})
-			.addCase(managePlaylistTracks.fulfilled, (state, action) => {
-				state.userPlaylists = state.userPlaylists.map(pl => {
-					if (pl.id === action.payload.playlist.id) {
-						return action.payload.playlist;
-					}
-					return pl;
-				});
-			})
 			.addCase(removeTrackFromMyMusic.fulfilled, (state, action) => {
 				state.userTracks = state.userTracks.filter(
 					track => track._id !== action.payload,
@@ -114,28 +104,18 @@ export const accountReducer = createReducer(
 					id => id !== action.payload,
 				);
 			})
-			.addCase(
-				fetchUserPlaylists.fulfilled,
-				(state, action: PayloadAction<IPlaylist[]>) => {
-					state.userPlaylists = action.payload.map(i => ({
-						...i,
-						owner: new User(i.owner),
-					}));
-					state.isPlaylistLoading = false;
+			.addMatcher(
+				isAuthorizationAction,
+				(state, action: PayloadAction<ILoginUserResponse>) => {
+					if (!action.payload.isSuccess) {
+						return state;
+					}
+					state.isAuth = true;
+					state.user = new User(action.payload.user);
+					state.accessToken = action.payload.accessToken;
+					state.refreshToken = action.payload.refreshToken;
 				},
 			)
-			.addCase(fetchUserPlaylists.rejected, state => {
-				state.isPlaylistLoading = false;
-			})
-			.addCase(fetchUserPlaylists.pending, state => {
-				state.isPlaylistLoading = true;
-			})
-			.addMatcher(isAuthorizationAction, (state, action: IRefreshAction) => {
-				state.isAuth = true;
-				state.user = new User(action.payload.user);
-				state.accessToken = action.payload.accessToken;
-				state.refreshToken = action.payload.refreshToken;
-			})
 			//для всех промисов, которые в ожидании
 			.addMatcher(isPendingAction, state => {
 				state.isLoading = true;

@@ -25,7 +25,7 @@ export const login = createAsyncThunk(
 	async (payload: ILoginData, ta) => {
 		try {
 			const { data } = await AccountService.login(payload);
-			if (data) {
+			if (data && data.isSuccess) {
 				localStorage.setItem(StorageKeys.accessToken, data.accessToken);
 			}
 			return data;
@@ -40,7 +40,7 @@ export const registration = createAsyncThunk(
 	async (payload: IRegistrationData, ta) => {
 		try {
 			const { data } = await AccountService.registration(payload);
-			if (data) {
+			if (data && data.isSuccess) {
 				localStorage.setItem(StorageKeys.accessToken, data.accessToken);
 			}
 			return data;
@@ -135,20 +135,6 @@ export const fetchUserMusic = createAsyncThunk(
 			}
 		} catch (error) {
 			console.error('fetchUserMusic ERROR: ', error);
-			return ta.rejectWithValue(error.response.data);
-		}
-	},
-);
-export const fetchUserPlaylists = createAsyncThunk(
-	AccountActionTypes.FETCH_USER_PLAYLISTS,
-	async (_, ta) => {
-		try {
-			const { data } = await AccountService.fetchUserPlaylists();
-			if (data) {
-				return data;
-			}
-		} catch (error) {
-			console.error('fetchUserPlaylists ERROR: ', error);
 			return ta.rejectWithValue(error.response.data);
 		}
 	},

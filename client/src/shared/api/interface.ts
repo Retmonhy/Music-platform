@@ -2,6 +2,7 @@ import { IComment, IPlaylist, ITrack, IUser } from '../types';
 import { IUpdateData } from './../types/auth';
 export interface IDefaultResponse {
 	isSuccess: boolean;
+	message?: string;
 }
 export interface IDefaultParams {
 	accessToken: string;
@@ -15,11 +16,13 @@ export interface ICreateTrackResponse extends IDefaultResponse {
 export interface IDeleteTrackResponse extends IDefaultResponse {
 	trackId: string;
 }
-export interface ILoginUserResponse {
+export interface ILoginUserResponse extends IDefaultResponse {
+	isSuccess: boolean;
 	accessToken: string;
 	refreshToken: string;
 	user: IUser;
 }
+
 export type IUpdateProfileRequest = {
 	payload: IUpdateData;
 } & IDefaultParams;

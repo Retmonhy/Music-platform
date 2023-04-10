@@ -1,9 +1,9 @@
 import { Box, Card, Link } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { merge, useAction } from '@shared';
 import styles from '../styles/Profile.module.scss';
+import { useAppDispatch } from '@shared/store';
 interface IMenuItem {
 	name: string;
 	isSelected: boolean;
@@ -13,7 +13,7 @@ interface ILeftSideMenuProps {
 	list: IMenuItem[];
 }
 export const LeftSideMenu: FC<ILeftSideMenuProps> = ({ list }) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const {
 		_account: { changeRouteTo },

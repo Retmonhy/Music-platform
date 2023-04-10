@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { TrackList } from '../tracks/components';
 import { AccountLayout, ContentBlock } from './components';
 import { useAction, useTypedSelector } from '@shared';
-import { NextThunkDispatch } from '@shared/store';
+import { NextThunkDispatch, useAppDispatch } from '@shared/store';
 import { Loader } from '@shared/ui/Loader';
 
 const AccountTracks = () => {
 	const { isLoading, userTracks } = useTypedSelector(i => i.account);
-	const dispatch = useDispatch() as NextThunkDispatch;
+	const dispatch = useAppDispatch();
 	const { _account } = useAction();
 	useEffect(() => {
 		dispatch(_account.fetchUserMusic());

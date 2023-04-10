@@ -6,7 +6,7 @@ import { FC, useState, MouseEvent } from 'react';
 import styles from './../..';
 import general from '@shared/styles/General.module.scss';
 //components
-import { PopoverButton } from './PopoverButton';
+import { PopoverButton } from '@shared';
 interface IQueueAddProps {
 	onClick: (e: MouseEvent<HTMLDivElement>) => void;
 }

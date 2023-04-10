@@ -4,19 +4,18 @@ import { useForm } from 'react-hook-form';
 import { FileService, ICreatePlaylistResponse, PlaylistService } from '../api';
 import { IPlaylistData, PlaylistMode, UploadActionType } from '../types';
 import { useTypedSelector } from './useTypedSelector';
-import { useDispatch } from 'react-redux';
-import { NextThunkDispatch } from '../store';
+import { NextThunkDispatch, useAppDispatch } from '../store';
 import { useAction } from './useAction';
 
 export const usePlaylist = () => {
 	//hooks
 	const { info, isVisible, selectedTracks, mode } = useTypedSelector(
-		i => i.playlist,
+		i => i.playlistModal,
 	);
-	const { _account } = useAction();
+	const { _playlist } = useAction();
 	const { setCover, setVisible, setMode } = useAction()._playlist;
 
-	const dispatch = useDispatch() as NextThunkDispatch;
+	const dispatch = useAppDispatch();
 	const { control, handleSubmit, reset } = useForm<IPlaylistData>({
 		mode: 'onSubmit',
 	});
@@ -45,7 +44,7 @@ export const usePlaylist = () => {
 			}
 			if (result.isSuccess) {
 				dispatch(setVisible(false));
-				dispatch(_account.fetchUserPlaylists());
+				dispatch(_playlist.fetchPlaylists());
 			}
 		},
 		[mode, selectedTracks, info && info.cover],

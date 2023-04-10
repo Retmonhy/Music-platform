@@ -14,11 +14,11 @@ const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
 	const { store, props } = wrapper.useWrappedStore(pageProps);
 	//так как WrappedApp вызывается при рендере кадой страницы, то наверное будет вызыватьсяэтот юзЭффект всегда
 	const dispatch = store.dispatch as NextThunkDispatch;
-	const { _account } = useAction();
+	const { _playlist, _account } = useAction();
 	useEffect(() => {
 		if (localStorage && localStorage.getItem(StorageKeys.accessToken)) {
 			dispatch(_account.checkAuth()).then(() => {
-				dispatch(_account.fetchUserPlaylists());
+				dispatch(_playlist.fetchPlaylists());
 			});
 		}
 	}, []);

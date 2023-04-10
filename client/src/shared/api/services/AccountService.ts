@@ -1,9 +1,6 @@
-import { generateUrl } from '../index';
-import { ITrack } from '../../../types/track';
 import { ILoginData, IRegistrationData } from '../../types/auth';
 import {
 	api,
-	baseUrl,
 	IUpdateProfileRequest,
 	IAddTrackResponce,
 	ITrackRequest,
@@ -11,9 +8,10 @@ import {
 	ILoginUserResponse,
 	AccountEndpoints,
 	IUpdateProfileResponse,
+	generateUrl,
 } from '..';
 import axios from 'axios';
-import { IPlaylist } from '../../../types';
+import { ITrack, IPlaylist } from '@shared/types';
 
 export class AccountService {
 	static login = async (payload: ILoginData) => {
@@ -50,8 +48,5 @@ export class AccountService {
 	};
 	static fetchUserMusic = async () => {
 		return api.get<ITrack[]>(AccountEndpoints.FETCH_USER_MUSIC);
-	};
-	static fetchUserPlaylists = async () => {
-		return api.get<IPlaylist[]>(AccountEndpoints.FETCH_USER_PLAYLISTS);
 	};
 }

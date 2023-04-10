@@ -1,43 +1,55 @@
 import { AccountLayout, ContentBlock } from './components';
-import React, { FC, ReactNode, useEffect } from 'react';
+import React, {
+	FC,
+	ReactNode,
+	createContext,
+	useEffect,
+	useState,
+} from 'react';
 import {
+	IPlaylist,
 	Loader,
 	PlaylistMode,
+	PlaylistService,
 	useAction,
 	usePlaylist,
 	useTypedSelector,
 } from '@shared';
 import { PlaylistItem } from './components';
 import { Button, Grid } from '@mui/material';
-import { useDispatch } from 'react-redux';
 import { PlaylistModal } from '../../widgets';
-import { NextThunkDispatch } from '@shared/store';
+import { NextThunkDispatch, useAppDispatch } from '@shared/store';
 interface IPlaylistProps {}
 
-const Playlist: FC<IPlaylistProps> = () => {
+const AccountPlaylistsPage: FC<IPlaylistProps> = () => {
 	//hooks
-	const { userPlaylists, isPlaylistLoading } = useTypedSelector(i => i.account);
-	const { _account } = useAction();
-	const dispatch = useDispatch() as NextThunkDispatch;
+	const { userPlaylists, isPlaylistLoading } = useTypedSelector(
+		i => i.playlists,
+	);
+	const { _playlist } = useAction();
+	const dispatch = useAppDispatch();
 	useEffect(() => {
-		dispatch(_account.fetchUserPlaylists());
+		dispatch(_playlist.fetchPlaylists());
+		return () => {};
 	}, []);
 	const { open, close, isVisible, onSave, onUpload, control } = usePlaylist();
 	const createPlaylist = () => {
 		open(PlaylistMode.Create);
 	};
+	const addPlaylist = () => {
+		const promise = PlaylistService.addPlaylistToUser(
+			'64340ba1292c5380ffd1097f',
+		);
+	};
 	return (
 		<AccountLayout>
 			<ContentBlock header='Мои плейлисты'>
 				<Button onClick={createPlaylist}>Создать плейлист</Button>
+				<Button onClick={addPlaylist}>Добавить плейлист</Button>
 				{isPlaylistLoading ? (
 					<Loader />
 				) : (
-					<PlaylistWrapper>
-						{userPlaylists.map(playlist => (
-							<PlaylistItem key={playlist.id} item={playlist} />
-						))}
-					</PlaylistWrapper>
+					<PlaylistList playlists={userPlaylists} />
 				)}
 			</ContentBlock>
 			<PlaylistModal
@@ -52,15 +64,17 @@ const Playlist: FC<IPlaylistProps> = () => {
 		</AccountLayout>
 	);
 };
-export default Playlist;
+export default AccountPlaylistsPage;
 
-interface IPlaylistWrapper {
-	children: ReactNode;
+interface IPlaylistList {
+	playlists: IPlaylist[];
 }
-const PlaylistWrapper: FC<IPlaylistWrapper> = ({ children }) => {
+export const PlaylistList: FC<IPlaylistList> = ({ playlists }) => {
 	return (
 		<Grid container flexDirection='row' flexWrap='wrap'>
-			{children}
+			{playlists.map(playlist => (
+				<PlaylistItem key={playlist.id} item={playlist} />
+			))}
 		</Grid>
 	);
 };

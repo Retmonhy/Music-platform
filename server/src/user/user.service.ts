@@ -131,9 +131,6 @@ export class UserService {
   //
   async getUserModel(accessToken: string): Promise<UserModelType | null> {
     const userDto = this._tokenService.validateAccessToken(accessToken);
-    if (!userDto) {
-      throw ApiError.UnauthorizedError();
-    }
     const userModel = await this.userModel.findById(userDto.id);
     if (!userModel) {
       return null;
@@ -170,8 +167,14 @@ export class UserService {
     userData.email = updateDto.email;
     userData.surname = updateDto.surname;
     userData.firstname = updateDto.firstname;
-    console.log('userData = ', userData);
     await userData.save();
     return new UserDto(userData);
+  }
+  async deletePlaylistFromAllUsers(id: string) {
+    const result = await this.userModel.find({ playlists: id });
+    result.forEach((user) => {
+      user.playlists = user.playlists.filter((i) => i !== id);
+    });
+    await this.userModel.insertMany(result);
   }
 }

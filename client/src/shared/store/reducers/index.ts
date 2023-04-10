@@ -1,16 +1,18 @@
 import { trackReducer } from './track-reducer';
 import { playerReducer } from './player-reducer';
 import { accountReducer } from './account-reducer';
-import { playlistReducer } from './playlist-reducer';
+import { playlistModalReducer } from './playlist-modal-reducer';
 import { HYDRATE } from 'next-redux-wrapper';
 import { AnyAction, combineReducers } from 'redux';
 import { AsyncThunk } from '@reduxjs/toolkit';
+import { playlistsReducer } from './playlists-reducer';
 
 const rootReducer = combineReducers({
 	player: playerReducer,
 	track: trackReducer,
 	account: accountReducer,
-	playlist: playlistReducer,
+	playlistModal: playlistModalReducer,
+	playlists: playlistsReducer,
 });
 
 export const reducer = (state: RootState, action) => {

@@ -5,3 +5,5 @@ export { H2 } from './H2';
 export { MusicInfo } from './MusicInfo';
 export { SquareDiv } from './SquareDiv';
 export { Loader } from './Loader';
+export { ButtonEl } from './ButtonEl';
+export { PopoverButton } from './PopoverButton';

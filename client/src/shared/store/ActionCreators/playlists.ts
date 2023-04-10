@@ -1,21 +1,11 @@
 import {
 	IManagePlaylistTracksPayload,
-	ManageAction,
 	PlaylistMode,
-} from './../../types/playlist';
+} from '../../types/playlist';
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import {
-	IPlaylist,
-	IPlaylistPayload,
-	ITrack,
-	PlaylistActionTypes,
-} from '../../types';
+import { IPlaylist, ITrack, PlaylistActionTypes } from '../../types';
 import { PlaylistService } from '../../api';
 
-interface IUpdateProfilePayload {
-	id: string;
-	data: IPlaylistPayload;
-}
 export const addToCurrentPlaylist = createAction<ITrack>(
 	PlaylistActionTypes.ADD_TO_CURRENT_PLAYLIST,
 );
@@ -28,6 +18,11 @@ export const setMode = createAction<PlaylistMode>(PlaylistActionTypes.SET_MODE);
 export const toggleCheckbox = createAction<string>(
 	PlaylistActionTypes.TOGGLE_CHECKBOX,
 );
+//управляет списком плейлистов (внешних, которые созданы другими пользователями), которые подлежат удалению после выхода со страницы плейлистов
+export const managePlaylistToDeleteFromUser = createAction<string>(
+	PlaylistActionTypes.MANAGE_PLAYLIST_TO_DELETE,
+);
+//загружает подробные данные о плейлисте, когда открывается модалка
 export const loadState = createAsyncThunk(
 	PlaylistActionTypes.LOAD_PLAYLIST_STATE,
 	async (loadingState: IPlaylist, ta) => {
@@ -42,6 +37,7 @@ export const loadState = createAsyncThunk(
 		}
 	},
 );
+//удаляет/добавляет трекив  плейтист
 export const managePlaylistTracks = createAsyncThunk(
 	PlaylistActionTypes.ADD_TO_PLAYLIST,
 	async (params: IManagePlaylistTracksPayload, ta) => {
@@ -51,6 +47,21 @@ export const managePlaylistTracks = createAsyncThunk(
 			return { playlist: data, action };
 		} catch (error) {
 			console.error('managePlaylistTracks ERROR: ', error);
+			return ta.rejectWithValue(error.response.data);
+		}
+	},
+);
+//запрашивает плейлисты: весь список и пользловательсякие (в зависимости от параметров)
+export const fetchPlaylists = createAsyncThunk(
+	PlaylistActionTypes.FETCH_PLAYLISTS,
+	async (_, ta) => {
+		try {
+			const { data } = await PlaylistService.fetchPlaylists();
+			if (data) {
+				return data;
+			}
+		} catch (error) {
+			console.error('fetchPlaylists ERROR: ', error);
 			return ta.rejectWithValue(error.response.data);
 		}
 	},

@@ -1,8 +1,7 @@
 //libs
 import { memo, MouseEvent, useState, createContext } from 'react';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
-import { NextThunkDispatch } from '@shared/store';
+import { NextThunkDispatch, useAppDispatch } from '@shared/store';
 //interface
 import { ITrack, PlayerState } from '@shared/types';
 //styles
@@ -33,7 +32,7 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 		const isActive = playerState ? true : false;
 		const router = useRouter();
 		const { _player, _account } = useAction();
-		const dispatch = useDispatch() as NextThunkDispatch;
+		const dispatch = useAppDispatch();
 
 		const play = (event: MouseEvent<HTMLDivElement>) => {
 			event.stopPropagation();

@@ -11,7 +11,7 @@ import { Control } from 'react-hook-form';
 
 import { PlaylistMusicControl } from './ui/PlaylistMusicControl';
 import { IPlaylistData, useAction, useTypedSelector } from '@shared';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@shared/store';
 
 interface IPlaylistModalHandlers {
 	onClose: (e: MouseEvent<HTMLDivElement>) => void;
@@ -30,9 +30,9 @@ export const PlaylistModal: FC<IPlaylistModalProps> = ({
 	handlers,
 }) => {
 	const { onClose, onSave, onUpload } = handlers;
-	const { selectedTracks } = useTypedSelector(i => i.playlist);
+	const { selectedTracks } = useTypedSelector(i => i.playlistModal);
 	const { _playlist } = useAction();
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	useEffect(() => {
 		//сбрасываем стейт при закрытии модалки
 		if (!isVisible) {

@@ -9,7 +9,7 @@ import {
 	usePlayerControl,
 	useTypedSelector,
 } from '@shared';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@shared/store';
 
 interface TrackListProps {
 	tracks: ITrack[];
@@ -17,7 +17,7 @@ interface TrackListProps {
 export const TrackList: React.FC<TrackListProps> = memo(({ tracks }) => {
 	//в строчке снизу при клике на плашку, чтобы запустить трек. Меняется стейт преера и перерисовывается компонент.
 	//сделать запуск музыки как в вк
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const player = useTypedSelector(st => st.player);
 	const { isLoading } = useTypedSelector(i => i.track);
 	const { _player } = useAction();

@@ -1,6 +1,6 @@
 // libraries
 import React, { FC, useState } from 'react';
-import { Box, Grid, Icon, IconButton, Typography } from '@mui/material';
+import { Box, Grid, Icon, Typography } from '@mui/material';
 import { AddRounded, CloseRounded } from '@material-ui/icons';
 //hooks
 // components
@@ -24,7 +24,7 @@ const typoTheme = {
 };
 export const Uploader: FC<IUploaderProps> = ({ onUpload }) => {
 	const [isShowed, setShowed] = useState<boolean>(false);
-	const { info } = useTypedSelector(i => i.playlist);
+	const { info } = useTypedSelector(i => i.playlistModal);
 	const showRemoveBtn = () => setShowed(true);
 	const hideRemoveBtn = () => setShowed(false);
 	const resetFile = () => onUpload(null);

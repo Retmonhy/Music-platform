@@ -11,10 +11,9 @@ import {
 } from '@shared';
 import general from '@shared/styles/General.module.scss';
 import vars from '@shared/styles/Variables.module.scss';
-import { useDispatch } from 'react-redux';
 
 import { useRouter } from 'next/router';
-import { NextThunkDispatch } from '@shared/store';
+import { NextThunkDispatch, useAppDispatch } from '@shared/store';
 
 type IUpdateProfileData = Omit<IRegistrationData, 'password'>;
 export interface IUpdateProfileForm {}
@@ -22,7 +21,7 @@ export interface IUpdateProfileForm {}
 export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 	//hooks
 	const router = useRouter();
-	const dispatch = useDispatch() as NextThunkDispatch;
+	const dispatch = useAppDispatch();
 	const { user, accessToken, isLoading } = useTypedSelector(i => i.account);
 	const { logout, update } = useAction()._account;
 	const submitBtn = useRef<HTMLButtonElement>(null);

@@ -3,23 +3,17 @@ import {
 	toggleCheckbox,
 	loadState,
 	setMode,
-	managePlaylistTracks,
-} from './../ActionCreators/playlist';
-import {
-	PlaylistMode,
-	PlaylistTrack,
-	IPlaylist,
-	ManageAction,
-} from './../../types/playlist';
+} from '../ActionCreators/playlists';
+import { PlaylistMode, PlaylistTrack, IPlaylist } from '../../types/playlist';
 import { createReducer } from '@reduxjs/toolkit';
-import { IPlaylistState } from '../../types';
+import { IPlaylistModalState } from '../../types';
 import {
 	addToCurrentPlaylist,
 	resetModalState,
 	setVisible,
-} from '../ActionCreators/playlist';
+} from '../ActionCreators/playlists';
 
-const initialState: IPlaylistState = {
+const initialState: IPlaylistModalState = {
 	trackPool: [],
 	selectedTracks: [],
 	isVisible: false,
@@ -27,7 +21,7 @@ const initialState: IPlaylistState = {
 	mode: PlaylistMode.Create,
 };
 
-export const playlistReducer = createReducer(initialState, builder => {
+export const playlistModalReducer = createReducer(initialState, builder => {
 	builder
 		.addCase(addToCurrentPlaylist, (state, action) => {
 			state.selectedTracks = [

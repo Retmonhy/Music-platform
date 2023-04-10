@@ -29,26 +29,33 @@ export enum PlaylistMode {
 	Edit = 'EditPlaylist',
 	Create = 'CreatePlaylist',
 }
-export interface IPlaylistState {
+export interface IPlaylistModalState {
 	mode: PlaylistMode;
 	isVisible: boolean;
 	info: IPlaylist | null;
 	trackPool: PlaylistTrack[];
 	selectedTracks: PlaylistTrack[];
 }
+export interface IPlaylistsState {
+	//общие плейлисты
+	isPlaylistLoading: boolean;
+	playlists: IPlaylist[];
+
+	//плейлисты юзера
+	userPlaylists: IPlaylist[];
+	playlistsToDelete: string[];
+}
 export enum PlaylistActionTypes {
-	SEARCH = 'PLAYLIST_SEARCH',
-	CREATE_PLAYLIST = 'CREATE_PLAYLIST',
 	ADD_TO_CURRENT_PLAYLIST = 'ADD_TO_CURRENT_PLAYLIST',
 	ADD_TO_PLAYLIST = 'ADD_TO_PLAYLIST',
-	CHECK_TRACK = 'PLAYLIST_CHECK_TRACK',
 	RESET_MODAL_STATE = 'PLAYLIST_RESET_STATE',
 	VISIBLE = 'PLAYLIST_VISIBLE',
 	COVER = 'PLAYLIST_COVER',
 	TOGGLE_CHECKBOX = 'TOGGLE_CHECKBOX',
 	LOAD_PLAYLIST_STATE = 'LOAD_PLAYLIST_STATE',
-	UPDATE_PLAYLIST = 'UPDATE_PLAYLIST',
+	MANAGE_PLAYLIST_TO_DELETE = 'MANAGE_PLAYLIST_TO_DELETE',
 	SET_MODE = 'SET_MODE',
+	FETCH_PLAYLISTS = 'FETCH_PLAYLISTS',
 }
 export interface IManagePlaylistTracksPayload {
 	playlistId: string;

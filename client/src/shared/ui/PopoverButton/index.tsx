@@ -1,4 +1,3 @@
-import { CloseRounded } from '@material-ui/icons';
 import { Popover } from '@mui/material';
 import { FC, useState, MouseEvent, ReactNode } from 'react';
 import styles from '@shared/styles/TrackItem.module.scss';
