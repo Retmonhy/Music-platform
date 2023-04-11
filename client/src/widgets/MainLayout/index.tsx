@@ -18,15 +18,17 @@ export const MainLayout: React.FC<IMainLayoutProps> = ({
 	return (
 		<>
 			<Head>
-				<title>{title || 'Музыкальная площадка'}</title>
+				<title>{title || 'UpMusic'}</title>
 				<meta
 					name='description'
-					content={`Музыкальная площадка. Послушать музыку бесплатно. ${description}`}
+					content={`UpMusic - Послушать музыку бесплатно. ${description}`}
 				/>
 				<meta name='robots' content={'index, follow'} />
 				<meta
 					name='keywords'
-					content={keywords || 'Музыка, скачать музыку, слушать, песни, песня'}
+					content={
+						keywords || 'Upmusic, Музыка, скачать музыку, слушать, песни, песня'
+					}
 				/>
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 			</Head>

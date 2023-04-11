@@ -3,6 +3,7 @@ import React, {
 	FC,
 	ReactNode,
 	createContext,
+	useCallback,
 	useEffect,
 	useState,
 } from 'react';
@@ -16,36 +17,31 @@ import {
 	useTypedSelector,
 } from '@shared';
 import { PlaylistItem } from './components';
-import { Button, Grid } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { PlaylistModal } from '../../widgets';
 import { NextThunkDispatch, useAppDispatch } from '@shared/store';
 interface IPlaylistProps {}
 
 const AccountPlaylistsPage: FC<IPlaylistProps> = () => {
 	//hooks
-	const { userPlaylists, isPlaylistLoading } = useTypedSelector(
-		i => i.playlists,
-	);
+	const { userPlaylists, isPlaylistLoading, playlistsToDelete } =
+		useTypedSelector(i => i.playlists);
 	const { _playlist } = useAction();
 	const dispatch = useAppDispatch();
+	const deletePlaylistsOnUnmount = useCallback(() => {
+		if (playlistsToDelete.length)
+			dispatch(_playlist.deletePlaylists(playlistsToDelete));
+	}, [playlistsToDelete]);
+
 	useEffect(() => {
 		dispatch(_playlist.fetchPlaylists());
-		return () => {};
+		return deletePlaylistsOnUnmount;
 	}, []);
+
 	const { open, close, isVisible, onSave, onUpload, control } = usePlaylist();
-	const createPlaylist = () => {
-		open(PlaylistMode.Create);
-	};
-	const addPlaylist = () => {
-		const promise = PlaylistService.addPlaylistToUser(
-			'64340ba1292c5380ffd1097f',
-		);
-	};
 	return (
 		<AccountLayout>
 			<ContentBlock header='Мои плейлисты'>
-				<Button onClick={createPlaylist}>Создать плейлист</Button>
-				<Button onClick={addPlaylist}>Добавить плейлист</Button>
 				{isPlaylistLoading ? (
 					<Loader />
 				) : (
@@ -70,7 +66,20 @@ interface IPlaylistList {
 	playlists: IPlaylist[];
 }
 export const PlaylistList: FC<IPlaylistList> = ({ playlists }) => {
-	return (
+	const { open } = usePlaylist();
+	const createPlaylist = () => {
+		open(PlaylistMode.Create);
+	};
+	return playlists.length === 0 ? (
+		<Grid container flexDirection='column' alignItems='center'>
+			<Box mb={1}>
+				<Typography variant='h6'>Вы не добавили ни одного плейлиста</Typography>
+			</Box>
+			<Button variant='contained' onClick={createPlaylist}>
+				Создать плейлист
+			</Button>
+		</Grid>
+	) : (
 		<Grid container flexDirection='row' flexWrap='wrap'>
 			{playlists.map(playlist => (
 				<PlaylistItem key={playlist.id} item={playlist} />

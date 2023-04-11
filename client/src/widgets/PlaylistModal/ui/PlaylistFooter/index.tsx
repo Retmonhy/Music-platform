@@ -11,6 +11,7 @@ import {
 	PlaylistMode,
 	PlaylistService,
 	useAction,
+	usePlaylist,
 	useTypedSelector,
 } from '@shared';
 import { useAppDispatch } from '@shared/store';
@@ -23,6 +24,7 @@ export const PlaylistFooter: FC<IPlaylistFooterProps> = ({
 	title,
 	onClick,
 }) => {
+	const { close } = usePlaylist();
 	const dispatch = useAppDispatch();
 	const { mode, info } = useTypedSelector(i => i.playlistModal);
 	const { user } = useTypedSelector(i => i.account);
@@ -35,6 +37,7 @@ export const PlaylistFooter: FC<IPlaylistFooterProps> = ({
 		const { data } = await PlaylistService.deletePlaylist(info.id);
 		if (data.isSuccess) {
 			dispatch(_playlist.fetchPlaylists());
+			close();
 		}
 	};
 	return (

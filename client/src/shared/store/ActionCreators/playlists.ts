@@ -66,3 +66,16 @@ export const fetchPlaylists = createAsyncThunk(
 		}
 	},
 );
+//удаляет плейлисты из пользовательских
+export const deletePlaylists = createAsyncThunk(
+	PlaylistActionTypes.DELETE_PLAYLISTS_FROM_USER,
+	async (ids: string[], ta) => {
+		try {
+			const { data } = await PlaylistService.removePlaylistsFromUser(ids);
+			return data;
+		} catch (error) {
+			console.error('deletePlaylists ERROR: ', error);
+			return ta.rejectWithValue(error.response.data);
+		}
+	},
+);

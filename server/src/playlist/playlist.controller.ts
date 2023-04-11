@@ -141,9 +141,9 @@ export class PlaylistController {
   }
   @UseGuards(AuthGuard)
   @Post('/remove')
-  async removePlaylistFromUser(
+  async removePlaylistsFromUser(
     @Req() req: Request,
-    @Query('id') id: string,
+    @Body() body: { ids: string[] },
     @Res() res: Response,
   ) {
     try {
@@ -152,9 +152,9 @@ export class PlaylistController {
       if (!userModel) {
         throw ApiError.UnauthorizedError();
       }
-      const result = await this._playlistService.removePlaylistFromUser(
+      const result = await this._playlistService.removePlaylistsFromUser(
         userModel,
-        id,
+        body.ids,
       );
       if (result) {
         return res.json({ isSuccess: true });

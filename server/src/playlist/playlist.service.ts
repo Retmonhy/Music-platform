@@ -15,6 +15,7 @@ export class PlaylistService {
   constructor(
     @InjectModel(Playlist.name) private playlistModel: Model<PlaylistDocument>,
   ) {}
+
   async create(data: CreatePlaylistDto): Promise<PlaylistDto> {
     try {
       const playlist = await this.playlistModel.create(data);
@@ -27,6 +28,7 @@ export class PlaylistService {
       throw ApiError.ServerError(error.message);
     }
   }
+
   async delete(id: string) {
     try {
       const result = await this.playlistModel.deleteOne({ id });
@@ -36,6 +38,7 @@ export class PlaylistService {
       throw ApiError.ServerError('Произошла ошибка при удалении трека');
     }
   }
+
   async updatePlaylist(id: string, data: UpdatePlaylistDto) {
     const playlistModel = await this.playlistModel.findById(id);
     if (!playlistModel) {
@@ -48,6 +51,7 @@ export class PlaylistService {
     await playlistModel.save();
     return new PlaylistDto(playlistModel);
   }
+
   async addPlaylistToUser(user: UserModelType, id: string) {
     try {
       user.playlists = [id, ...user.playlists];
@@ -57,9 +61,12 @@ export class PlaylistService {
       throw ApiError.ServerError('Произошла ошибка при создании трека');
     }
   }
-  async removePlaylistFromUser(user: UserModelType, id: string) {
+
+  async removePlaylistsFromUser(user: UserModelType, ids: string[]) {
     try {
-      user.playlists = user.playlists.filter((playlistId) => playlistId !== id);
+      ids.forEach((id) => {
+        user.playlists = user.playlists.filter((i) => i !== id);
+      });
       await user.save();
       return true;
     } catch (error) {

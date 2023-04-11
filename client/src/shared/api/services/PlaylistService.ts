@@ -21,6 +21,7 @@ export class PlaylistService {
 			{ params: { id } },
 		);
 	}
+	//добавть чужой плейлист пользователю
 	static addPlaylistToUser(id: string) {
 		return api.post<IDefaultResponse>(
 			PlaylistEndpoints.ADD,
@@ -30,14 +31,9 @@ export class PlaylistService {
 			},
 		);
 	}
-	static removePlaylistFromUser(id: string) {
-		return api.post<IDefaultResponse>(
-			PlaylistEndpoints.REMOVE,
-			{},
-			{
-				params: { id },
-			},
-		);
+	//убрать чужые плейлисты от пользователя
+	static removePlaylistsFromUser(ids: string[]) {
+		return api.post<IDefaultResponse>(PlaylistEndpoints.REMOVE, { ids });
 	}
 	//тут надо переписать функцию, чтобы она работала для двух случаев: запрашивала плелисты юзеров или все плейлисты
 	static fetchPlaylists = async (id?: string) => {
@@ -48,6 +44,7 @@ export class PlaylistService {
 			params: { id },
 		});
 	}
+	//удаяет или добавлеяет трек в плейлист
 	static managePlaylistTracks = (params: IManagePlaylistTracksPayload) => {
 		return api.post<IPlaylist>(
 			PlaylistEndpoints.MANAGE_PLAYLIST_TRACKS,

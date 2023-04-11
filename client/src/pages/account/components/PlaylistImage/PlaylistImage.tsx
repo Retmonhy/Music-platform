@@ -6,23 +6,16 @@ import {
 	PlayArrowRounded,
 	SubjectRounded,
 } from '@material-ui/icons';
+import { Box, Typography, createTheme } from '@mui/material';
+import { AddRounded } from '@mui/icons-material';
 //conponents
-
-import {
-	PlaylistService,
-	generateUrl,
-	merge,
-	useAction,
-	useTypedSelector,
-} from '@shared';
+import { SquareDiv } from '@shared/ui';
+import { PlaylistContext } from '../PlaylistItem';
+import { useAppDispatch } from '@shared/store';
+import { generateUrl, merge, useAction, useTypedSelector } from '@shared';
 //styles
 import styles from './PlaylistImage.module.scss';
 import general from '@shared/styles/General.module.scss';
-import { SquareDiv } from '@shared/ui';
-import { Box, Typography } from '@mui/material';
-import { PlaylistContext } from '../PlaylistItem';
-import { AddRounded } from '@mui/icons-material';
-import { useAppDispatch } from '@shared/store';
 
 const imageSize = 70;
 interface IPlaylistImageHandlers {
@@ -94,13 +87,34 @@ export const PlaylistImage: FC<IPlaylistProps> = ({
 								) : (
 									<SquareDiv
 										size={60}
-										className={merge(styles.btn, styles.edit_btn)}
+										className={merge(styles.btn, styles.edit_btn, styles.flex)}
 										onClick={handleManagePlaylistsToDelete}>
-										{playlistsToDelete.includes(playlist.id) ? (
-											<AddRounded fontSize='inherit' color='inherit' />
-										) : (
-											<CheckRounded fontSize='inherit' color='inherit' />
-										)}
+										<SquareDiv
+											size={30}
+											className={merge(general.relative, styles.overflow)}>
+											<AddRounded
+												className={merge(
+													styles.default_icon,
+													styles.top_icon,
+													playlistsToDelete.includes(playlist.id)
+														? styles.hidden
+														: '',
+												)}
+												fontSize='inherit'
+												color='inherit'
+											/>
+											<CheckRounded
+												className={merge(
+													styles.default_icon,
+													styles.bot_icon,
+													playlistsToDelete.includes(playlist.id)
+														? ''
+														: styles.hidden,
+												)}
+												fontSize='inherit'
+												color='inherit'
+											/>
+										</SquareDiv>
 									</SquareDiv>
 								)}
 

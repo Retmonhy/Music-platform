@@ -47,3 +47,30 @@
 .br8 {
 	border-radius: var.$base-radius;
 }
+.flex {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.overflow {
+	overflow: hidden;
+}
+.default_icon {
+	position: absolute;
+	left: 0;
+	transition: top 160ms ease !important; //дурацкий mui и сложности с переопределением дефолтовых стилей. Было лень, но я наю, что это грех =)
+}
+.top_icon {
+	top: -100%;
+}
+.bot_icon {
+	top: 100%;
+}
+.hidden {
+}
+.bot_icon.hidden {
+	top: 0;
+}
+.top_icon.hidden {
+	top: 0;
+}

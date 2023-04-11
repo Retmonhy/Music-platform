@@ -1,6 +1,7 @@
 import { PayloadAction, createReducer } from '@reduxjs/toolkit';
 import { IPlaylist, IPlaylistsState, User } from '@shared/types';
 import {
+	deletePlaylists,
 	fetchPlaylists,
 	managePlaylistToDeleteFromUser,
 	managePlaylistTracks,
@@ -15,6 +16,11 @@ const initialState: IPlaylistsState = {
 	userPlaylists: [],
 	playlistsToDelete: [],
 };
+
+const clearPlaylistsToDelete = state => {
+	state.playlistsToDelete = [];
+};
+
 export const playlistsReducer = createReducer(initialState, builder => {
 	builder
 		.addCase(managePlaylistToDeleteFromUser, (state, action) => {
@@ -26,6 +32,8 @@ export const playlistsReducer = createReducer(initialState, builder => {
 				state.playlistsToDelete.push(id);
 			}
 		})
+		.addCase(deletePlaylists.fulfilled, clearPlaylistsToDelete)
+		.addCase(deletePlaylists.rejected, clearPlaylistsToDelete)
 		.addCase(
 			fetchPlaylists.fulfilled,
 			(state, action: PayloadAction<IPlaylist[]>) => {
