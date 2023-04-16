@@ -36,7 +36,7 @@ export const PlaylistFooter: FC<IPlaylistFooterProps> = ({
 	const handleDelete = async () => {
 		const { data } = await PlaylistService.deletePlaylist(info.id);
 		if (data.isSuccess) {
-			dispatch(_playlist.fetchPlaylists());
+			dispatch(_playlist.fetchUserPlaylists());
 			close();
 		}
 	};

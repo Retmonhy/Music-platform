@@ -1,4 +1,4 @@
-import React, { FC, createContext } from 'react';
+import React, { FC, createContext, useCallback } from 'react';
 
 import { Box } from '@mui/material';
 import {
@@ -33,7 +33,7 @@ export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
 	};
 	const { _player } = useAction();
 	const { playControl } = usePlayerControl();
-	const playPlaylist = () => {
+	const playPlaylist = useCallback(() => {
 		const playlistTracks = PlaylistService.fetchPlaylistTracks(item.id);
 		playlistTracks.then(result => {
 			const { data: tracks } = result;
@@ -45,7 +45,7 @@ export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
 				dispatch(playControl);
 			}
 		});
-	};
+	}, [item.id]);
 	return (
 		<PlaylistContext.Provider value={item}>
 			<Box flexBasis={'33.33%'} data-id={item.id}>

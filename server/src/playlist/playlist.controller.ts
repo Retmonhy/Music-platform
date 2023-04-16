@@ -45,6 +45,15 @@ export class PlaylistController {
       throw ApiError.ServerError(error);
     }
   }
+  @Get('/all')
+  async getAllPlaylists(@Req() req: Request, @Res() res: Response) {
+    try {
+      const playlists = await this._playlistService.getAllPlaylists();
+      return res.json(playlists);
+    } catch (error) {
+      throw ApiError.ServerError(error);
+    }
+  }
   @UseGuards(AuthGuard)
   @Post('/create')
   async create(

@@ -38,10 +38,11 @@ export interface IPlaylistModalState {
 }
 export interface IPlaylistsState {
 	//общие плейлисты
-	isPlaylistLoading: boolean;
 	playlists: IPlaylist[];
+	isAllPlaylistLoading: boolean;
 
 	//плейлисты юзера
+	isUserPlaylistLoading: boolean;
 	userPlaylists: IPlaylist[];
 	playlistsToDelete: string[];
 }
@@ -57,7 +58,8 @@ export enum PlaylistActionTypes {
 	// ASYNC
 	LOAD_PLAYLIST_STATE = 'LOAD_PLAYLIST_STATE',
 	ADD_TO_PLAYLIST = 'ADD_TO_PLAYLIST',
-	FETCH_PLAYLISTS = 'FETCH_PLAYLISTS',
+	FETCH_USER_PLAYLISTS = 'FETCH_USER_PLAYLISTS',
+	FETCH_ALL_PLAYLISTS = 'FETCH_ALL_PLAYLISTS',
 	DELETE_PLAYLISTS_FROM_USER = 'DELETE_PLAYLISTS_FROM_USER',
 }
 export interface IManagePlaylistTracksPayload {

@@ -18,13 +18,9 @@ const Account = () => {
 	}, [user]);
 	return (
 		<AccountLayout>
-			{isLoading ? (
-				<Loader />
-			) : (
-				<ContentBlock header='Личные данные'>
-					<UpdateProfileForm />
-				</ContentBlock>
-			)}
+			<ContentBlock header='Личные данные'>
+				{isLoading ? <Loader /> : <UpdateProfileForm />}
+			</ContentBlock>
 		</AccountLayout>
 	);
 };

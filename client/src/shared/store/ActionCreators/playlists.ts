@@ -51,9 +51,24 @@ export const managePlaylistTracks = createAsyncThunk(
 		}
 	},
 );
-//запрашивает плейлисты: весь список и пользловательсякие (в зависимости от параметров)
-export const fetchPlaylists = createAsyncThunk(
-	PlaylistActionTypes.FETCH_PLAYLISTS,
+//запрашивает плейлисты: пользловательсякие
+export const fetchUserPlaylists = createAsyncThunk(
+	PlaylistActionTypes.FETCH_USER_PLAYLISTS,
+	async (_, ta) => {
+		try {
+			const { data } = await PlaylistService.fetchUserPlaylists();
+			if (data) {
+				return data;
+			}
+		} catch (error) {
+			console.error('fetchUserPlaylists ERROR: ', error);
+			return ta.rejectWithValue(error.response.data);
+		}
+	},
+);
+//запрашивает все плейлисты
+export const fetchAllPlaylists = createAsyncThunk(
+	PlaylistActionTypes.FETCH_ALL_PLAYLISTS,
 	async (_, ta) => {
 		try {
 			const { data } = await PlaylistService.fetchPlaylists();

@@ -10,9 +10,9 @@ import { NextThunkDispatch, useAppDispatch, wrapper } from '@shared/store';
 const Index: React.FC = () => {
 	const { tracks, error } = useTypedSelector(st => st.track);
 	const dispatch = useAppDispatch();
-	const { _playlist } = useAction();
+	const { _track } = useAction();
 	useEffect(() => {
-		dispatch(_playlist.fetchPlaylists());
+		dispatch(_track.fetchTracks());
 	}, []);
 	if (error) {
 		return <h1>{error}</h1>;
@@ -46,14 +46,14 @@ const Index: React.FC = () => {
 
 export default Index;
 
-export const getServerSideProps = wrapper.getServerSideProps(
-	store => async () => {
-		const dispatch = store.dispatch as NextThunkDispatch;
-		const { _track } = useAction();
-		await dispatch(_track.fetchTracks());
-		//добавлено чтобы не было ошибки TS
-		return {
-			props: {},
-		};
-	},
-);
+// export const getServerSideProps = wrapper.getServerSideProps(
+// 	store => async () => {
+// 		const dispatch = store.dispatch as NextThunkDispatch;
+// 		const { _track } = useAction();
+// 		dispatch(_track.fetchTracks());
+// 		//добавлено чтобы не было ошибки TS
+// 		return {
+// 			props: {},
+// 		};
+// 	},
+// );

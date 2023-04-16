@@ -89,6 +89,17 @@ export class PlaylistService {
       throw ApiError.ServerError('Произошла ошибка при получении плейлистов');
     }
   }
+  //надо сделать пейджинг
+  async getAllPlaylists() {
+    try {
+      const playlists = await this.playlistModel.find();
+      return playlists.map((pl) => new PlaylistDto(pl));
+    } catch (e) {
+      throw ApiError.ServerError(
+        'Произошла ошибка при получении всех плейлистов',
+      );
+    }
+  }
   async getPlaylistTracks(id: string): Promise<string[]> {
     try {
       const playlistModel = await this.playlistModel.findById(id);

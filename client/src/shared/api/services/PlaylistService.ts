@@ -36,9 +36,13 @@ export class PlaylistService {
 		return api.post<IDefaultResponse>(PlaylistEndpoints.REMOVE, { ids });
 	}
 	//тут надо переписать функцию, чтобы она работала для двух случаев: запрашивала плелисты юзеров или все плейлисты
-	static fetchPlaylists = async (id?: string) => {
-		return api.get<IPlaylist[]>(PlaylistEndpoints.FETCH_PLAYLISTS, {});
+	static fetchUserPlaylists = async () => {
+		return api.get<IPlaylist[]>(PlaylistEndpoints.FETCH_USER_PLAYLISTS);
 	};
+	static fetchPlaylists = async () => {
+		return api.get<IPlaylist[]>(PlaylistEndpoints.FETCH_ALL_PLAYLISTS);
+	};
+
 	static fetchPlaylistTracks(id: string) {
 		return api.get<ITrack[]>(PlaylistEndpoints.FETCH_TRACKS, {
 			params: { id },

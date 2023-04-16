@@ -28,7 +28,8 @@ export enum PlaylistEndpoints {
 	UPDATE = '/playlist/update',
 	ADD = '/playlist/add',
 	REMOVE = '/playlist/remove',
-	FETCH_PLAYLISTS = '/playlist',
+	FETCH_USER_PLAYLISTS = '/playlist',
+	FETCH_ALL_PLAYLISTS = '/playlist/all',
 	FETCH_TRACKS = '/playlist/tracks',
 	MANAGE_PLAYLIST_TRACKS = '/playlist/tracks/manage',
 }

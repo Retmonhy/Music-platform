@@ -2,23 +2,24 @@ import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { AppProps } from 'next/app';
 import { StorageKeys, useAction } from '@shared';
-import { NextThunkDispatch, wrapper } from '@shared/store';
+import store, { useAppDispatch, wrapper } from '@shared/store';
 import '@shared/styles/global.css';
 import { MainLayout } from '../widgets';
+import { debouncedFetchPl } from './account/playlists';
 
 export let audio: HTMLAudioElement | null = null;
 export const setAudioInstance = (newAudio: HTMLAudioElement) => {
 	audio = newAudio;
 };
 const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
-	const { store, props } = wrapper.useWrappedStore(pageProps);
+	// const { store, props } = wrapper.useWrappedStore(pageProps); //это строчка создавала дополнительный инстанс стора
 	//так как WrappedApp вызывается при рендере кадой страницы, то наверное будет вызыватьсяэтот юзЭффект всегда
-	const dispatch = store.dispatch as NextThunkDispatch;
-	const { _playlist, _account } = useAction();
+	const dispatch = useAppDispatch();
+	const { _account } = useAction();
 	useEffect(() => {
 		if (localStorage && localStorage.getItem(StorageKeys.accessToken)) {
 			dispatch(_account.checkAuth()).then(() => {
-				dispatch(_playlist.fetchPlaylists());
+				debouncedFetchPl();
 			});
 		}
 	}, []);
@@ -31,4 +32,4 @@ const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
 	);
 };
 
-export default WrappedApp;
+export default wrapper.withRedux(WrappedApp);

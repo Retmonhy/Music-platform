@@ -2,7 +2,8 @@ import { PayloadAction, createReducer } from '@reduxjs/toolkit';
 import { IPlaylist, IPlaylistsState, User } from '@shared/types';
 import {
 	deletePlaylists,
-	fetchPlaylists,
+	fetchAllPlaylists,
+	fetchUserPlaylists,
 	managePlaylistToDeleteFromUser,
 	managePlaylistTracks,
 } from '../ActionCreators/playlists';
@@ -10,9 +11,10 @@ import {
 const initialState: IPlaylistsState = {
 	//общие плейлисты
 	playlists: [],
-	isPlaylistLoading: false,
+	isAllPlaylistLoading: false,
 
 	//плейлисты юзера
+	isUserPlaylistLoading: false,
 	userPlaylists: [],
 	playlistsToDelete: [],
 };
@@ -34,16 +36,6 @@ export const playlistsReducer = createReducer(initialState, builder => {
 		})
 		.addCase(deletePlaylists.fulfilled, clearPlaylistsToDelete)
 		.addCase(deletePlaylists.rejected, clearPlaylistsToDelete)
-		.addCase(
-			fetchPlaylists.fulfilled,
-			(state, action: PayloadAction<IPlaylist[]>) => {
-				state.userPlaylists = action.payload.map(i => ({
-					...i,
-					owner: new User(i.owner),
-				}));
-				state.isPlaylistLoading = false;
-			},
-		)
 		.addCase(managePlaylistTracks.fulfilled, (state, action) => {
 			state.userPlaylists = state.userPlaylists.map(pl => {
 				if (pl.id === action.payload.playlist.id) {
@@ -52,10 +44,44 @@ export const playlistsReducer = createReducer(initialState, builder => {
 				return pl;
 			});
 		})
-		.addCase(fetchPlaylists.rejected, state => {
-			state.isPlaylistLoading = false;
+		.addCase(
+			fetchUserPlaylists.fulfilled,
+			(state, action: PayloadAction<IPlaylist[]>) => {
+				state.userPlaylists = action.payload.map(i => ({
+					...i,
+					owner: new User(i.owner),
+				}));
+				state.isUserPlaylistLoading = false;
+			},
+		)
+		.addCase(fetchAllPlaylists.fulfilled, (state, action) => {
+			return {
+				...state,
+				playlists: [
+					...action.payload.map(i => ({
+						...i,
+						owner: new User(i.owner),
+					})),
+				],
+				isAllPlaylistLoading: false,
+			};
+			// state.playlists = action.payload.map(i => ({
+			// 	...i,
+			// 	owner: new User(i.owner),
+			// }));
 		})
-		.addCase(fetchPlaylists.pending, state => {
-			state.isPlaylistLoading = true;
+
+		//тут повторяющаяяся логика, можно оюбъединить в один обработчик
+		.addCase(fetchUserPlaylists.rejected, state => {
+			state.isUserPlaylistLoading = false;
+		})
+		.addCase(fetchUserPlaylists.pending, state => {
+			state.isUserPlaylistLoading = true;
+		})
+		.addCase(fetchAllPlaylists.rejected, state => {
+			state.isAllPlaylistLoading = false;
+		})
+		.addCase(fetchAllPlaylists.pending, state => {
+			state.isAllPlaylistLoading = true;
 		});
 });

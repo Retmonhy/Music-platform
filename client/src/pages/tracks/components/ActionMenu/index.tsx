@@ -39,6 +39,7 @@ export const ActionMenu: FC<IActionMenuProps> = memo(() => {
 	const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 	const [isExpand, setExpandList] = useState<boolean>(false);
 	const { userPlaylists: playlists } = useTypedSelector(i => i.playlists);
+	const { user } = useTypedSelector(i => i.account);
 	const playlist = usePlaylist();
 	const dispatch = useAppDispatch();
 
@@ -93,31 +94,33 @@ export const ActionMenu: FC<IActionMenuProps> = memo(() => {
 								</ButtonEl>
 
 								{playlists &&
-									playlists.map((pl, ind) => {
-										if (ind > 2) {
-											return;
-										}
-										const handleAddToPlaylist = () => {
-											dispatch(
-												_playlist.managePlaylistTracks({
-													playlistId: pl.id,
-													trackId: track._id,
-													action: pl.tracks.includes(track._id)
-														? ManageAction.Remove
-														: ManageAction.Add,
-												}),
+									playlists
+										.filter(i => i.owner.id === user.id)
+										.map((pl, ind) => {
+											if (ind > 2) {
+												return;
+											}
+											const handleAddToPlaylist = () => {
+												dispatch(
+													_playlist.managePlaylistTracks({
+														playlistId: pl.id,
+														trackId: track._id,
+														action: pl.tracks.includes(track._id)
+															? ManageAction.Remove
+															: ManageAction.Add,
+													}),
+												);
+											};
+											return (
+												<CheckboxButton
+													key={pl.id}
+													title={pl.name}
+													className={styles.menuBtn}
+													isChecked={pl.tracks.includes(track._id)}
+													onClick={handleAddToPlaylist}
+												/>
 											);
-										};
-										return (
-											<CheckboxButton
-												key={pl.id}
-												title={pl.name}
-												className={styles.menuBtn}
-												isChecked={pl.tracks.includes(track._id)}
-												onClick={handleAddToPlaylist}
-											/>
-										);
-									})}
+										})}
 								<ButtonEl className={styles.menuBtn} onClick={showAllPlaylists}>
 									Показать все...
 								</ButtonEl>

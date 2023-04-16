@@ -44,7 +44,7 @@ export const usePlaylist = () => {
 			}
 			if (result.isSuccess) {
 				dispatch(setVisible(false));
-				dispatch(_playlist.fetchPlaylists());
+				dispatch(_playlist.fetchUserPlaylists());
 			}
 		},
 		[mode, selectedTracks, info && info.cover],

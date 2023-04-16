@@ -1,30 +1,28 @@
 import { AccountLayout, ContentBlock } from './components';
-import React, {
-	FC,
-	ReactNode,
-	createContext,
-	useCallback,
-	useEffect,
-	useState,
-} from 'react';
+import React, { FC, Suspense, useCallback, useEffect } from 'react';
 import {
 	IPlaylist,
 	Loader,
 	PlaylistMode,
-	PlaylistService,
+	debounce,
 	useAction,
 	usePlaylist,
 	useTypedSelector,
 } from '@shared';
-import { PlaylistItem } from './components';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { PlaylistModal } from '../../widgets';
-import { NextThunkDispatch, useAppDispatch } from '@shared/store';
+import { PlaylistModal, PlaylistList } from '../../widgets';
+import store, { useAppDispatch } from '@shared/store';
+import { fetchUserPlaylists } from '@shared/store/ActionCreators/playlists';
 interface IPlaylistProps {}
+
+export const debouncedFetchPl = debounce(
+	() => store.dispatch(fetchUserPlaylists()),
+	500,
+);
 
 const AccountPlaylistsPage: FC<IPlaylistProps> = () => {
 	//hooks
-	const { userPlaylists, isPlaylistLoading, playlistsToDelete } =
+	const { userPlaylists, isUserPlaylistLoading, playlistsToDelete } =
 		useTypedSelector(i => i.playlists);
 	const { _playlist } = useAction();
 	const dispatch = useAppDispatch();
@@ -34,18 +32,19 @@ const AccountPlaylistsPage: FC<IPlaylistProps> = () => {
 	}, [playlistsToDelete]);
 
 	useEffect(() => {
-		dispatch(_playlist.fetchPlaylists());
+		debouncedFetchPl();
 		return deletePlaylistsOnUnmount;
 	}, []);
 
-	const { open, close, isVisible, onSave, onUpload, control } = usePlaylist();
+	const { close, isVisible, onSave, onUpload, control } = usePlaylist();
+	console.log('userPlaylists = ', userPlaylists);
 	return (
 		<AccountLayout>
 			<ContentBlock header='Мои плейлисты'>
-				{isPlaylistLoading ? (
+				{isUserPlaylistLoading ? (
 					<Loader />
 				) : (
-					<PlaylistList playlists={userPlaylists} />
+					<AccountPlaylistList playlists={userPlaylists} />
 				)}
 			</ContentBlock>
 			<PlaylistModal
@@ -62,10 +61,12 @@ const AccountPlaylistsPage: FC<IPlaylistProps> = () => {
 };
 export default AccountPlaylistsPage;
 
-interface IPlaylistList {
+interface IAccountPlaylistsProps {
 	playlists: IPlaylist[];
 }
-export const PlaylistList: FC<IPlaylistList> = ({ playlists }) => {
+export const AccountPlaylistList: FC<IAccountPlaylistsProps> = ({
+	playlists,
+}) => {
 	const { open } = usePlaylist();
 	const createPlaylist = () => {
 		open(PlaylistMode.Create);
@@ -80,10 +81,6 @@ export const PlaylistList: FC<IPlaylistList> = ({ playlists }) => {
 			</Button>
 		</Grid>
 	) : (
-		<Grid container flexDirection='row' flexWrap='wrap'>
-			{playlists.map(playlist => (
-				<PlaylistItem key={playlist.id} item={playlist} />
-			))}
-		</Grid>
+		<PlaylistList playlists={playlists} />
 	);
 };
