@@ -33,8 +33,8 @@ export class TrackController {
   }
 
   @Get('/')
-  getAll(@Query('count') count: number, @Query('offset') offset: number) {
-    return this.trackService.getAll(count, offset);
+  getAll(@Query('pageSize') pageSize: number, @Query('page') page: number) {
+    return this.trackService.getAll(+pageSize, +page);
   }
 
   @Get('/search')

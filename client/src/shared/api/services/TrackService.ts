@@ -2,12 +2,13 @@ import {
 	api,
 	ICreateTrackResponse,
 	IDeleteTrackResponse,
+	IFetchTrackParams,
 	TrackEndpoints,
 } from '..';
-import { ITrack } from '../../types';
+import { ITrack } from '@shared/types';
 export class TrackService {
-	static fetchTracksReq = () => {
-		return api.get<ITrack[]>(TrackEndpoints.TRACKS);
+	static fetchTracksReq = (params: IFetchTrackParams) => {
+		return api.get<ITrack[]>(TrackEndpoints.TRACKS, { params });
 	};
 	static createTrack = payload => {
 		return api.post<ICreateTrackResponse>(TrackEndpoints.CREATE_TRACK, payload);

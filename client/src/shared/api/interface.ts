@@ -47,3 +47,8 @@ export interface ICreatePlaylistResponse {
 	isSuccess: boolean;
 	playlist: IPlaylist;
 }
+
+export interface IFetchTrackParams {
+	pageSize: number;
+	page: number;
+}

@@ -1,7 +1,7 @@
-import { Grid } from '@material-ui/core';
+import { Grid, debounce } from '@material-ui/core';
 import { TrackItem } from './TrackItem';
 import general from '@shared/styles/General.module.scss';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect, useRef } from 'react';
 import {
 	ITrack,
 	Loader,
@@ -35,6 +35,16 @@ export const TrackList: React.FC<TrackListProps> = memo(({ tracks }) => {
 		},
 		[tracks, playControl],
 	);
+
+	// const containerRef = useRef(null);
+	// useEffect(() => {
+	// 	const observer = new IntersectionObserver(onIntersect);
+	// 	if (containerRef.current) observer.observe(containerRef.current);
+	// 	return () => {
+	// 		if (containerRef.current) observer.unobserve(containerRef.current);
+	// 	};
+	// }, [containerRef]);
+
 	if (isLoading) {
 		return <Loader />;
 	}
@@ -56,6 +66,9 @@ export const TrackList: React.FC<TrackListProps> = memo(({ tracks }) => {
 					<TrackItem key={track._id} track={track} onClick={onClick} />
 				);
 			})}
+			{/* <div ref={containerRef} id='track_intersection'>
+					intersection block
+				</div> */}
 		</Grid>
 	);
 });

@@ -47,8 +47,9 @@ export class TrackService {
     //далее переходим в контроллер и работаем с запросом
   }
 
-  async getAll(count = 20, offset = 0): Promise<Track[]> {
-    const tracks = await this.trackModel.find().skip(offset).limit(count);
+  async getAll(pageSize = 20, page = 0): Promise<Track[]> {
+    const offset = pageSize * page;
+    const tracks = await this.trackModel.find().skip(offset).limit(pageSize);
     return tracks;
   }
 

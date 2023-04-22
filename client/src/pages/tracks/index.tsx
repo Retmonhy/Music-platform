@@ -1,18 +1,32 @@
 import { Box, Card, Grid } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useTypedSelector } from '@shared/hooks/useTypedSelector';
 
 import { TrackList } from './components';
-import { useAction, usePlaylist } from '@shared';
+import { ITrack, useAction, usePlaylist } from '@shared';
 import { PlaylistModal } from '../../widgets';
-import { NextThunkDispatch, useAppDispatch, wrapper } from '@shared/store';
-
+import { useAppDispatch } from '@shared/store';
+import { Intersect } from '@shared/ui';
+const pageSize = 10;
 const Index: React.FC = () => {
 	const { tracks, error } = useTypedSelector(st => st.track);
 	const dispatch = useAppDispatch();
 	const { _track } = useAction();
-	useEffect(() => {
-		dispatch(_track.fetchTracks());
+	const pageRef = useRef<number>(0);
+	const stopRequesting = useRef<boolean>(false);
+
+	const onIntersect = useCallback(() => {
+		if (!stopRequesting.current) {
+			let result = dispatch(
+				_track.fetchTracks({ page: pageRef.current, pageSize: pageSize }),
+			);
+			result.then(res => {
+				pageRef.current += 1;
+				if (res.payload.length < pageSize) {
+					stopRequesting.current = true;
+				}
+			});
+		}
 	}, []);
 	if (error) {
 		return <h1>{error}</h1>;
@@ -28,7 +42,9 @@ const Index: React.FC = () => {
 							<h1>Список треков</h1>
 						</Grid>
 					</Box>
-					<TrackList tracks={tracks} />
+					<Intersect onIntersect={onIntersect} id='track_intersection'>
+						<TrackList tracks={tracks} />
+					</Intersect>
 				</Card>
 			</Grid>
 			<PlaylistModal

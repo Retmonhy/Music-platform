@@ -1,5 +1,5 @@
-import { AnyAction, createReducer } from '@reduxjs/toolkit';
-import { TrackActionTypes, TrackState } from '../../types';
+import { AnyAction, PayloadAction, createReducer } from '@reduxjs/toolkit';
+import { ITrack, TrackActionTypes, TrackState } from '../../types';
 import { isFulfilledAction, isPendingAction, isRejectedAction } from '.';
 
 const initialState: TrackState = {
@@ -28,8 +28,8 @@ function loadingTrue(state, action) {
 
 export const trackReducer = createReducer(initialState, builder => {
 	builder
-		.addMatcher(isTrackAction, (state, action) => {
-			state.tracks = action.payload;
+		.addMatcher(isTrackAction, (state, action: PayloadAction<ITrack[]>) => {
+			state.tracks = [...state.tracks, ...action.payload];
 		})
 		.addMatcher(isPendingAction, loadingTrue)
 		//для всех промисов, которые разрешились успехом
