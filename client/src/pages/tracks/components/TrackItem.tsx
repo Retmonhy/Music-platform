@@ -26,6 +26,7 @@ interface ITrackContext {
 export const TrackContext = createContext<ITrackContext>(null);
 export const TrackItem: React.FC<TrackItemProps> = memo(
 	({ track, playerState, onClick }) => {
+		console.log('trackitem');
 		const [isHovered, setHovered] = useState<boolean>(false);
 		const { user, accessToken } = useTypedSelector(i => i.account);
 		//проверка делаеется уровнем выше,  plaerState не будет передаваться неактивному

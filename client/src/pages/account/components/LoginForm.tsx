@@ -44,7 +44,7 @@ export const LoginForm: React.FC<ILoginForm> = ({ onSubmit }) => {
 						rules: inputRules,
 						name: 'email',
 					}}
-					label='Электронна почта'
+					label='Электронная почта'
 				/>
 				<ControlledInput
 					controllerProps={{

@@ -1,6 +1,6 @@
-import { useRef } from 'react';
+import { HTMLAttributes, useRef } from 'react';
 
-interface IFileUploadProps {
+interface IFileUploadProps extends HTMLAttributes<HTMLDivElement> {
 	setFile: Function;
 	accept: string;
 	children: React.ReactNode;
@@ -9,6 +9,7 @@ export const FileUpload: React.FC<IFileUploadProps> = ({
 	setFile,
 	accept,
 	children,
+	...props
 }) => {
 	const inputRef = useRef<HTMLInputElement>();
 	const onClick = () => inputRef.current.click();
@@ -16,7 +17,7 @@ export const FileUpload: React.FC<IFileUploadProps> = ({
 		setFile(evt.target.files);
 	};
 	return (
-		<div onClick={onClick}>
+		<div {...props} onClick={onClick}>
 			<input
 				type='file'
 				accept={accept}

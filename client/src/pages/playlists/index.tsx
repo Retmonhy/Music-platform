@@ -5,11 +5,12 @@ import {
 	Intersect,
 	useAction,
 	useIntersect,
+	usePlaylist,
 	useTypedSelector,
 } from '@shared';
 import { useAppDispatch } from '@shared/store';
 import React, { FC, useCallback, useEffect, useRef } from 'react';
-import { PlaylistList } from '../../widgets';
+import { PlaylistList, PlaylistModal } from '../../widgets';
 interface IPlaylistPageProps {}
 
 const pageSize = 8;
@@ -17,11 +18,7 @@ const PlaylistPage = () => {
 	const { playlists, isAllPlaylistLoading } = useTypedSelector(
 		i => i.playlists,
 	);
-	const dispatch = useAppDispatch();
 	const { _playlist } = useAction();
-	useEffect(() => {
-		dispatch(_playlist.fetchAllPlaylists());
-	}, []);
 	const { onIntersect } = useIntersect(_playlist.fetchAllPlaylists, pageSize);
 	return (
 		<>
@@ -44,6 +41,7 @@ interface IPlaylistsPageListProps {
 export const PlaylistsPageList: FC<IPlaylistsPageListProps> = ({
 	playlists,
 }) => {
+	const { close, isVisible, onSave, onUpload, control } = usePlaylist();
 	return playlists.length === 0 ? (
 		<Grid container justifyContent='center' alignItems='center'>
 			<Typography variant='h5' align='center'>
@@ -51,6 +49,17 @@ export const PlaylistsPageList: FC<IPlaylistsPageListProps> = ({
 			</Typography>
 		</Grid>
 	) : (
-		<PlaylistList playlists={playlists} />
+		<>
+			<PlaylistList playlists={playlists} />
+			<PlaylistModal
+				control={control}
+				isVisible={isVisible}
+				handlers={{
+					onClose: close,
+					onUpload,
+					onSave,
+				}}
+			/>
+		</>
 	);
 };

@@ -1,25 +1,22 @@
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import {
-	TrackEndpoints,
-	ICreateTrackResponse,
-	api,
-	FileService,
-	TrackService,
-} from '@shared/api';
-import { useInput } from '@shared/hooks';
-import { MainLayout } from '../../widgets';
+import { FileService, TrackService, generateUrl } from '@shared/api';
 import { StepWrapper } from '../../widgets/StepWrapper';
 import { FileUpload } from '../../widgets/FileUpload';
-import { UploadActionType } from '@shared';
+import { ControlledInput, H1, SquareDiv, UploadActionType } from '@shared';
+import { useForm } from 'react-hook-form';
+import { CloudUploadOutlined } from '@material-ui/icons';
+import styles from './TrackPage.module.scss';
+
+interface ITrackInfo {
+	name: string;
+	author: string;
+	text: string;
+}
 
 const Create = () => {
 	const router = useRouter();
-
-	const name = useInput();
-	const artist = useInput();
-	const text = useInput();
 
 	const [activeStep, setActiveStep] = useState<number>(0);
 	const [picture, setPicture] = useState(null);
@@ -29,11 +26,12 @@ const Create = () => {
 	const next = () => {
 		return activeStep !== 2 ? setActiveStep(prev => (prev += 1)) : undefined;
 	};
-	const sendTrack = async () => {
+	const createTrack = async (submitData: ITrackInfo) => {
+		const { name, author, text } = submitData;
 		const form = new FormData();
-		form.append('name', name.value);
-		form.append('artist', artist.value);
-		form.append('text', text.value);
+		form.append('name', name);
+		form.append('artist', author);
+		form.append('text', text);
 		form.append('picture', picture);
 		form.append('audio', audio);
 		const { data } = await TrackService.createTrack(form);
@@ -41,40 +39,54 @@ const Create = () => {
 			router.push('/tracks');
 		}
 	};
-	const uploadCover = async (images: File[]) => {
-		const { data } = await FileService.upload(
-			UploadActionType.TrackCover,
-			images[0],
-		);
-		if (data.path) setPicture(data.path);
-	};
-	const uploadTrack = async (tracks: File[]) => {
-		console.log('tracks = ', tracks[0]);
-		const { data } = await FileService.upload(
-			UploadActionType.TrackAudio,
-			tracks[0],
-		);
-		if (data.path) setAudio(data.path);
-	};
+	const uploadPicture = file => setPicture(file[0]);
+	const uploadAudio = file => setAudio(file[0]);
 
+	// const uploadCover = async (images: File[]) => {
+	// 	const { data } = await FileService.upload(
+	// 		UploadActionType.TrackCover,
+	// 		images[0],
+	// 	);
+	// 	if (data.path) setPicture(data.path);
+	// };
+	// const uploadTrack = async (tracks: File[]) => {
+	// 	console.log('tracks = ', tracks[0]);
+	// 	const { data } = await FileService.upload(
+	// 		UploadActionType.TrackAudio,
+	// 		tracks[0],
+	// 	);
+	// 	if (data.path) setAudio(data.path);
+	// };
+
+	const handleSendTrack = () => {
+		handleSubmit(createTrack, () => console.log('create track error'))();
+	};
+	const { control, handleSubmit } = useForm<ITrackInfo>();
 	return (
 		<>
+			<H1>Создание трека</H1>
 			<StepWrapper activeStep={activeStep}>
 				{activeStep === 0 && (
 					<Grid container direction='column' style={{ padding: '20px' }}>
-						<TextField
-							{...name}
-							style={{ marginTop: '10px' }}
+						<ControlledInput
+							controllerProps={{
+								control,
+								name: 'name',
+							}}
 							label='Название трека'
 						/>
-						<TextField
-							{...artist}
-							style={{ marginTop: '10px' }}
+						<ControlledInput
+							controllerProps={{
+								control,
+								name: 'author',
+							}}
 							label='Автор трека'
 						/>
-						<TextField
-							{...text}
-							style={{ marginTop: '10px' }}
+						<ControlledInput
+							controllerProps={{
+								control,
+								name: 'text',
+							}}
 							label='Текст песни'
 							multiline
 							minRows={2}
@@ -83,18 +95,50 @@ const Create = () => {
 				)}
 				{activeStep === 1 && (
 					<>
-						<FileUpload accept='image/*' setFile={file => setPicture(file[0])}>
-							<Button>Загрузить обложку</Button>
-						</FileUpload>
-						<Typography>{picture ? 'Обложка загружена' : ''}</Typography>
+						<Grid
+							container
+							direction='column'
+							justifyContent='center'
+							alignItems='center'
+							className={styles.upload_icon}>
+							<CloudUploadOutlined fontSize='inherit' color='inherit' />
+							{picture ? (
+								<Typography>Обложка загружена</Typography>
+							) : (
+								<Button>
+									<FileUpload
+										accept='image/*'
+										setFile={uploadPicture}
+										style={{ height: '100%' }}>
+										Загрузить обложку
+									</FileUpload>
+								</Button>
+							)}
+						</Grid>
 					</>
 				)}
 				{activeStep === 2 && (
 					<>
-						<FileUpload accept='audio/*' setFile={file => setAudio(file[0])}>
-							<Button>Загрузить аудиодорожку</Button>
-						</FileUpload>
-						<Typography>{audio ? 'Аудиодорожка загружена' : ''}</Typography>
+						<Grid
+							container
+							direction='column'
+							justifyContent='center'
+							alignItems='center'
+							className={styles.upload_icon}>
+							<CloudUploadOutlined fontSize='inherit' color='inherit' />
+							{audio ? (
+								<Typography>Аудиодорожка загружена</Typography>
+							) : (
+								<Button>
+									<FileUpload
+										accept='audio/*'
+										setFile={uploadAudio}
+										style={{ height: '100%' }}>
+										Загрузить аудиодорожку
+									</FileUpload>
+								</Button>
+							)}
+						</Grid>
 					</>
 				)}
 			</StepWrapper>
@@ -102,7 +146,7 @@ const Create = () => {
 				<Button onClick={prev} disabled={activeStep === 0}>
 					Назад
 				</Button>
-				<Button onClick={activeStep === 2 ? sendTrack : next}>
+				<Button onClick={activeStep === 2 ? handleSendTrack : next}>
 					{activeStep === 2 ? 'Загрузить' : 'Врепед'}
 				</Button>
 			</Grid>

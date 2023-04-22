@@ -4,7 +4,7 @@ import {
 } from '../../types/playlist';
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { IPlaylist, ITrack, PlaylistActionTypes } from '../../types';
-import { PlaylistService } from '../../api';
+import { IPaginationParams, PlaylistService } from '../../api';
 
 export const addToCurrentPlaylist = createAction<ITrack>(
 	PlaylistActionTypes.ADD_TO_CURRENT_PLAYLIST,
@@ -69,7 +69,7 @@ export const fetchUserPlaylists = createAsyncThunk(
 //запрашивает все плейлисты
 export const fetchAllPlaylists = createAsyncThunk<
 	IPlaylist[],
-	void,
+	IPaginationParams,
 	{ rejectValue: IPlaylist[] }
 >(PlaylistActionTypes.FETCH_ALL_PLAYLISTS, async (params, ta) => {
 	try {
