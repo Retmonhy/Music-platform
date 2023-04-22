@@ -90,9 +90,13 @@ export class PlaylistService {
     }
   }
   //надо сделать пейджинг
-  async getAllPlaylists() {
+  async getAllPlaylists(page: number, pageSize: number) {
     try {
-      const playlists = await this.playlistModel.find();
+      const offset = pageSize * page;
+      const playlists = await this.playlistModel
+        .find()
+        .skip(offset)
+        .limit(pageSize);
       return playlists.map((pl) => new PlaylistDto(pl));
     } catch (e) {
       throw ApiError.ServerError(

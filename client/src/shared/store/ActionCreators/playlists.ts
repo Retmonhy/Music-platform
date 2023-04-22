@@ -67,20 +67,22 @@ export const fetchUserPlaylists = createAsyncThunk(
 	},
 );
 //запрашивает все плейлисты
-export const fetchAllPlaylists = createAsyncThunk(
-	PlaylistActionTypes.FETCH_ALL_PLAYLISTS,
-	async (_, ta) => {
-		try {
-			const { data } = await PlaylistService.fetchPlaylists();
-			if (data) {
-				return data;
-			}
-		} catch (error) {
-			console.error('fetchPlaylists ERROR: ', error);
-			return ta.rejectWithValue(error.response.data);
+export const fetchAllPlaylists = createAsyncThunk<
+	IPlaylist[],
+	void,
+	{ rejectValue: IPlaylist[] }
+>(PlaylistActionTypes.FETCH_ALL_PLAYLISTS, async (params, ta) => {
+	try {
+		const { data } = await PlaylistService.fetchPlaylists(params);
+		if (data) {
+			return data;
 		}
-	},
-);
+	} catch (error) {
+		console.error('fetchPlaylists ERROR: ', error);
+		//тут возможно ошибка, добавть обработку в редьюсере
+		return ta.rejectWithValue([]);
+	}
+});
 //удаляет плейлисты из пользовательских
 export const deletePlaylists = createAsyncThunk(
 	PlaylistActionTypes.DELETE_PLAYLISTS_FROM_USER,

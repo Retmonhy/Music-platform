@@ -8,21 +8,23 @@ const initialState: TrackState = {
 	error: '',
 };
 
+function validateActionType(actionType: string) {
+	const condition =
+		actionType.startsWith(TrackActionTypes.FETCH_TRACKS) ||
+		actionType.startsWith(TrackActionTypes.DELETE_TRACK);
+	return condition ? true : false;
+}
 function isTrackAction(action: AnyAction) {
 	return action.type === `${TrackActionTypes.FETCH_TRACKS}/fulfilled`;
 }
 function loadingFalse(state, action) {
-	switch (action.type) {
-		case (TrackActionTypes.FETCH_TRACKS, TrackActionTypes.DELETE_TRACK):
-			state.isLoading = false;
-			break;
+	if (validateActionType(action.type)) {
+		state.isLoading = false;
 	}
 }
 function loadingTrue(state, action) {
-	switch (action.type) {
-		case (TrackActionTypes.FETCH_TRACKS, TrackActionTypes.DELETE_TRACK):
-			state.isLoading = true;
-			break;
+	if (validateActionType(action.type)) {
+		state.isLoading = true;
 	}
 }
 

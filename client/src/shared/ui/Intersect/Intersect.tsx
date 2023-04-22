@@ -7,15 +7,16 @@ import React, {
 	useEffect,
 	useRef,
 } from 'react';
+import { Loader } from '../Loader';
 interface IIntersectProps {
 	id: string;
 	onIntersect: () => void;
 	children: ReactNode;
+	isFetching: boolean;
 }
 
 export const Intersect: FC<IIntersectProps> = memo(
-	({ id, children, onIntersect }) => {
-		console.log('intersect render');
+	({ id, children, onIntersect, isFetching }) => {
 		const onIntersectHandler = useCallback(entries => {
 			const [entry] = entries;
 			if (entry.isIntersecting) onIntersect();
@@ -33,7 +34,9 @@ export const Intersect: FC<IIntersectProps> = memo(
 		return (
 			<Box>
 				{children}
-				<div ref={containerRef} id={id}></div>
+				<div ref={containerRef} id={id}>
+					{isFetching ? <Loader /> : null}
+				</div>
 			</Box>
 		);
 	},

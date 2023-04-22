@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IFetchTrackParams, TrackService } from '@shared/api';
+import { IPaginationParams, TrackService } from '@shared/api';
 import { ITrack, TrackActionTypes } from '@shared/types';
 
 export const fetchTracks = createAsyncThunk<
 	ITrack[],
-	IFetchTrackParams,
+	IPaginationParams,
 	{ rejectValue: ITrack[] }
 >(TrackActionTypes.FETCH_TRACKS, async (params, ta) => {
 	try {

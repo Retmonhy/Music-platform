@@ -1,11 +1,18 @@
 import { Grid, Typography } from '@material-ui/core';
-import { H1, IPlaylist, Loader, useAction, useTypedSelector } from '@shared';
-import store, { useAppDispatch } from '@shared/store';
-import React, { FC, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { PlaylistList } from 'src/widgets';
+import {
+	H1,
+	IPlaylist,
+	Intersect,
+	useAction,
+	useIntersect,
+	useTypedSelector,
+} from '@shared';
+import { useAppDispatch } from '@shared/store';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
+import { PlaylistList } from '../../widgets';
 interface IPlaylistPageProps {}
 
+const pageSize = 8;
 const PlaylistPage = () => {
 	const { playlists, isAllPlaylistLoading } = useTypedSelector(
 		i => i.playlists,
@@ -15,15 +22,16 @@ const PlaylistPage = () => {
 	useEffect(() => {
 		dispatch(_playlist.fetchAllPlaylists());
 	}, []);
-
+	const { onIntersect } = useIntersect(_playlist.fetchAllPlaylists, pageSize);
 	return (
 		<>
 			<H1>Список плейлистов</H1>
-			{isAllPlaylistLoading ? (
-				<Loader />
-			) : (
+			<Intersect
+				id='playlist_intersection'
+				isFetching={isAllPlaylistLoading}
+				onIntersect={onIntersect}>
 				<PlaylistsPageList playlists={playlists} />
-			)}
+			</Intersect>
 		</>
 	);
 };

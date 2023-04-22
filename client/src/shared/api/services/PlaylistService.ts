@@ -1,5 +1,10 @@
 import { PlaylistEndpoints } from '../endpoint';
-import { ICreatePlaylistResponse, IDefaultResponse, api } from '@shared/api';
+import {
+	ICreatePlaylistResponse,
+	IDefaultResponse,
+	IPaginationParams,
+	api,
+} from '@shared/api';
 import {
 	IPlaylistPayload,
 	IManagePlaylistTracksPayload,
@@ -39,8 +44,10 @@ export class PlaylistService {
 	static fetchUserPlaylists = async () => {
 		return api.get<IPlaylist[]>(PlaylistEndpoints.FETCH_USER_PLAYLISTS);
 	};
-	static fetchPlaylists = async () => {
-		return api.get<IPlaylist[]>(PlaylistEndpoints.FETCH_ALL_PLAYLISTS);
+	static fetchPlaylists = async (params: IPaginationParams) => {
+		return api.get<IPlaylist[]>(PlaylistEndpoints.FETCH_ALL_PLAYLISTS, {
+			params,
+		});
 	};
 
 	static fetchPlaylistTracks(id: string) {

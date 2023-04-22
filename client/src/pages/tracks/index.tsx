@@ -3,34 +3,15 @@ import React, { useCallback, useRef } from 'react';
 import { useTypedSelector } from '@shared/hooks/useTypedSelector';
 
 import { TrackList } from './components';
-import { ITrack, useAction, usePlaylist } from '@shared';
+import { H1, useAction, useIntersect, usePlaylist } from '@shared';
 import { PlaylistModal } from '../../widgets';
 import { useAppDispatch } from '@shared/store';
 import { Intersect } from '@shared/ui';
 const pageSize = 10;
 const Index: React.FC = () => {
-	const { tracks, error } = useTypedSelector(st => st.track);
-	const dispatch = useAppDispatch();
 	const { _track } = useAction();
-	const pageRef = useRef<number>(0);
-	const stopRequesting = useRef<boolean>(false);
-
-	const onIntersect = useCallback(() => {
-		if (!stopRequesting.current) {
-			let result = dispatch(
-				_track.fetchTracks({ page: pageRef.current, pageSize: pageSize }),
-			);
-			result.then(res => {
-				pageRef.current += 1;
-				if (res.payload.length < pageSize) {
-					stopRequesting.current = true;
-				}
-			});
-		}
-	}, []);
-	if (error) {
-		return <h1>{error}</h1>;
-	}
+	const { tracks, error, isLoading } = useTypedSelector(st => st.track);
+	const { onIntersect } = useIntersect(_track.fetchTracks, pageSize);
 
 	const playlist = usePlaylist();
 	return (
@@ -39,10 +20,14 @@ const Index: React.FC = () => {
 				<Card style={{ width: '900px' }}>
 					<Box p={3}>
 						<Grid container justifyContent='space-between'>
-							<h1>Список треков</h1>
+							<H1>Список треков</H1>
 						</Grid>
 					</Box>
-					<Intersect onIntersect={onIntersect} id='track_intersection'>
+					{error ? <H1>{error}</H1> : null}
+					<Intersect
+						onIntersect={onIntersect}
+						id='track_intersection'
+						isFetching={isLoading}>
 						<TrackList tracks={tracks} />
 					</Intersect>
 				</Card>

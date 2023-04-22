@@ -46,9 +46,16 @@ export class PlaylistController {
     }
   }
   @Get('/all')
-  async getAllPlaylists(@Req() req: Request, @Res() res: Response) {
+  async getAllPlaylists(
+    @Query('pageSize') pageSize: number,
+    @Query('page') page: number,
+    @Res() res: Response,
+  ) {
     try {
-      const playlists = await this._playlistService.getAllPlaylists();
+      const playlists = await this._playlistService.getAllPlaylists(
+        +page,
+        +pageSize,
+      );
       return res.json(playlists);
     } catch (error) {
       throw ApiError.ServerError(error);
