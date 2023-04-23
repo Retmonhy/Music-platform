@@ -6,6 +6,7 @@ import {
 	ILoginData,
 	StorageKeys,
 	IRegistrationData,
+	IUser,
 } from '../../types';
 
 interface IArgUpdate {
@@ -61,9 +62,9 @@ export const logout = createAsyncThunk(
 		}
 	},
 );
-export const update = createAsyncThunk(
+export const update = createAsyncThunk<IUser | undefined, IArgUpdate>(
 	AccountActionTypes.UPDATE,
-	async ({ accessToken, payload }: IArgUpdate, ta) => {
+	async ({ accessToken, payload }, ta) => {
 		try {
 			const { data } = await AccountService.updateProfile({
 				payload,

@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Alert, Container } from '@mui/material';
 import Head from 'next/head';
 import { Navbar } from '../Navbar';
 
@@ -33,7 +33,16 @@ export const MainLayout: React.FC<IMainLayoutProps> = ({
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 			</Head>
 			<Navbar />
-			<Container style={{ margin: '90px auto' }}>{children}</Container>
+
+			<Container style={{ margin: '90px auto' }}>
+				{/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+					<Alert variant='filled' severity='error'>
+					This is an error alert — check it out!
+					</Alert>
+				</Snackbar> */}
+				{children}
+			</Container>
+			<div id='toast-container'></div>
 		</>
 	);
 };

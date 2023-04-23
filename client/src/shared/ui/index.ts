@@ -8,3 +8,4 @@ export { SquareDiv } from './SquareDiv';
 export { Loader } from './Loader';
 export { ButtonEl } from './ButtonEl';
 export { PopoverButton } from './PopoverButton';
+export { Toast } from './Toast';

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { AccountRoutes, StorageKeys, useTypedSelector } from '@shared';
+import { AccountRoutes, StorageKeys, Toast } from '@shared';
+import { useTypedSelector } from '@shared/hooks';
 import { ContentBlock, UpdateProfileForm, AccountLayout } from './components';
 import { Loader } from '@shared/ui';
 

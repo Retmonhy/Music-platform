@@ -9,7 +9,9 @@
 		"baseUrl": ".",
 		"paths": {
 			"@shared": ["src/shared"],
-			"@shared/*": ["src/shared/*"]
+			"@shared/*": ["src/shared/*"],
+			"@widgets/*": ["src/widgets/*"],
+			"@widgets": ["src/widgets"]
 		},
 		"noEmit": true,
 		"incremental": true,

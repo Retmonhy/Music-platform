@@ -38,11 +38,15 @@ api.interceptors.response.use(
 				})
 				.then(({ data }) => {
 					if (typeof window !== 'undefined') {
-						error.config.headers.Authorization = `Bearer ${data.accessToken}`;
+						console.log(
+							'data - config = ',
+							data.accessToken === error.config.headers.Authorization,
+						);
+						originalReq.headers.Authorization = `Bearer ${data.accessToken}`;
 					}
 					localStorage.setItem(StorageKeys.accessToken, data.accessToken);
 					store.dispatch({ type: AccountActionTypes.REFRESH, payload: data });
-					axios.request(error.config);
+					axios.request(originalReq);
 				});
 		}
 		return Promise.reject(error);

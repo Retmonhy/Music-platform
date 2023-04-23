@@ -8,15 +8,23 @@ import {
 	IRegistrationData,
 	useAction,
 	useTypedSelector,
+	Toast,
 } from '@shared';
 import general from '@shared/styles/General.module.scss';
 import vars from '@shared/styles/Variables.module.scss';
 
 import { useRouter } from 'next/router';
-import { NextThunkDispatch, useAppDispatch } from '@shared/store';
+import { useAppDispatch } from '@shared/store';
 
 type IUpdateProfileData = Omit<IRegistrationData, 'password'>;
 export interface IUpdateProfileForm {}
+
+const inputRules = {
+	required: {
+		value: true,
+		message: 'Поле обязательно для заполнения',
+	},
+};
 
 export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 	//hooks
@@ -33,13 +41,7 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 			surname: user.surname,
 		},
 	});
-	//variables
-	const inputRules = {
-		required: {
-			value: true,
-			message: 'Поле обязательно для заполнения',
-		},
-	};
+
 	//functions
 	const enterPressSubmit = (e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
@@ -47,7 +49,15 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 		}
 	};
 	const submitForm = payload => {
-		dispatch(update({ accessToken, payload }));
+		if (!control._getDirty()) return;
+		dispatch(update({ accessToken, payload }))
+			.unwrap()
+			.catch(error => {
+				new Toast({
+					type: 'error',
+					message: error.message,
+				});
+			});
 	};
 	const logoutHandler = (e: MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
