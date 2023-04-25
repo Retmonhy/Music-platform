@@ -13,6 +13,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import { PlaylistModal, PlaylistList } from '../../widgets';
 import store, { useAppDispatch } from '@shared/store';
 import { fetchUserPlaylists } from '@shared/store/ActionCreators/playlists';
+import { PlaylistListSkeleton } from '@shared/ui/Skeletons';
 interface IPlaylistProps {}
 
 export const debouncedFetchPl = debounce(
@@ -37,12 +38,11 @@ const AccountPlaylistsPage: FC<IPlaylistProps> = () => {
 	}, []);
 
 	const { close, isVisible, onSave, onUpload, control } = usePlaylist();
-	console.log('userPlaylists = ', userPlaylists);
 	return (
 		<AccountLayout>
 			<ContentBlock header='Мои плейлисты'>
 				{isUserPlaylistLoading ? (
-					<Loader />
+					<PlaylistListSkeleton amount={10} />
 				) : (
 					<AccountPlaylistList playlists={userPlaylists} />
 				)}
@@ -74,7 +74,7 @@ export const AccountPlaylistList: FC<IAccountPlaylistsProps> = ({
 	return playlists.length === 0 ? (
 		<Grid container flexDirection='column' alignItems='center'>
 			<Box mb={1}>
-				<Typography variant='h6'>Вы не добавили ни одного плейлиста</Typography>
+				<Typography variant='h6'>У вас нету ни одного плейлиста</Typography>
 			</Box>
 			<Button variant='contained' onClick={createPlaylist}>
 				Создать плейлист

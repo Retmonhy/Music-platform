@@ -9,8 +9,9 @@ import {
 	useTypedSelector,
 } from '@shared';
 import { useAppDispatch } from '@shared/store';
-import React, { FC, useCallback, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { PlaylistList, PlaylistModal } from '../../widgets';
+import { PlaylistListSkeleton } from '@shared/ui/Skeletons';
 interface IPlaylistPageProps {}
 
 const pageSize = 8;
@@ -20,15 +21,26 @@ const PlaylistPage = () => {
 	);
 	const { _playlist } = useAction();
 	const { onIntersect } = useIntersect(_playlist.fetchAllPlaylists, pageSize);
+	const [isFirstRequest, setIsFirstRequest] = useState<boolean>(true);
+	const dispatch = useAppDispatch();
+	useEffect(() => {
+		dispatch(_playlist.fetchUserPlaylists()).finally(() => {
+			setIsFirstRequest(false);
+		});
+	}, []);
 	return (
 		<>
 			<H1>Список плейлистов</H1>
-			<Intersect
-				id='playlist_intersection'
-				isFetching={isAllPlaylistLoading}
-				onIntersect={onIntersect}>
-				<PlaylistsPageList playlists={playlists} />
-			</Intersect>
+			{isFirstRequest ? (
+				<PlaylistListSkeleton amount={10} />
+			) : (
+				<Intersect
+					id='playlist_intersection'
+					isFetching={isAllPlaylistLoading}
+					onIntersect={onIntersect}>
+					<PlaylistsPageList playlists={playlists} />
+				</Intersect>
+			)}
 		</>
 	);
 };

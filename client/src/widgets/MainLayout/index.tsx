@@ -34,14 +34,7 @@ export const MainLayout: React.FC<IMainLayoutProps> = ({
 			</Head>
 			<Navbar />
 
-			<Container style={{ margin: '90px auto' }}>
-				{/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-					<Alert variant='filled' severity='error'>
-					This is an error alert — check it out!
-					</Alert>
-				</Snackbar> */}
-				{children}
-			</Container>
+			<Container style={{ margin: '90px auto' }}>{children}</Container>
 			<div id='toast-container'></div>
 		</>
 	);

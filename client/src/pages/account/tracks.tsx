@@ -4,6 +4,7 @@ import { AccountLayout, ContentBlock } from './components';
 import { useAction, useTypedSelector } from '@shared';
 import { NextThunkDispatch, useAppDispatch } from '@shared/store';
 import { Loader } from '@shared/ui/Loader';
+import { TrackListSkeleton } from '@shared/ui/Skeletons';
 
 const AccountTracks = () => {
 	const { isLoading, userTracks } = useTypedSelector(i => i.account);
@@ -18,9 +19,14 @@ const AccountTracks = () => {
 				<div>Тут будут треки</div>
 				пока треков нету нужно будет выводить информацию об этом и предлагать
 				загрузить трек
-				{isLoading ? <Loader /> : <TrackList tracks={userTracks} />}
+				{isLoading ? (
+					<TrackListSkeleton amount={5} />
+				) : (
+					<TrackList tracks={userTracks} />
+				)}
 			</ContentBlock>
 		</AccountLayout>
 	);
 };
+
 export default AccountTracks;

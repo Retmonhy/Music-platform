@@ -1,5 +1,5 @@
 import { Box, Card, Grid } from '@material-ui/core';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTypedSelector } from '@shared/hooks/useTypedSelector';
 
 import { TrackList } from './components';
@@ -7,12 +7,21 @@ import { H1, useAction, useIntersect, usePlaylist } from '@shared';
 import { PlaylistModal } from '../../widgets';
 import { useAppDispatch } from '@shared/store';
 import { Intersect } from '@shared/ui';
+import { TrackListSkeleton } from '@shared/ui/Skeletons';
 const pageSize = 10;
-const Index: React.FC = () => {
+
+const TrackPage: React.FC = () => {
 	const { _track } = useAction();
 	const { tracks, error, isLoading } = useTypedSelector(st => st.track);
 	const { onIntersect } = useIntersect(_track.fetchTracks, pageSize);
+	const dispatch = useAppDispatch();
 
+	const [isFirstRequest, setIsFirstRequest] = useState<boolean>(true);
+	useEffect(() => {
+		dispatch(_track.fetchTracks({ pageSize, page: 0 })).finally(() => {
+			setIsFirstRequest(false);
+		});
+	}, []);
 	const playlist = usePlaylist();
 	return (
 		<>
@@ -24,12 +33,16 @@ const Index: React.FC = () => {
 						</Grid>
 					</Box>
 					{error ? <H1>{error}</H1> : null}
-					<Intersect
-						onIntersect={onIntersect}
-						id='track_intersection'
-						isFetching={isLoading}>
-						<TrackList tracks={tracks} />
-					</Intersect>
+					{isFirstRequest ? (
+						<TrackListSkeleton amount={10} />
+					) : (
+						<Intersect
+							onIntersect={onIntersect}
+							id='track_intersection'
+							isFetching={isLoading}>
+							<TrackList tracks={tracks} />
+						</Intersect>
+					)}
 				</Card>
 			</Grid>
 			<PlaylistModal
@@ -45,7 +58,7 @@ const Index: React.FC = () => {
 	);
 };
 
-export default Index;
+export default TrackPage;
 
 // export const getServerSideProps = wrapper.getServerSideProps(
 // 	store => async () => {
