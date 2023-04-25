@@ -12,6 +12,7 @@ import { Control } from 'react-hook-form';
 import { PlaylistMusicControl } from './ui/PlaylistMusicControl';
 import { IPlaylistData, useAction, useTypedSelector } from '@shared';
 import { useAppDispatch } from '@shared/store';
+import { Local } from '@shared/helper/localization';
 
 interface IPlaylistModalHandlers {
 	onClose: (e: MouseEvent<HTMLDivElement>) => void;
@@ -46,10 +47,13 @@ export const PlaylistModal: FC<IPlaylistModalProps> = ({
 			}}
 			open={isVisible}>
 			<Grid container direction='column' className={styles.modal_grid}>
-				<PlaylistHeader title='Создание нового плейлиста' onClose={onClose} />
+				<PlaylistHeader
+					title={Local.Playlists.Modal.CreationTitle}
+					onClose={onClose}
+				/>
 				<PlaylistInfo control={control} onUpload={onUpload} />
 				<PlaylistMusicControl tracks={selectedTracks} />
-				<PlaylistFooter title='Сохранить' onClick={onSave} />
+				<PlaylistFooter title={Local.General.Save} onClick={onSave} />
 			</Grid>
 		</Modal>
 	);

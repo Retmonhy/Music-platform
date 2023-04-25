@@ -13,6 +13,7 @@ import {
 } from '@shared';
 import styles from './styles/Auth.module.scss';
 import { NextThunkDispatch, useAppDispatch } from '@shared/store';
+import { Local } from '@shared/helper/localization';
 
 function TabPanel(props: TabPanelProps) {
 	const { children, value, index, ...other } = props;
@@ -59,7 +60,7 @@ const AuthPage = () => {
 	};
 	return (
 		<Box maxWidth={600} margin='0 auto' pt={4}>
-			<H1>Представьтесь, пожалуйста</H1>
+			<H1>{Local.Account.LoginPageTitle}</H1>
 			<Card>
 				<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 					<Tabs
@@ -69,12 +70,12 @@ const AuthPage = () => {
 						aria-label='auth tabs'>
 						<Tab
 							className={styles.tab}
-							label='Регистрация'
+							label={Local.Account.Registration}
 							value={RegistrationModes.REG}
 						/>
 						<Tab
 							className={styles.tab}
-							label='Логин'
+							label={Local.Account.Login}
 							value={RegistrationModes.LOGIN}
 						/>
 					</Tabs>

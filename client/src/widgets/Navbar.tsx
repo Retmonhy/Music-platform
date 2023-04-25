@@ -19,31 +19,32 @@ import { FC, useState } from 'react';
 import { useRouter } from 'next/router';
 import { AccountRoutes, useTypedSelector } from '@shared';
 import { Player } from './Player';
+import { Local } from '@shared/helper/localization';
 
 const drawerWidth = 280;
 
 const menuElements = [
-	{ name: 'Главная', href: '/', id: 'main', icon: <HomeRounded /> },
+	{ name: Local.NavMenu.Main, href: '/', id: 'main', icon: <HomeRounded /> },
 	{
-		name: 'Список треков',
+		name: Local.NavMenu.TrackList,
 		href: '/tracks',
 		id: 'tracks',
 		icon: <LibraryMusicRounded />,
 	},
 	{
-		name: 'Список плейлистов',
+		name: Local.NavMenu.PlaylistList,
 		href: '/playlists',
 		id: 'playlists',
 		icon: <QueueMusicRounded />,
 	},
 	{
-		name: 'Аутентификация',
+		name: Local.NavMenu.Authentification,
 		href: AccountRoutes.Login,
 		id: 'login',
 		icon: <LoginRounded />,
 	},
 	{
-		name: 'Мой профиль',
+		name: Local.NavMenu.Profile,
 		href: AccountRoutes.Profile,
 		id: 'profile',
 		icon: <PersonRounded />,

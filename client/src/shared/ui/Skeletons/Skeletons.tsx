@@ -41,7 +41,7 @@ export const TrackItemSkeleton = () => {
 
 export const PlaylistItemSkeleton = () => {
 	return (
-		<>
+		<Box flexBasis='33.33%' mb={2}>
 			<Skeleton
 				animation='wave'
 				variant='rounded'
@@ -52,7 +52,7 @@ export const PlaylistItemSkeleton = () => {
 				<Skeleton variant='text' width='200px' animation='wave' />
 				<Skeleton variant='text' width='150px' animation='wave' />
 			</Box>
-		</>
+		</Box>
 	);
 };
 interface IPlaylistListSkeletonProps {
@@ -66,10 +66,10 @@ export const PlaylistListSkeleton: FC<IPlaylistListSkeletonProps> = ({
 		skeletons.push('skeleton' + i);
 	}
 	return (
-		<>
+		<Grid container flexWrap='wrap'>
 			{skeletons.map(i => (
 				<PlaylistItemSkeleton key={i} />
 			))}
-		</>
+		</Grid>
 	);
 };

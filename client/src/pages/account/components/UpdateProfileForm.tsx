@@ -15,6 +15,7 @@ import vars from '@shared/styles/Variables.module.scss';
 
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '@shared/store';
+import { Local } from '@shared/helper/localization';
 
 type IUpdateProfileData = Omit<IRegistrationData, 'password'>;
 export interface IUpdateProfileForm {}
@@ -77,7 +78,7 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 						rules: inputRules,
 						name: 'email',
 					}}
-					label='Электронная почта'
+					label={Local.General.Email}
 				/>
 				<ControlledInput
 					controllerProps={{
@@ -85,7 +86,7 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 						rules: inputRules,
 						name: 'firstname',
 					}}
-					label='Имя'
+					label={Local.General.Name}
 				/>
 				<ControlledInput
 					controllerProps={{
@@ -93,7 +94,7 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 						rules: inputRules,
 						name: 'surname',
 					}}
-					label='Фамилия'
+					label={Local.General.Surname}
 				/>
 			</Grid>
 			<Box
@@ -108,7 +109,7 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 					underline='always'
 					color={vars.dangerColor}
 					onClick={logoutHandler}>
-					Выйти
+					{Local.Account.SignOut}
 				</Link>
 				<LoadingButton
 					loading={isLoading}
@@ -119,7 +120,7 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 					className={general.btn}
 					type='submit'
 					onClick={handleSubmit(submitForm)}>
-					Сохранить
+					{Local.General.Save}
 				</LoadingButton>
 			</Box>
 		</>

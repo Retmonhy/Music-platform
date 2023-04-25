@@ -8,6 +8,7 @@ import { ControlledInput, H1, SquareDiv, UploadActionType } from '@shared';
 import { useForm } from 'react-hook-form';
 import { CloudUploadOutlined } from '@material-ui/icons';
 import styles from './TrackPage.module.scss';
+import { Local } from '@shared/helper/localization';
 
 interface ITrackInfo {
 	name: string;
@@ -64,7 +65,7 @@ const Create = () => {
 	const { control, handleSubmit } = useForm<ITrackInfo>();
 	return (
 		<>
-			<H1>Создание трека</H1>
+			<H1>{Local.CreateTrack.PageTitle}</H1>
 			<StepWrapper activeStep={activeStep}>
 				{activeStep === 0 && (
 					<Grid container direction='column' style={{ padding: '20px' }}>
@@ -73,21 +74,21 @@ const Create = () => {
 								control,
 								name: 'name',
 							}}
-							label='Название трека'
+							label={Local.CreateTrack.TrackTitle}
 						/>
 						<ControlledInput
 							controllerProps={{
 								control,
 								name: 'author',
 							}}
-							label='Автор трека'
+							label={Local.CreateTrack.TrackAuthor}
 						/>
 						<ControlledInput
 							controllerProps={{
 								control,
 								name: 'text',
 							}}
-							label='Текст песни'
+							label={Local.CreateTrack.TrackText}
 							multiline
 							minRows={2}
 						/>
@@ -103,14 +104,14 @@ const Create = () => {
 							className={styles.upload_icon}>
 							<CloudUploadOutlined fontSize='inherit' color='inherit' />
 							{picture ? (
-								<Typography>Обложка загружена</Typography>
+								<Typography>{Local.CreateTrack.CoverIsUploaded}</Typography>
 							) : (
 								<Button>
 									<FileUpload
 										accept='image/*'
 										setFile={uploadPicture}
 										style={{ height: '100%' }}>
-										Загрузить обложку
+										{Local.CreateTrack.UploadCover}
 									</FileUpload>
 								</Button>
 							)}
@@ -127,14 +128,14 @@ const Create = () => {
 							className={styles.upload_icon}>
 							<CloudUploadOutlined fontSize='inherit' color='inherit' />
 							{audio ? (
-								<Typography>Аудиодорожка загружена</Typography>
+								<Typography>{Local.CreateTrack.AudioIsUploaded}</Typography>
 							) : (
 								<Button>
 									<FileUpload
 										accept='audio/*'
 										setFile={uploadAudio}
 										style={{ height: '100%' }}>
-										Загрузить аудиодорожку
+										{Local.CreateTrack.UploadAudio}
 									</FileUpload>
 								</Button>
 							)}
@@ -144,10 +145,12 @@ const Create = () => {
 			</StepWrapper>
 			<Grid container justifyContent='space-between'>
 				<Button onClick={prev} disabled={activeStep === 0}>
-					Назад
+					{Local.CreateTrack.Prev}
 				</Button>
 				<Button onClick={activeStep === 2 ? handleSendTrack : next}>
-					{activeStep === 2 ? 'Загрузить' : 'Врепед'}
+					{activeStep === 2
+						? Local.CreateTrack.UploadTrack
+						: Local.CreateTrack.Next}
 				</Button>
 			</Grid>
 		</>

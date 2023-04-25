@@ -12,6 +12,7 @@ import { useAppDispatch } from '@shared/store';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { PlaylistList, PlaylistModal } from '../../widgets';
 import { PlaylistListSkeleton } from '@shared/ui/Skeletons';
+import { Local } from '@shared/helper/localization';
 interface IPlaylistPageProps {}
 
 const pageSize = 8;
@@ -30,7 +31,7 @@ const PlaylistPage = () => {
 	}, []);
 	return (
 		<>
-			<H1>Список плейлистов</H1>
+			<H1>{Local.Playlists.PageTitle}</H1>
 			{isFirstRequest ? (
 				<PlaylistListSkeleton amount={10} />
 			) : (

@@ -8,6 +8,7 @@ import { PlaylistModal } from '../../widgets';
 import { useAppDispatch } from '@shared/store';
 import { Intersect } from '@shared/ui';
 import { TrackListSkeleton } from '@shared/ui/Skeletons';
+import { Local } from '@shared/helper/localization';
 const pageSize = 10;
 
 const TrackPage: React.FC = () => {
@@ -29,7 +30,7 @@ const TrackPage: React.FC = () => {
 				<Card style={{ width: '900px' }}>
 					<Box p={3}>
 						<Grid container justifyContent='space-between'>
-							<H1>Список треков</H1>
+							<H1>{Local.Tracks.PageTitle}</H1>
 						</Grid>
 					</Box>
 					{error ? <H1>{error}</H1> : null}

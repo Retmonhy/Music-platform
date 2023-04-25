@@ -27,6 +27,7 @@ import {
 import { TrackContext } from '../TrackItem';
 import { NextThunkDispatch, useAppDispatch } from '@shared/store';
 import { CheckboxButton } from '../CheckboxButton';
+import { Local } from '@shared/helper/localization';
 
 const popperId = 'actionMenu';
 interface IActionMenuProps {
@@ -82,7 +83,7 @@ export const ActionMenu: FC<IActionMenuProps> = memo(() => {
 							endIcon={<ExpandMoreRounded className={general.iconButton} />}
 							className={styles.menuBtn}
 							onMouseEnter={handleExpandList}>
-							Добавить в плейлист
+							{Local.Tracks.AddToPlaylist}
 						</ButtonEl>
 						{isExpand && (
 							<>
@@ -90,7 +91,7 @@ export const ActionMenu: FC<IActionMenuProps> = memo(() => {
 									startIcon={<AddRounded className={general.iconButton} />}
 									className={styles.menuBtn}
 									onClick={openModal}>
-									Новый плейлист
+									{Local.Tracks.NewPlaylist}
 								</ButtonEl>
 
 								{playlists &&
@@ -122,7 +123,7 @@ export const ActionMenu: FC<IActionMenuProps> = memo(() => {
 											);
 										})}
 								<ButtonEl className={styles.menuBtn} onClick={showAllPlaylists}>
-									Показать все...
+									{Local.Tracks.ShowAll}
 								</ButtonEl>
 							</>
 						)}

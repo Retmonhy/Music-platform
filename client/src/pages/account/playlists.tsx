@@ -14,6 +14,7 @@ import { PlaylistModal, PlaylistList } from '../../widgets';
 import store, { useAppDispatch } from '@shared/store';
 import { fetchUserPlaylists } from '@shared/store/ActionCreators/playlists';
 import { PlaylistListSkeleton } from '@shared/ui/Skeletons';
+import { Local } from '@shared/helper/localization';
 interface IPlaylistProps {}
 
 export const debouncedFetchPl = debounce(
@@ -40,7 +41,7 @@ const AccountPlaylistsPage: FC<IPlaylistProps> = () => {
 	const { close, isVisible, onSave, onUpload, control } = usePlaylist();
 	return (
 		<AccountLayout>
-			<ContentBlock header='Мои плейлисты'>
+			<ContentBlock header={Local.Account.MyPlaylists}>
 				{isUserPlaylistLoading ? (
 					<PlaylistListSkeleton amount={10} />
 				) : (

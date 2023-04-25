@@ -5,6 +5,7 @@ import { Box, Grid } from '@mui/material';
 import { Control } from 'react-hook-form';
 // components
 import { ControlledInput, IPlaylistData, useTypedSelector } from '@shared';
+import { Local } from '@shared/helper/localization';
 //styles
 
 interface IPlaylistForm {
@@ -22,7 +23,7 @@ export const PlaylistForm: FC<IPlaylistForm> = ({ control }) => {
 						rules: { required: 'Обязательное поле' },
 						name: 'name',
 					}}
-					label='Название плейлиста'
+					label={Local.Playlists.Modal.PlaylistName}
 				/>
 				<ControlledInput
 					controllerProps={{
@@ -31,7 +32,7 @@ export const PlaylistForm: FC<IPlaylistForm> = ({ control }) => {
 						rules: { required: 'Обязательное поле' },
 						name: 'description',
 					}}
-					label='Описание плейлиста'
+					label={Local.Playlists.Modal.PlaylistDescription}
 				/>
 			</Grid>
 		</Box>

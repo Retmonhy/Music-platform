@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { ControlledInput, IRegistrationData, useTypedSelector } from '@shared';
 import general from '@shared/styles/General.module.scss';
+import { Local } from '@shared/helper/localization';
 export interface IRegistrationForm {
 	onSubmit: (data: IRegistrationData) => void;
 }
@@ -38,7 +39,7 @@ export const RegistrationForm: React.FC<IRegistrationForm> = ({ onSubmit }) => {
 						rules: inputRules,
 						name: 'email',
 					}}
-					label='Электронная почта'
+					label={Local.General.Email}
 				/>
 				<ControlledInput
 					controllerProps={{
@@ -46,7 +47,7 @@ export const RegistrationForm: React.FC<IRegistrationForm> = ({ onSubmit }) => {
 						rules: inputRules,
 						name: 'firstname',
 					}}
-					label='Имя'
+					label={Local.General.Name}
 				/>
 				<ControlledInput
 					controllerProps={{
@@ -54,7 +55,7 @@ export const RegistrationForm: React.FC<IRegistrationForm> = ({ onSubmit }) => {
 						rules: inputRules,
 						name: 'surname',
 					}}
-					label='Фамилия'
+					label={Local.General.Surname}
 				/>
 				<ControlledInput
 					controllerProps={{
@@ -62,7 +63,7 @@ export const RegistrationForm: React.FC<IRegistrationForm> = ({ onSubmit }) => {
 						rules: inputRules,
 						name: 'password',
 					}}
-					label='Пароль'
+					label={Local.General.Password}
 					type='password'
 				/>
 			</Grid>
@@ -76,7 +77,7 @@ export const RegistrationForm: React.FC<IRegistrationForm> = ({ onSubmit }) => {
 					className={general.btn}
 					type='submit'
 					onClick={handleSubmit(submitForm)}>
-					Зарегистрироваться
+					{Local.Account.RegistrationButton}
 				</LoadingButton>
 			</Box>
 		</>

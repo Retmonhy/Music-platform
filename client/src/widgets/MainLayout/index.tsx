@@ -32,6 +32,7 @@ export const MainLayout: React.FC<IMainLayoutProps> = ({
 				/>
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 			</Head>
+
 			<Navbar />
 
 			<Container style={{ margin: '90px auto' }}>{children}</Container>

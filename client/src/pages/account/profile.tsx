@@ -4,6 +4,7 @@ import { AccountRoutes, StorageKeys, Toast } from '@shared';
 import { useTypedSelector } from '@shared/hooks';
 import { ContentBlock, UpdateProfileForm, AccountLayout } from './components';
 import { Loader } from '@shared/ui';
+import { Local } from '@shared/helper/localization';
 
 const Account = () => {
 	const { user, isLoading } = useTypedSelector(i => i.account);
@@ -19,7 +20,7 @@ const Account = () => {
 	}, [user]);
 	return (
 		<AccountLayout>
-			<ContentBlock header='Личные данные'>
+			<ContentBlock header={Local.Account.PersonalData}>
 				{isLoading ? <Loader /> : <UpdateProfileForm />}
 			</ContentBlock>
 		</AccountLayout>

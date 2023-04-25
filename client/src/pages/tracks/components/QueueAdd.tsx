@@ -7,12 +7,13 @@ import styles from './../..';
 import general from '@shared/styles/General.module.scss';
 //components
 import { PopoverButton } from '@shared';
+import { Local } from '@shared/helper/localization';
 interface IQueueAddProps {
 	onClick: (e: MouseEvent<HTMLDivElement>) => void;
 }
 export const QueueAdd: FC<IQueueAddProps> = ({ onClick }) => {
 	return (
-		<PopoverButton text={'Воспроизвести следующей'} onClick={onClick}>
+		<PopoverButton text={Local.Tracks.PlayNext} onClick={onClick}>
 			<PlaylistAddRounded className={general.iconButton} />
 		</PopoverButton>
 	);

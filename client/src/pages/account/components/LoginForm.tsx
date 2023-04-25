@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { ControlledInput, ILoginData, useTypedSelector } from '@shared';
 import general from '@shared/styles/General.module.scss';
+import { Local } from '@shared/helper/localization';
 
 interface ILoginForm {
 	onSubmit: (data: ILoginData) => void;
@@ -44,7 +45,7 @@ export const LoginForm: React.FC<ILoginForm> = ({ onSubmit }) => {
 						rules: inputRules,
 						name: 'email',
 					}}
-					label='Электронная почта'
+					label={Local.General.Email}
 				/>
 				<ControlledInput
 					controllerProps={{
@@ -52,7 +53,7 @@ export const LoginForm: React.FC<ILoginForm> = ({ onSubmit }) => {
 						rules: inputRules,
 						name: 'password',
 					}}
-					label='Пароль'
+					label={Local.General.Password}
 					type='password'
 				/>
 			</Grid>
@@ -66,7 +67,7 @@ export const LoginForm: React.FC<ILoginForm> = ({ onSubmit }) => {
 					className={general.btn}
 					type='submit'
 					onClick={handleSubmit(onSubmit)}>
-					Войти
+					{Local.Account.LoginButton}
 				</LoadingButton>
 			</Box>
 		</>

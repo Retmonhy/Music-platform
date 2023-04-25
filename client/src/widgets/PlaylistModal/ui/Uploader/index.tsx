@@ -15,6 +15,7 @@ import {
 	useTypedSelector,
 } from '@shared';
 import { FileUpload } from '../../../FileUpload';
+import { Local } from '@shared/helper/localization';
 
 interface IUploaderProps {
 	onUpload: (file: File) => Promise<void>;
@@ -75,7 +76,7 @@ export const Uploader: FC<IUploaderProps> = ({ onUpload }) => {
 									component='span'
 									sx={typoTheme}
 									className={styles.uploader_text}>
-									Обложка
+									{Local.Playlists.Modal.Cover}
 								</Typography>
 							</Grid>
 						</SquareDiv>

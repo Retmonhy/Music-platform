@@ -15,6 +15,7 @@ import {
 	useTypedSelector,
 } from '@shared';
 import { useAppDispatch } from '@shared/store';
+import { Local } from '@shared/helper/localization';
 
 interface IPlaylistFooterProps {
 	title: string;
@@ -52,7 +53,7 @@ export const PlaylistFooter: FC<IPlaylistFooterProps> = ({
 					color={vars.dangerColor}
 					underline='always'
 					onClick={handleDelete}>
-					Удалить
+					{Local.Playlists.Modal.Delete}
 				</Link>
 			) : null}
 			<ButtonEl onClick={handleClick}>{title}</ButtonEl>

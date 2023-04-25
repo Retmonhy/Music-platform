@@ -22,25 +22,26 @@ import {
 import { isFulfilledAction, isPendingAction, isRejectedAction } from '.';
 import { managePlaylistTracks } from '../ActionCreators/playlists';
 import { ILoginUserResponse } from '@shared/api';
+import { Local } from '@shared/helper/localization';
 
 const menuList: IMenuItem[] = [
 	{
-		name: 'Личные данные',
+		name: Local.Account.PersonalData,
 		isSelected: false,
 		href: AccountRoutes.Profile,
 	},
 	{
-		name: 'Моя музыка',
+		name: Local.Account.MyMusic,
 		isSelected: false,
 		href: AccountRoutes.Tracks,
 	},
 	{
-		name: 'Мои плейлисты',
+		name: Local.Account.MyPlaylists,
 		isSelected: false,
 		href: AccountRoutes.Playlists,
 	},
 	{
-		name: 'Музыкантам',
+		name: Local.Account.Musition,
 		isSelected: false,
 		href: AccountRoutes.Musition,
 	},
