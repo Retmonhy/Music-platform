@@ -2,7 +2,6 @@ import React, { FC, MouseEvent } from 'react';
 import { DeleteTrack } from '../DeleteTrack';
 import { AddTrack } from '../AddTrack';
 import { ActionMenu } from '../ActionMenu/ActionMenu';
-import styles from './ActionRow.module.scss';
 import { Grid } from '@material-ui/core';
 import { QueueAdd } from '../QueueAdd';
 interface IActionRowHandlers {

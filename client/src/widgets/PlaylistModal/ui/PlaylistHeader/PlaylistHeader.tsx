@@ -2,10 +2,6 @@
 import React, { FC, MouseEvent } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import { CloseRounded } from '@material-ui/icons';
-//hooks
-// components
-//styles
-import styles from './Header.module.scss';
 
 interface IPlaylistHeaderProps {
 	title: string;

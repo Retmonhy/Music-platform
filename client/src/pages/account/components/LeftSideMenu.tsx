@@ -1,8 +1,7 @@
-import { Box, Card, Link } from '@material-ui/core';
+import { Box, Link } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
-import { merge, useAction } from '@shared';
-import styles from '../styles/Profile.module.scss';
+import { useAction } from '@shared';
 import { useAppDispatch } from '@shared/store';
 interface IMenuItem {
 	name: string;

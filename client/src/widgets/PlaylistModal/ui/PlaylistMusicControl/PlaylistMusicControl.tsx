@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { PltTrack } from '../PltTrack/PltTrack';
 import { Box, Grid } from '@mui/material';
-import styles from './PlaylistMusicControl.module.scss';
 import { PlaylistTrack } from '@shared';
 interface IPlaylistMusicControlProps {
 	tracks: PlaylistTrack[];

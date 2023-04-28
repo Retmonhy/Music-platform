@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 import React, { FC, ReactNode } from 'react';
 import { H2 } from '@shared';
-import styles from '../styles/Profile.module.scss';
 interface IContentBlockProps {
 	header: string;
 	children: ReactNode;

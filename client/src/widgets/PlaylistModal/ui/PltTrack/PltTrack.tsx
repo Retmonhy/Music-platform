@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { TrackItem, TrackTime } from '../../../../pages/tracks/components';
 import { Box, Checkbox, IconButton } from '@mui/material';
 import { PlayArrowRounded } from '@material-ui/icons';
-import styles from './PltTrack.module.scss';
 import { Typography } from '@material-ui/core';
 import { PlaylistTrack, useAction } from '@shared';
 import { useAppDispatch } from '@shared/store';

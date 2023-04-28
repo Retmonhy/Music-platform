@@ -4,10 +4,8 @@ import { Box, Grid } from '@mui/material';
 //hooks
 import { Control } from 'react-hook-form';
 // components
-//styles
-import { Uploader } from '../Uploader/Uploader';
-import { PlaylistForm } from '../PlaylistForm/PlaylistForm';
-import styles from './../../PlaylistModal.module.scss';
+import { Uploader } from '../Uploader';
+import { PlaylistForm } from '../PlaylistForm';
 import { IPlaylistData } from '@shared/types';
 
 interface IPlaylistInfoProps {
