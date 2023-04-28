@@ -3,13 +3,9 @@ import { FC } from 'react';
 import { PlayArrowRounded } from '@material-ui/icons';
 import Image from 'next/image';
 //components
-import { SquareDiv, generateUrl, merge } from '@shared';
-//styles
-import styles from '@shared/styles/TrackItem.module.scss';
-import general from '@shared/styles/General.module.scss';
+import { generateUrl } from '@shared';
 import { Box } from '@mui/material';
 
-const imageSize = 70;
 interface TrackImageProps {
 	source: string;
 	alt: string;
@@ -17,24 +13,21 @@ interface TrackImageProps {
 }
 export const TrackImage: FC<TrackImageProps> = ({ source, alt, isHover }) => {
 	return (
-		<Box className={general.relative}>
-			<SquareDiv size={imageSize}>
+		<Box className='track-image relative'>
+			<Box className='track-image__wrapper'>
 				<Image
 					src={generateUrl(source)}
+					layout='fill'
 					alt={alt}
-					width={70}
-					height={70}
-					className={styles.br8}
+					className='br8 track-image__wrapper'
 				/>
-			</SquareDiv>
+			</Box>
 			{isHover ? (
-				<SquareDiv
-					size={imageSize}
-					className={merge(general.backdrop, styles.br8)}>
-					<SquareDiv size={36} className={styles.playButton}>
+				<Box className='br8 backdrop track-image__wrapper'>
+					<Box className='track-image__play'>
 						<PlayArrowRounded />
-					</SquareDiv>
-				</SquareDiv>
+					</Box>
+				</Box>
 			) : null}
 		</Box>
 	);

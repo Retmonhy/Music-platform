@@ -1,6 +1,5 @@
 import { CloseRounded } from '@material-ui/icons';
 import { FC, MouseEvent } from 'react';
-import general from '@shared/styles/General.module.scss';
 import { PopoverButton } from '@shared';
 import { Local } from '@shared/helper/localization';
 interface IDeleteTrackProps {
@@ -11,7 +10,7 @@ export const DeleteTrack: FC<IDeleteTrackProps> = ({ onClick }) => {
 		<PopoverButton
 			text={Local.Tracks.DeleteFromCurrentPlaylist}
 			onClick={onClick}>
-			<CloseRounded className={general.iconButton} />
+			<CloseRounded className='icon-button' />
 		</PopoverButton>
 	);
 };

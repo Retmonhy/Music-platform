@@ -1,13 +1,12 @@
 import { Button, Grid, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { FileService, TrackService, generateUrl } from '@shared/api';
+import { TrackService } from '@shared/api';
 import { StepWrapper } from '../../widgets/StepWrapper';
 import { FileUpload } from '../../widgets/FileUpload';
-import { ControlledInput, H1, SquareDiv, UploadActionType } from '@shared';
+import { ControlledInput, H1 } from '@shared';
 import { useForm } from 'react-hook-form';
 import { CloudUploadOutlined } from '@material-ui/icons';
-import styles from './TrackPage.module.scss';
 import { Local } from '@shared/helper/localization';
 
 interface ITrackInfo {
@@ -101,7 +100,7 @@ const Create = () => {
 							direction='column'
 							justifyContent='center'
 							alignItems='center'
-							className={styles.upload_icon}>
+							className='upload-button'>
 							<CloudUploadOutlined fontSize='inherit' color='inherit' />
 							{picture ? (
 								<Typography>{Local.CreateTrack.CoverIsUploaded}</Typography>
@@ -125,7 +124,7 @@ const Create = () => {
 							direction='column'
 							justifyContent='center'
 							alignItems='center'
-							className={styles.upload_icon}>
+							className='upload-icon'>
 							<CloudUploadOutlined fontSize='inherit' color='inherit' />
 							{audio ? (
 								<Typography>{Local.CreateTrack.AudioIsUploaded}</Typography>

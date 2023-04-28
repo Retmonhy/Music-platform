@@ -11,8 +11,7 @@ import {
 	RegistrationModes,
 	TabPanelProps,
 } from '@shared';
-import styles from './styles/Auth.module.scss';
-import { NextThunkDispatch, useAppDispatch } from '@shared/store';
+import { useAppDispatch } from '@shared/store';
 import { Local } from '@shared/helper/localization';
 
 function TabPanel(props: TabPanelProps) {
@@ -69,12 +68,12 @@ const AuthPage = () => {
 						onChange={handleChange}
 						aria-label='auth tabs'>
 						<Tab
-							className={styles.tab}
+							className='auth-tab'
 							label={Local.Account.Registration}
 							value={RegistrationModes.REG}
 						/>
 						<Tab
-							className={styles.tab}
+							className='auth-tab'
 							label={Local.Account.Login}
 							value={RegistrationModes.LOGIN}
 						/>

@@ -13,6 +13,30 @@ export const PlaylistList: FC<IPlaylistListProps> = ({ playlists }) => {
 			{playlists.map(playlist => (
 				<PlaylistItem key={playlist.id} item={playlist} />
 			))}
+			{playlists.map(playlist => (
+				<PlaylistItem key={playlist.id} item={playlist} />
+			))}
+			{playlists.map(playlist => (
+				<PlaylistItem key={playlist.id} item={playlist} />
+			))}
+			{playlists.map(playlist => (
+				<PlaylistItem key={playlist.id} item={playlist} />
+			))}
+			{playlists.map(playlist => (
+				<PlaylistItem key={playlist.id} item={playlist} />
+			))}
+			{playlists.map(playlist => (
+				<PlaylistItem key={playlist.id} item={playlist} />
+			))}
+			{playlists.map(playlist => (
+				<PlaylistItem key={playlist.id} item={playlist} />
+			))}
+			{playlists.map(playlist => (
+				<PlaylistItem key={playlist.id} item={playlist} />
+			))}
+			{playlists.map(playlist => (
+				<PlaylistItem key={playlist.id} item={playlist} />
+			))}
 		</Grid>
 	);
 };

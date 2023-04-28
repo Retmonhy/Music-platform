@@ -3,7 +3,6 @@ import { Box, Button, Grid } from '@mui/material';
 import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { ControlledInput, ILoginData, useTypedSelector } from '@shared';
-import general from '@shared/styles/General.module.scss';
 import { Local } from '@shared/helper/localization';
 
 interface ILoginForm {
@@ -64,7 +63,7 @@ export const LoginForm: React.FC<ILoginForm> = ({ onSubmit }) => {
 						'& .MuiLoadingButton-loadingIndicator': { color: '#fff' },
 					}}
 					ref={submitBtn}
-					className={general.btn}
+					className='btn'
 					type='submit'
 					onClick={handleSubmit(onSubmit)}>
 					{Local.Account.LoginButton}

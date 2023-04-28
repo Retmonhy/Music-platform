@@ -48,19 +48,19 @@ export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
 	}, [item.id]);
 	return (
 		<PlaylistContext.Provider value={item}>
-			<Box flexBasis={'33.33%'} data-id={item.id}>
+			<Box flexBasis={'25%'} data-id={item.id} className='playlist'>
 				<Box padding={'8px'}>
-					<SquareDiv size={imageSize}>
+					<Box className='image'>
 						<PlaylistImage
+							className='image'
 							source={item.cover}
 							alt={`Обложка плейлиста ${item.name}`}
-							size={imageSize}
 							handlers={{
 								onEdit: editPlaylist,
 								onPlay: playPlaylist,
 							}}
 						/>
-					</SquareDiv>
+					</Box>
 					<MusicInfo
 						title={item.name}
 						description={item.owner.fullname}

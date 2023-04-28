@@ -6,6 +6,7 @@ import store, { useAppDispatch, wrapper } from '@shared/store';
 import '@shared/styles/global.css';
 import { MainLayout } from '../widgets';
 import { debouncedFetchPl } from './account/playlists';
+import './../shared/styles/Global.scss';
 
 export let audio: HTMLAudioElement | null = null;
 export const setAudioInstance = (newAudio: HTMLAudioElement) => {

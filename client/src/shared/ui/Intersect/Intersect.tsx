@@ -7,7 +7,7 @@ import React, {
 	useEffect,
 	useRef,
 } from 'react';
-import { Loader } from '../Loader';
+import { Loader } from '../Loader/Loader';
 interface IIntersectProps {
 	id: string;
 	onIntersect: () => void;

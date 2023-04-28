@@ -27,16 +27,14 @@ export const LeftSideMenu: FC<ILeftSideMenuProps> = ({ list }) => {
 		}
 	}, []);
 	return (
-		<Box className={styles.menu}>
-			<Box className={styles.menuWrapper}>
-				<ul className={styles.menuList}>
+		<Box className='menu'>
+			<Box className='menu__wrapper'>
+				<ul className='menu__list'>
 					{list.map(item => {
 						return (
 							<li
 								className={
-									item.isSelected
-										? merge(styles.listItem, styles.listItemSelected)
-										: merge(styles.listItem)
+									item.isSelected ? 'list-item list-item_selected' : 'list-item'
 								}
 								key={item.name}>
 								<Link onClick={() => navigateToRoute(item.href)}>

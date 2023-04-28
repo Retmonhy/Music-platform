@@ -1,20 +1,17 @@
 //libs
 import { memo, MouseEvent, useState, createContext } from 'react';
 import { useRouter } from 'next/router';
-import { NextThunkDispatch, useAppDispatch } from '@shared/store';
+import { useAppDispatch } from '@shared/store';
 //interface
 import { ITrack, PlayerState } from '@shared/types';
-//styles
-import styles from '@shared/styles/TrackItem.module.scss';
 //hooks
 import { useAction, useTypedSelector } from '@shared/hooks';
 //components
 import { Box } from '@material-ui/core';
 import { TrackImage } from './TrackImage';
-import { TrackTime } from './TrackTime';
+import { TrackTime } from './TrackTime/TrackTime';
 import { MusicInfo, merge } from '@shared';
-import { ActionRow } from './ActionRow';
-import { Grid, Skeleton } from '@mui/material';
+import { ActionRow } from './ActionRow/ActionRow';
 
 interface TrackItemProps {
 	track: ITrack;
@@ -61,7 +58,7 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 		return (
 			<TrackContext.Provider value={{ track: track }}>
 				<Box
-					className={merge(styles.track, isActive ? styles.track__active : '')}
+					className={merge('track', isActive ? 'track_active' : '')}
 					onMouseEnter={handleHoverOn}
 					onMouseLeave={handleHoverOff}
 					onClick={play}>
@@ -71,12 +68,12 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 						isHover={isHovered}
 					/>
 					<MusicInfo
-						className={styles.trackInfo}
+						className='track__info'
 						title={track.name}
 						description={track.artist}
 						titleClick={navigateToTrackPage}
 					/>
-					<Box className={styles.trackTime}>
+					<Box className='track__time'>
 						{isHovered ? (
 							<ActionRow
 								isActive={isActive}

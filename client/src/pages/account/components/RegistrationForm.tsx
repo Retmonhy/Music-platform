@@ -3,7 +3,6 @@ import { LoadingButton } from '@mui/lab';
 import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { ControlledInput, IRegistrationData, useTypedSelector } from '@shared';
-import general from '@shared/styles/General.module.scss';
 import { Local } from '@shared/helper/localization';
 export interface IRegistrationForm {
 	onSubmit: (data: IRegistrationData) => void;
@@ -74,7 +73,7 @@ export const RegistrationForm: React.FC<IRegistrationForm> = ({ onSubmit }) => {
 						'& .MuiLoadingButton-loadingIndicator': { color: '#fff' },
 					}}
 					ref={submitBtn}
-					className={general.btn}
+					className='btn'
 					type='submit'
 					onClick={handleSubmit(submitForm)}>
 					{Local.Account.RegistrationButton}

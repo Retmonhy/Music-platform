@@ -1,5 +1,11 @@
 //libraties
-import React, { FC, useState, MouseEvent, useContext } from 'react';
+import React, {
+	FC,
+	useState,
+	MouseEvent,
+	useContext,
+	HTMLAttributes,
+} from 'react';
 import {
 	CheckRounded,
 	EditOutlined,
@@ -13,26 +19,22 @@ import { SquareDiv } from '@shared/ui';
 import { PlaylistContext } from '../PlaylistItem';
 import { useAppDispatch } from '@shared/store';
 import { generateUrl, merge, useAction, useTypedSelector } from '@shared';
-//styles
-import styles from './PlaylistImage.module.scss';
-import general from '@shared/styles/General.module.scss';
 
 const imageSize = 70;
 interface IPlaylistImageHandlers {
 	onPlay: () => void;
 	onEdit: () => void;
 }
-interface IPlaylistProps {
+interface IPlaylistProps extends HTMLAttributes<HTMLDivElement> {
 	source: string;
 	alt: string;
-	size: string | number;
 	handlers: IPlaylistImageHandlers;
 }
 export const PlaylistImage: FC<IPlaylistProps> = ({
 	source,
 	alt,
-	size,
 	handlers,
+	...props
 }) => {
 	const dispatch = useAppDispatch();
 	const { _playlist } = useAction();
@@ -58,46 +60,40 @@ export const PlaylistImage: FC<IPlaylistProps> = ({
 	};
 
 	return (
-		<div className={general.relative}>
-			<SquareDiv
-				size={size}
+		<div className='relative'>
+			<Box
+				className={props.className}
 				onMouseEnter={onMouseEnter}
 				onMouseLeave={onMouseLeave}>
 				<img
 					src={generateUrl(source)}
 					alt={alt}
-					width={size}
-					height={size}
-					className={styles.br8}
+					className={merge(props.className, 'br8')}
 				/>
 
 				{isHover ? (
-					<SquareDiv
-						size={size}
-						className={merge(general.backdrop, styles.br8)}>
-						<Box className={styles.action_buttons_wrap}>
-							<Box className={styles.action_buttons}>
+					<Box className={merge(props.className, 'backdrop', 'br8')}>
+						<Box className='action_buttons_wrap'>
+							<Box className='action_buttons'>
 								{isUserOwner ? (
 									<SquareDiv
 										size={60}
-										className={merge(styles.btn, styles.edit_btn)}
+										className='pli-btn pli-edit_btn'
 										onClick={handlers.onEdit}>
 										<EditOutlined fontSize='inherit' color='inherit' />
 									</SquareDiv>
 								) : (
 									<SquareDiv
 										size={60}
-										className={merge(styles.btn, styles.edit_btn, styles.flex)}
+										className='pli-btn pli-edit_btn flex'
 										onClick={handleManagePlaylistsToDelete}>
-										<SquareDiv
-											size={30}
-											className={merge(general.relative, styles.overflow)}>
+										<SquareDiv size={30} className='relative overflow'>
 											<AddRounded
 												className={merge(
-													styles.default_icon,
-													styles.top_icon,
+													'default_icon',
+													'top_icon',
 													playlistsToDelete.includes(playlist.id)
-														? styles.hidden
+														? 'hidden'
 														: '',
 												)}
 												fontSize='inherit'
@@ -105,11 +101,11 @@ export const PlaylistImage: FC<IPlaylistProps> = ({
 											/>
 											<CheckRounded
 												className={merge(
-													styles.default_icon,
-													styles.bot_icon,
+													'default_icon',
+													'bot_icon',
 													playlistsToDelete.includes(playlist.id)
 														? ''
-														: styles.hidden,
+														: 'hidden',
 												)}
 												fontSize='inherit'
 												color='inherit'
@@ -120,24 +116,24 @@ export const PlaylistImage: FC<IPlaylistProps> = ({
 
 								<SquareDiv
 									size={60}
-									className={merge(styles.btn, styles.play_btn)}
+									className='pli-btn pli-play_btn'
 									onClick={handlers.onPlay}>
 									<PlayArrowRounded fontSize='inherit' color='inherit' />
 								</SquareDiv>
 
-								<SquareDiv size={60} className={merge(styles.btn)}>
+								<SquareDiv size={60} className='pli-btn'>
 									{}
 								</SquareDiv>
 							</Box>
 
-							<Box className={merge(styles.btn, styles.playlist_stats)}>
+							<Box className='pli-btn playlist_stats'>
 								<SubjectRounded fontSize='inherit' color='inherit' />
 								<Typography>{playlist.numberOfTracks}</Typography>
 							</Box>
 						</Box>
-					</SquareDiv>
+					</Box>
 				) : null}
-			</SquareDiv>
+			</Box>
 		</div>
 	);
 };

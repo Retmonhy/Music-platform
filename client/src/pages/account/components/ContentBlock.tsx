@@ -8,8 +8,8 @@ interface IContentBlockProps {
 }
 export const ContentBlock: FC<IContentBlockProps> = ({ header, children }) => {
 	return (
-		<Box className={styles.content}>
-			<Box className={styles.contentWrapper}>
+		<Box className='content'>
+			<Box className='content__wrapper'>
 				<H2>{header}</H2>
 				{children}
 			</Box>

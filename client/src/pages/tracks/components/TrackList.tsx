@@ -1,6 +1,5 @@
 import { Grid, debounce } from '@material-ui/core';
 import { TrackItem } from './TrackItem';
-import general from '@shared/styles/General.module.scss';
 import { memo, useCallback, useEffect, useRef } from 'react';
 import {
 	ITrack,
@@ -36,7 +35,7 @@ export const TrackList: React.FC<TrackListProps> = memo(({ tracks }) => {
 		[tracks, playControl],
 	);
 	return (
-		<Grid container direction='column' className={general.relative}>
+		<Grid container direction='column' className='relative'>
 			{tracks.map(track => {
 				const isActive = player.active?._id === track._id;
 				const onClick = () => {

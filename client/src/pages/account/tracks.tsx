@@ -3,7 +3,7 @@ import { TrackList } from '../tracks/components';
 import { AccountLayout, ContentBlock } from './components';
 import { useAction, useTypedSelector } from '@shared';
 import { NextThunkDispatch, useAppDispatch } from '@shared/store';
-import { Loader } from '@shared/ui/Loader';
+import { Loader } from '@shared/ui/Loader/Loader';
 import { TrackListSkeleton } from '@shared/ui/Skeletons';
 
 const AccountTracks = () => {

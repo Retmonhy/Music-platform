@@ -10,7 +10,6 @@ import {
 	useTypedSelector,
 	Toast,
 } from '@shared';
-import general from '@shared/styles/General.module.scss';
 import vars from '@shared/styles/Variables.module.scss';
 
 import { useRouter } from 'next/router';
@@ -117,7 +116,7 @@ export const UpdateProfileForm: React.FC<IUpdateProfileForm> = () => {
 						'& .MuiLoadingButton-loadingIndicator': { color: '#fff' },
 					}}
 					ref={submitBtn}
-					className={general.btn}
+					className='btn'
 					type='submit'
 					onClick={handleSubmit(submitForm)}>
 					{Local.General.Save}

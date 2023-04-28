@@ -26,26 +26,18 @@ const TrackPage: React.FC = () => {
 	const playlist = usePlaylist();
 	return (
 		<>
-			<Grid container justifyContent='center'>
-				<Card style={{ width: '900px' }}>
-					<Box p={3}>
-						<Grid container justifyContent='space-between'>
-							<H1>{Local.Tracks.PageTitle}</H1>
-						</Grid>
-					</Box>
-					{error ? <H1>{error}</H1> : null}
-					{isFirstRequest ? (
-						<TrackListSkeleton amount={10} />
-					) : (
-						<Intersect
-							onIntersect={onIntersect}
-							id='track_intersection'
-							isFetching={isLoading}>
-							<TrackList tracks={tracks} />
-						</Intersect>
-					)}
-				</Card>
-			</Grid>
+			<H1>{Local.Tracks.PageTitle}</H1>
+			{error ? <H1>{error}</H1> : null}
+			{isFirstRequest ? (
+				<TrackListSkeleton amount={10} />
+			) : (
+				<Intersect
+					onIntersect={onIntersect}
+					id='track_intersection'
+					isFetching={isLoading}>
+					<TrackList tracks={tracks} />
+				</Intersect>
+			)}
 			<PlaylistModal
 				isVisible={playlist.isVisible}
 				control={playlist.control}
