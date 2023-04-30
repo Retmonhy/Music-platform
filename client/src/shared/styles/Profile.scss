@@ -2,6 +2,14 @@
 	float: left;
 	width: 25%;
 	padding-right: 16px;
+	@media screen and (max-width: 992px) {
+		font-size: 16px;
+	}
+	@media screen and (max-width: 768px) {
+		width: 100%;
+		margin-bottom: 16px;
+		padding: 0;
+	}
 }
 .menu__wrapper {
 	border-radius: var.$base-radius;
@@ -9,7 +17,7 @@
 	background-color: var.$base-fillment-color;
 }
 .menu__list {
-	padding: 30px;
+	padding: 16px;
 	margin: 12px 0;
 	list-style: none;
 }
@@ -28,6 +36,13 @@
 .content {
 	float: right;
 	width: 75%;
+	@media screen and (max-width: 992px) {
+		font-size: 16px;
+	}
+	@media screen and (max-width: 768px) {
+		width: 100%;
+		margin-bottom: 16px;
+	}
 }
 .content__wrapper {
 	padding: 10px 15px;

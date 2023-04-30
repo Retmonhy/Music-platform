@@ -48,7 +48,7 @@ export const BottomSheet: FC<IBottomSheetProps> = ({
 				zIndex: theme => theme.zIndex.drawer + 1,
 			}}
 			open={open}
-			onTouchEnd={handleBackdropClick}>
+			onClick={handleBackdropClick}>
 			<div
 				ref={bsref}
 				className='bottom-sheet'

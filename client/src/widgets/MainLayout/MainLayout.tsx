@@ -35,7 +35,7 @@ export const MainLayout: React.FC<IMainLayoutProps> = ({
 
 			<Navbar />
 
-			<Container style={{ margin: '90px auto' }}>{children}</Container>
+			<Container className='container'>{children}</Container>
 			<div id='toast-container'></div>
 		</>
 	);

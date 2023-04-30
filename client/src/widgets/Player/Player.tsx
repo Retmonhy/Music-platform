@@ -68,19 +68,19 @@ export const Player: React.FC = () => {
 		<Box className='player' onClick={playerClick}>
 			<Box className='player__container'>
 				<CustomIconBtn onClick={playPrevTrack}>
-					<SkipPreviousRounded className='icon-button' />
+					<SkipPreviousRounded className='icon-button player_button' />
 				</CustomIconBtn>
 
 				<CustomIconBtn onClick={playPause}>
 					{pause ? (
-						<PlayArrowRounded className='icon-button' />
+						<PlayArrowRounded className='icon-button player_button' />
 					) : (
-						<Pause className='icon-button' />
+						<Pause className='icon-button player_button' />
 					)}
 				</CustomIconBtn>
 
 				<CustomIconBtn onClick={playNextTrack}>
-					<SkipNextRounded className='icon-button' />
+					<SkipNextRounded className='icon-button player_button' />
 				</CustomIconBtn>
 
 				<Box className='player__text'>

@@ -5,6 +5,18 @@
 @import './Loader.scss';
 @import './Player.scss';
 // $General
+.container {
+	margin: 90px auto;
+	padding: 0 16px;
+	@media screen and (max-width: 768px) {
+		padding: 0 8px;
+	}
+}
+.navbar__name {
+	@media screen and (max-width: 530px) {
+		display: none;
+	}
+}
 .relative {
 	position: relative;
 }
@@ -58,11 +70,14 @@
 
 .ellipsis {
 	//заменит длинные текст на ...
+	display: block;
 	width: 100%;
-	max-width: 100%;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+	@media screen and (max-width: 420px) {
+		width: 220px;
+	}
 }
 .pointer {
 	&:hover {

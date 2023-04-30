@@ -17,7 +17,6 @@ import { NextThunkDispatch, useAppDispatch } from '@shared/store';
 interface IPlaylistItemProps {
 	item: IPlaylist;
 }
-const imageSize = '200px';
 
 export const PlaylistContext = createContext<IPlaylist | null>(null);
 
@@ -48,8 +47,8 @@ export const PlaylistItem: FC<IPlaylistItemProps> = ({ item }) => {
 	}, [item.id]);
 	return (
 		<PlaylistContext.Provider value={item}>
-			<Box flexBasis={'25%'} data-id={item.id} className='playlist'>
-				<Box padding={'8px'}>
+			<Box data-id={item.id} className='playlist'>
+				<Box className='playlist__container'>
 					<Box className='image'>
 						<PlaylistImage
 							className='image'

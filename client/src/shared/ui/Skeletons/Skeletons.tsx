@@ -1,4 +1,5 @@
 import { Box, Grid, Skeleton } from '@mui/material';
+import { useWindowSize } from '@shared';
 import { FC } from 'react';
 
 interface ITrackListSkeletonProps {
@@ -40,17 +41,24 @@ export const TrackItemSkeleton = () => {
 };
 
 export const PlaylistItemSkeleton = () => {
+	const windowSize = useWindowSize();
+	let size = '200px';
+	let flexBasis = '25%';
+	if (windowSize.width < 992) {
+		size = '180px';
+		flexBasis = '33.33%';
+	}
+	if (windowSize.width < 530) {
+		size = '140px';
+		flexBasis = '50%';
+	}
+
 	return (
-		<Box flexBasis='33.33%' mb={2}>
-			<Skeleton
-				animation='wave'
-				variant='rounded'
-				width='200px'
-				height='200px'
-			/>
+		<Box flexBasis={flexBasis} mb={2} padding={0.5}>
+			<Skeleton animation='wave' variant='rounded' width={size} height={size} />
 			<Box>
-				<Skeleton variant='text' width='200px' animation='wave' />
-				<Skeleton variant='text' width='150px' animation='wave' />
+				<Skeleton variant='text' width='140px' animation='wave' />
+				<Skeleton variant='text' width='100px' animation='wave' />
 			</Box>
 		</Box>
 	);

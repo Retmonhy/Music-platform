@@ -17,11 +17,11 @@ export const MusicInfo: FC<IMusicInfoProps> = ({
 	return (
 		<Grid {...props} container direction='column'>
 			<div>
-				<span onClick={titleClick} className='title ellipsis'>
+				<span onClick={titleClick} className='title'>
 					{title}
 				</span>
 			</div>
-			<div className='gray subtitle ellipsis'>{description}</div>
+			<div className='gray subtitle'>{description}</div>
 		</Grid>
 	);
 };

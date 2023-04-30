@@ -93,7 +93,7 @@ export const Navbar: FC = () => {
 	const handleDrawerClose = () => {
 		setOpen(false);
 	};
-
+	const { active } = useTypedSelector(i => i.player);
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
@@ -108,7 +108,11 @@ export const Navbar: FC = () => {
 						<Menu />
 					</IconButton>
 					<>
-						<Typography variant='h6' noWrap component='div'>
+						<Typography
+							variant='h6'
+							noWrap
+							component='div'
+							className={active ? 'navbar__name' : ''}>
 							UpMusic
 						</Typography>
 						<Player />

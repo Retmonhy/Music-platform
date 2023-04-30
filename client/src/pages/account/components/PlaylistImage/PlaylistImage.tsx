@@ -18,7 +18,13 @@ import { AddRounded } from '@mui/icons-material';
 import { SquareDiv } from '@shared/ui';
 import { PlaylistContext } from '../PlaylistItem';
 import { useAppDispatch } from '@shared/store';
-import { generateUrl, merge, useAction, useTypedSelector } from '@shared';
+import {
+	generateUrl,
+	merge,
+	useAction,
+	useIsMobile,
+	useTypedSelector,
+} from '@shared';
 
 const imageSize = 70;
 interface IPlaylistImageHandlers {
@@ -58,7 +64,6 @@ export const PlaylistImage: FC<IPlaylistProps> = ({
 		e.stopPropagation();
 		dispatch(_playlist.managePlaylistToDeleteFromUser(playlist.id));
 	};
-
 	return (
 		<div className='relative'>
 			<Box

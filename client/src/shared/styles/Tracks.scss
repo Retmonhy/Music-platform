@@ -9,6 +9,9 @@
 	align-items: center;
 	background-color: var.$color-white;
 	border: 0;
+	@media screen and (max-width: 768px) {
+		padding: 8px;
+	}
 }
 .track_item {
 	margin: 4px 0;

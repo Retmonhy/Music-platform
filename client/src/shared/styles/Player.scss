@@ -4,8 +4,11 @@
 	background-color: transparent;
 	margin: 0 auto 0 10%;
 	&:hover {
-		background-color: var.$track-hover-color;
+		background-color: darken(var.$base-color, 10%);
 		cursor: pointer;
+	}
+	@media screen and (max-width: 530px) {
+		margin: 0;
 	}
 
 	.player__container {
@@ -16,12 +19,15 @@
 		gap: 4px;
 		min-height: 32px;
 	}
+	.player_button {
+		color: var.$color-white;
+	}
 	.player__text {
 		font-size: 16px;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		padding-left: 8px;
-		color: var.$gray-text-color;
+		color: var.$color-white;
 	}
 }

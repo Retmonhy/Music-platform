@@ -50,6 +50,11 @@ export const TrackBottomSheet: FC<ITrackBottomSheetProps> = ({
 	const playlistAddHandler = (event: MouseEvent<HTMLButtonElement>) => {
 		event.stopPropagation();
 		console.log('redirect to playlist addding');
+		new Toast({
+			type: 'info',
+			message:
+				'В мобильной версии должен быть редирект на страницу с выбором плейлиста, куда добавить трек',
+		});
 		onClose();
 	};
 	return (
@@ -71,33 +76,35 @@ export const TrackBottomSheet: FC<ITrackBottomSheetProps> = ({
 					</IconButton>
 				</Box>
 			</Box>
-			<ButtonEl
-				className='bs__button'
-				startIcon={<PlaylistPlayRounded className='bs__button_icon' />}
-				onClick={handleAddToQueue}>
-				{Local.Tracks.PlayNext}
-			</ButtonEl>
-			{isExistInUserMusic ? (
+			<Box className='bs__buttons'>
 				<ButtonEl
 					className='bs__button'
-					startIcon={<CloseRounded className='bs__button_icon' />}
-					onClick={handleDelete}>
-					{Local.Tracks.DeleteFromCurrentPlaylist}
+					startIcon={<PlaylistPlayRounded className='bs__button_icon' />}
+					onClick={handleAddToQueue}>
+					{Local.Tracks.PlayNext}
 				</ButtonEl>
-			) : (
+				{isExistInUserMusic ? (
+					<ButtonEl
+						className='bs__button'
+						startIcon={<CloseRounded className='bs__button_icon' />}
+						onClick={handleDelete}>
+						{Local.Tracks.DeleteFromCurrentPlaylist}
+					</ButtonEl>
+				) : (
+					<ButtonEl
+						className='bs__button'
+						startIcon={<AddRounded className='bs__button_icon' />}
+						onClick={handleAdd}>
+						{Local.Tracks.AddToMyMusic}
+					</ButtonEl>
+				)}
 				<ButtonEl
 					className='bs__button'
-					startIcon={<AddRounded className='bs__button_icon' />}
-					onClick={handleAdd}>
-					{Local.Tracks.AddToMyMusic}
+					startIcon={<PlaylistAddRounded className='bs__button_icon' />}
+					onClick={playlistAddHandler}>
+					{Local.Tracks.AddToPlaylist}
 				</ButtonEl>
-			)}
-			<ButtonEl
-				className='bs__button'
-				startIcon={<PlaylistAddRounded className='bs__button_icon' />}
-				onClick={playlistAddHandler}>
-				{Local.Tracks.AddToPlaylist}
-			</ButtonEl>
+			</Box>
 		</BottomSheet>
 	);
 };
