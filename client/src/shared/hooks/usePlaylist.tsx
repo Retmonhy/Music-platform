@@ -1,10 +1,10 @@
-import React, { FC, useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FileService, ICreatePlaylistResponse, PlaylistService } from '../api';
 import { IPlaylistData, PlaylistMode, UploadActionType } from '../types';
 import { useTypedSelector } from './useTypedSelector';
-import { NextThunkDispatch, useAppDispatch } from '../store';
+import { useAppDispatch } from '../store';
 import { useAction } from './useAction';
 
 export const usePlaylist = () => {

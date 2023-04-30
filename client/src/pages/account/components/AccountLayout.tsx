@@ -18,7 +18,7 @@ export const AccountLayout: FC<IAccountLayoutProps> = ({ children }) => {
 	return (
 		<>
 			<H1>Мой профиль</H1>
-			<div className='content'>
+			<div>
 				<LeftSideMenu list={routes} />
 				{children}
 			</div>

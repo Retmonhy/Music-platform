@@ -5,9 +5,9 @@ import { ActionMenu } from '../ActionMenu/ActionMenu';
 import { Grid } from '@material-ui/core';
 import { QueueAdd } from '../QueueAdd';
 interface IActionRowHandlers {
-	deleteHandler: (e: MouseEvent<HTMLDivElement>) => void;
-	addHandler: (e: MouseEvent<HTMLDivElement>) => void;
-	queueAddHandler: (e: MouseEvent<HTMLDivElement>) => void;
+	deleteHandler: () => void;
+	addHandler: () => void;
+	queueAddHandler: () => void;
 }
 interface IActionRowProps {
 	isActive: boolean;

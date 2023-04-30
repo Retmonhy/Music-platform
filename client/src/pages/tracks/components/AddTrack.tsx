@@ -3,11 +3,15 @@ import React, { FC, MouseEvent } from 'react';
 import { PopoverButton } from '@shared';
 import { Local } from '@shared/helper/localization';
 interface IAddTrackProps {
-	onClick: (event: MouseEvent<HTMLDivElement>) => void;
+	onClick: () => void;
 }
 export const AddTrack: FC<IAddTrackProps> = ({ onClick }) => {
+	const handleAdd = (e: MouseEvent<HTMLDivElement>) => {
+		e.stopPropagation();
+		onClick();
+	};
 	return (
-		<PopoverButton text={Local.Tracks.AddToMyMusic} onClick={onClick}>
+		<PopoverButton text={Local.Tracks.AddToMyMusic} onClick={handleAdd}>
 			<AddRounded className='icon-button' />
 		</PopoverButton>
 	);

@@ -3,13 +3,17 @@ import { FC, MouseEvent } from 'react';
 import { PopoverButton } from '@shared';
 import { Local } from '@shared/helper/localization';
 interface IDeleteTrackProps {
-	onClick: (e: MouseEvent<HTMLDivElement>) => void;
+	onClick: () => void;
 }
 export const DeleteTrack: FC<IDeleteTrackProps> = ({ onClick }) => {
+	const handleDelete = (e: MouseEvent<HTMLDivElement>) => {
+		e.stopPropagation();
+		onClick();
+	};
 	return (
 		<PopoverButton
 			text={Local.Tracks.DeleteFromCurrentPlaylist}
-			onClick={onClick}>
+			onClick={handleDelete}>
 			<CloseRounded className='icon-button' />
 		</PopoverButton>
 	);

@@ -21,11 +21,13 @@ const PlaylistPage = () => {
 		i => i.playlists,
 	);
 	const { _playlist } = useAction();
-	const { onIntersect } = useIntersect(_playlist.fetchAllPlaylists, pageSize);
+	const { onIntersect: fetchPlaylists } = useIntersect(
+		_playlist.fetchAllPlaylists,
+		pageSize,
+	);
 	const [isFirstRequest, setIsFirstRequest] = useState<boolean>(true);
-	const dispatch = useAppDispatch();
 	useEffect(() => {
-		dispatch(_playlist.fetchUserPlaylists()).finally(() => {
+		fetchPlaylists().finally(() => {
 			setIsFirstRequest(false);
 		});
 	}, []);
@@ -38,7 +40,7 @@ const PlaylistPage = () => {
 				<Intersect
 					id='playlist_intersection'
 					isFetching={isAllPlaylistLoading}
-					onIntersect={onIntersect}>
+					onIntersect={fetchPlaylists}>
 					<PlaylistsPageList playlists={playlists} />
 				</Intersect>
 			)}

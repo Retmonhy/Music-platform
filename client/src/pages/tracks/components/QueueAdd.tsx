@@ -5,11 +5,15 @@ import { FC, MouseEvent } from 'react';
 import { PopoverButton } from '@shared';
 import { Local } from '@shared/helper/localization';
 interface IQueueAddProps {
-	onClick: (e: MouseEvent<HTMLDivElement>) => void;
+	onClick: () => void;
 }
 export const QueueAdd: FC<IQueueAddProps> = ({ onClick }) => {
+	const handleAddToQueue = (e: MouseEvent<HTMLDivElement>) => {
+		e.stopPropagation();
+		onClick();
+	};
 	return (
-		<PopoverButton text={Local.Tracks.PlayNext} onClick={onClick}>
+		<PopoverButton text={Local.Tracks.PlayNext} onClick={handleAddToQueue}>
 			<PlaylistAddRounded className='icon-button' />
 		</PopoverButton>
 	);

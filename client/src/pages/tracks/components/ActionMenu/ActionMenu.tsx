@@ -20,9 +20,7 @@ import { CheckboxButton } from '../CheckboxButton/CheckboxButton';
 import { Local } from '@shared/helper/localization';
 
 const popperId = 'actionMenu';
-interface IActionMenuProps {
-	// addToPlaylist: (playlistId: string) => void;
-}
+interface IActionMenuProps {}
 export const ActionMenu: FC<IActionMenuProps> = memo(() => {
 	// hooks
 	const { _playlist } = useAction();
@@ -58,8 +56,7 @@ export const ActionMenu: FC<IActionMenuProps> = memo(() => {
 				size={30}
 				onMouseEnter={handlePopoverOpen}
 				onMouseLeave={handlePopoverClose}
-				aria-describedby={popperId}
-				className='action-menu'>
+				aria-describedby={popperId}>
 				<MoreHorizRounded className='icon-button' />
 				<Popper
 					id={popperId}
@@ -68,7 +65,8 @@ export const ActionMenu: FC<IActionMenuProps> = memo(() => {
 					nonce={undefined}
 					onResize={undefined}
 					onResizeCapture={undefined}
-					placement='bottom-end'>
+					placement='bottom-end'
+					className='action-menu'>
 					<Box className='action-menu__dropdown'>
 						<ButtonEl
 							endIcon={<ExpandMoreRounded className='icon-button' />}

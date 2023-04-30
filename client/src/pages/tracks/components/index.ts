@@ -1,6 +1,7 @@
 export { TrackItem } from './TrackItem';
-export { TrackImage } from './TrackImage';
+export { TrackTime } from './TrackTime';
 export { TrackList } from './TrackList';
-export { TrackTime } from './TrackTime/TrackTime';
+export { ActionMenu } from './ActionMenu';
+export { TrackImage } from './TrackImage';
 export { DeleteTrack } from './DeleteTrack';
-export { ActionMenu } from './ActionMenu/ActionMenu';
+export { TrackBottomSheet } from './TrackBottomSheet';

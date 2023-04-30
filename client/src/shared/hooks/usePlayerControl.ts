@@ -9,7 +9,6 @@ export const usePlayerControl = () => {
 	const dispatch = useAppDispatch();
 
 	const playControl = () => {
-		console.log('pause = ', pause);
 		if (pause) {
 			dispatch(_player.playTrack());
 			audio.play();

@@ -17,6 +17,9 @@
 		background-color: lighten($color: var.$base-color, $amount: 10);
 	}
 }
+.input {
+	margin-bottom: 16px;
+}
 .icon-button {
 	color: var.$color-gray;
 	transition: color 0.3s;
@@ -72,4 +75,20 @@
 }
 .title {
 	font-size: 2em;
+}
+
+//forMobile
+.bottom-sheet {
+	$padd: 16px;
+	z-index: 100;
+	position: fixed;
+	bottom: $padd;
+	left: $padd;
+	right: $padd;
+	touch-action: none;
+
+	background-color: var.$color-white;
+	border-radius: var.$base-radius;
+	overflow: hidden;
+	width: calc(100% - $padd - $padd);
 }

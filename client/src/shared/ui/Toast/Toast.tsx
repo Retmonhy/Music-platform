@@ -52,7 +52,8 @@ export class Toast {
 				}}
 				TransitionComponent={SlideTransition}
 				open={this.isOpened}
-				autoHideDuration={10000}
+				onClick={() => console.log('close toast')}
+				autoHideDuration={3000}
 				onClose={this.closeToast}>
 				<Alert variant='filled' severity={this.type}>
 					{this.message}

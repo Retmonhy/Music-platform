@@ -1,17 +1,20 @@
 //libs
-import { memo, MouseEvent, useState, createContext } from 'react';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '@shared/store';
+import { memo, MouseEvent, useState, createContext } from 'react';
 //interface
 import { ITrack, PlayerState } from '@shared/types';
 //hooks
-import { useAction, useTypedSelector } from '@shared/hooks';
+import { useAction, useTypedSelector, useIsMobile } from '@shared/hooks';
 //components
-import { Box } from '@material-ui/core';
+import { TrackTime } from './TrackTime';
+import { ActionRow } from './ActionRow';
 import { TrackImage } from './TrackImage';
-import { TrackTime } from './TrackTime/TrackTime';
 import { MusicInfo, merge } from '@shared';
-import { ActionRow } from './ActionRow/ActionRow';
+
+import { MoreVert } from '@mui/icons-material';
+import { IconButton, Box } from '@mui/material';
+import { TrackBottomSheet } from './TrackBottomSheet';
 
 interface TrackItemProps {
 	track: ITrack;
@@ -24,7 +27,7 @@ interface ITrackContext {
 export const TrackContext = createContext<ITrackContext>(null);
 export const TrackItem: React.FC<TrackItemProps> = memo(
 	({ track, playerState, onClick }) => {
-		console.log('trackitem');
+		const isMobile = useIsMobile();
 		const [isHovered, setHovered] = useState<boolean>(false);
 		const { user, accessToken } = useTypedSelector(i => i.account);
 		//проверка делаеется уровнем выше,  plaerState не будет передаваться неактивному
@@ -34,6 +37,7 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 		const dispatch = useAppDispatch();
 
 		const play = (event: MouseEvent<HTMLDivElement>) => {
+			console.log('click trackitem');
 			event.stopPropagation();
 			onClick();
 		};
@@ -41,24 +45,30 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 			e.stopPropagation();
 			router.push('/tracks/' + track._id);
 		};
-		const handleDeleteTrack = (e: MouseEvent<HTMLDivElement>) => {
-			e.stopPropagation();
+		const handleDeleteTrack = () => {
 			dispatch(_account.removeTrackFromMyMusic(track._id));
 		};
-		const handleAddTrack = (e: MouseEvent<HTMLDivElement>) => {
-			e.stopPropagation();
+		const handleAddTrack = () => {
 			dispatch(_account.addTrackIntoMyMusic(track._id));
 		};
-		const handleAddToQueue = (e: MouseEvent<HTMLDivElement>) => {
-			e.stopPropagation();
+		const handleAddToQueue = () => {
 			dispatch(_player.addTrackInQueue(track));
 		};
 		const handleHoverOn = () => setHovered(true);
 		const handleHoverOff = () => setHovered(false);
+		//forMobile
+		const [isBSOpened, setBSOpened] = useState<boolean>(false);
+		const openBSHandler = e => {
+			console.log('openBS');
+			e.stopPropagation();
+			e.preventDefault();
+			setBSOpened(true);
+		};
+		const closeBS = () => setBSOpened(false);
 		return (
 			<TrackContext.Provider value={{ track: track }}>
 				<Box
-					className={merge('track', isActive ? 'track_active' : '')}
+					className={merge('track track_item', isActive ? 'track_active' : '')}
 					onMouseEnter={handleHoverOn}
 					onMouseLeave={handleHoverOff}
 					onClick={play}>
@@ -71,27 +81,47 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 						className='track__info'
 						title={track.name}
 						description={track.artist}
-						titleClick={navigateToTrackPage}
+						titleClick={() => {}}
 					/>
-					<Box className='track__time'>
-						{isHovered ? (
-							<ActionRow
-								isActive={isActive}
-								isExistInUserMusic={user?.tracks.some(i => i === track._id)}
-								handlers={{
-									addHandler: handleAddTrack,
-									deleteHandler: handleDeleteTrack,
-									queueAddHandler: handleAddToQueue,
-								}}
-							/>
-						) : (
-							<TrackTime
-								isActive={isActive}
-								currentTime={playerState?.currentTime}
-								duration={track.duration}
-							/>
-						)}
-					</Box>
+					{isMobile ? (
+						<Box className='track__time'>
+							<IconButton onClick={openBSHandler}>
+								<MoreVert className='icon-button' />
+							</IconButton>
+							{isBSOpened && (
+								<TrackBottomSheet
+									open={isBSOpened}
+									onClose={closeBS}
+									isExistInUserMusic={user?.tracks.some(i => i === track._id)}
+									handlers={{
+										addHandler: handleAddTrack,
+										deleteHandler: handleDeleteTrack,
+										queueAddHandler: handleAddToQueue,
+									}}
+								/>
+							)}
+						</Box>
+					) : (
+						<Box className='track__time'>
+							{isHovered ? (
+								<ActionRow
+									isActive={isActive}
+									isExistInUserMusic={user?.tracks.some(i => i === track._id)}
+									handlers={{
+										addHandler: handleAddTrack,
+										deleteHandler: handleDeleteTrack,
+										queueAddHandler: handleAddToQueue,
+									}}
+								/>
+							) : (
+								<TrackTime
+									isActive={isActive}
+									currentTime={playerState?.currentTime}
+									duration={track.duration}
+								/>
+							)}
+						</Box>
+					)}
 				</Box>
 			</TrackContext.Provider>
 		);
