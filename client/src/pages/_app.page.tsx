@@ -1,10 +1,10 @@
-import React, { createContext, useEffect } from 'react';
+import React, { createContext, useLayoutEffect } from 'react';
 import { Provider } from 'react-redux';
 import { AppProps } from 'next/app';
-import { StorageKeys, checkMobile, useAction } from '@shared';
+import { StorageKeys, useAction } from '@shared';
 import store, { useAppDispatch, wrapper } from '@shared/store';
 import { MainLayout } from '../widgets';
-import { debouncedFetchPl } from './account/playlists';
+import { debouncedFetchPl } from './account/playlists.page';
 import '@shared/styles/global.css';
 import '@shared/styles/Global.scss';
 
@@ -18,7 +18,7 @@ const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
 	//так как WrappedApp вызывается при рендере кадой страницы, то наверное будет вызыватьсяэтот юзЭффект всегда
 	const dispatch = useAppDispatch();
 	const { _account } = useAction();
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (localStorage && localStorage.getItem(StorageKeys.accessToken)) {
 			dispatch(_account.checkAuth()).then(() => {
 				debouncedFetchPl();
@@ -26,6 +26,7 @@ const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
 		}
 	}, []);
 	return (
+		//ts-ignore
 		<IsSsrMobileContext.Provider value={pageProps.pageProps.isSsrMobile}>
 			<Provider store={store}>
 				<MainLayout>
@@ -35,5 +36,4 @@ const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
 		</IsSsrMobileContext.Provider>
 	);
 };
-
 export default wrapper.withRedux(WrappedApp);

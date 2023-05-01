@@ -1,7 +1,7 @@
 import { useTypedSelector } from './useTypedSelector';
 import { useAction } from './useAction';
 
-import { audio } from '../../pages/_app';
+import { audio } from '../../pages/_app.page';
 import { useAppDispatch } from '@shared/store';
 export const usePlayerControl = () => {
 	const { _player } = useAction();

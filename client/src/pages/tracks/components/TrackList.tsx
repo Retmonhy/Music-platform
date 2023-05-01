@@ -55,3 +55,4 @@ export const TrackList: React.FC<TrackListProps> = memo(({ tracks }) => {
 		</Grid>
 	);
 });
+export default TrackList;

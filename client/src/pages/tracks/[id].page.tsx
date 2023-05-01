@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Button, Grid, TextField } from '@material-ui/core';
@@ -13,6 +13,7 @@ import {
 import { ITrack } from '@shared/types';
 
 const TrackPage = ({ serverTrack }) => {
+	console.log('serverTrack = ', serverTrack);
 	const [track, setTrack] = React.useState<ITrack>(serverTrack);
 	const router = useRouter();
 	const username = useInput();
@@ -35,54 +36,57 @@ const TrackPage = ({ serverTrack }) => {
 			console.log('[id].ts sendComment ERROR = ', error);
 		}
 	};
-
+	console.log('track = ', track);
 	return (
-		// <MainLayout
-		// 	title={`${track.artist} - ${track.name} Музыкальная площадка`}
-		// 	keywords={`музыка, артисты, песня, слушать, ${track.name}, ${track.artist}`}>
 		<>
 			<Button variant='outlined' onClick={() => router.push('/tracks')}>
 				К списку
 			</Button>
-			<Grid container>
-				<Image src={generateUrl(track.picture)} width={200} height={200} />
-				<div>
-					<h1>Название трека - {track.name}</h1>
-					<h1>Исполнитель - {track.artist}</h1>
-					<h1>Прослушиваний {track.listens}</h1>
-				</div>
-			</Grid>
-			<h1>Слова песни</h1>
-			<p>{track.text}</p>
-			<Grid container>
-				<TextField label='Ваше имя' {...username} fullWidth />
-				<TextField
-					label='Комментарий'
-					{...text}
-					fullWidth
-					multiline
-					minRows={4}
-				/>
-				<Button onClick={sendComment}>Отправить</Button>
-			</Grid>
-			<div>
-				{track.comments.map(comment => {
-					return (
-						<div key={comment._id}>
-							<div>Автор - {comment.username}</div>
-							<div>Комментарий - {comment.text}</div>
+			{track ? (
+				<>
+					<Grid container>
+						<Image src={generateUrl(track.picture)} width={200} height={200} />
+						<div>
+							<h1>Название трека - {track.name}</h1>
+							<h1>Исполнитель - {track.artist}</h1>
+							<h1>Прослушиваний {track.listens}</h1>
 						</div>
-					);
-				})}
-			</div>
+					</Grid>
+					<h1>Слова песни</h1>
+					<p>{track.text}</p>
+					<Grid container>
+						<TextField label='Ваше имя' {...username} fullWidth />
+						<TextField
+							label='Комментарий'
+							{...text}
+							fullWidth
+							multiline
+							minRows={4}
+						/>
+						<Button onClick={sendComment}>Отправить</Button>
+					</Grid>
+					<div>
+						{track.comments.map(comment => {
+							return (
+								<div key={comment._id}>
+									<div>Автор - {comment.username}</div>
+									<div>Комментарий - {comment.text}</div>
+								</div>
+							);
+						})}
+					</div>
+				</>
+			) : (
+				<div>Что-то пшошло не так при агруке трека</div>
+			)}
 		</>
-		// </MainLayout>
 	);
 };
 
 export default TrackPage;
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+	console.log('asdas');
 	const { data } = await api.get(`/tracks/${params.id}`);
 	return {
 		props: {

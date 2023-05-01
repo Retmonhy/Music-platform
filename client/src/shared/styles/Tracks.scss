@@ -121,3 +121,16 @@
 .bs__button_icon {
 	color: var.$base-color;
 }
+.stepper {
+	@media screen and (max-width: 768px) {
+	}
+}
+.mobile-paper.MuiPaper-root {
+	padding: 12px;
+	background-color: var.$track-hover-color;
+	margin-bottom: 8px;
+}
+.mobile-stepper.MuiMobileStepper-root {
+	margin-top: 8px;
+	background-color: var.$track-hover-color;
+}

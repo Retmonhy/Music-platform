@@ -9,7 +9,7 @@ import { Box, IconButton, IconButtonProps } from '@mui/material';
 import { FC, ReactNode, useEffect } from 'react';
 import { generateUrl } from '@shared/api';
 import { useAction, usePlayerControl, useTypedSelector } from '@shared/hooks';
-import { audio, setAudioInstance } from '../../pages/_app';
+import { audio, setAudioInstance } from '../../pages/_app.page';
 import { useAppDispatch } from '@shared/store';
 
 export const Player: React.FC = () => {

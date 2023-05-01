@@ -1,4 +1,4 @@
-import { IsSsrMobileContext } from './../../pages/_app';
+import { IsSsrMobileContext } from '../../pages/_app.page';
 import { useContext } from 'react';
 import { useWindowSize } from './useWindowSize';
 

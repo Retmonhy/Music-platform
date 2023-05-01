@@ -16,6 +16,7 @@ interface ITrackBottomSheetHandlers {
 	deleteHandler: () => void;
 	addHandler: () => void;
 	queueAddHandler: () => void;
+	navigateToTrackPage: () => void;
 }
 interface ITrackBottomSheetProps extends Omit<IBottomSheetProps, 'children'> {
 	isExistInUserMusic: boolean;
@@ -29,7 +30,13 @@ export const TrackBottomSheet: FC<ITrackBottomSheetProps> = ({
 	handlers,
 }) => {
 	const { track } = useContext(TrackContext);
-	const { queueAddHandler, addHandler, deleteHandler } = handlers;
+	const { queueAddHandler, addHandler, deleteHandler, navigateToTrackPage } =
+		handlers;
+	const handleNavigateToTrackPage = (event: MouseEvent<HTMLDivElement>) => {
+		event.stopPropagation();
+		navigateToTrackPage();
+		onClose();
+	};
 	const handleAddToQueue = (event: MouseEvent<HTMLButtonElement>) => {
 		event.stopPropagation();
 		queueAddHandler();
@@ -59,7 +66,7 @@ export const TrackBottomSheet: FC<ITrackBottomSheetProps> = ({
 	};
 	return (
 		<BottomSheet open={open} onClose={onClose}>
-			<Box className='track bs__track' onClick={() => {}}>
+			<Box className='track bs__track' onClick={handleNavigateToTrackPage}>
 				<TrackImage source={track.picture} alt={track.name} isHover={false} />
 				<MusicInfo
 					className='track__info'
@@ -108,3 +115,4 @@ export const TrackBottomSheet: FC<ITrackBottomSheetProps> = ({
 		</BottomSheet>
 	);
 };
+export default TrackBottomSheet;

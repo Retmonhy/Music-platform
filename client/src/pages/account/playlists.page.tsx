@@ -1,8 +1,7 @@
 import { AccountLayout, ContentBlock } from './components';
-import React, { FC, Suspense, useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import {
 	IPlaylist,
-	Loader,
 	PlaylistMode,
 	debounce,
 	useAction,
@@ -10,11 +9,20 @@ import {
 	useTypedSelector,
 } from '@shared';
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { PlaylistModal, PlaylistList } from '../../widgets';
+import { PlaylistList } from '../../widgets';
 import store, { useAppDispatch } from '@shared/store';
 import { fetchUserPlaylists } from '@shared/store/ActionCreators/playlists';
 import { PlaylistListSkeleton } from '@shared/ui/Skeletons';
 import { Local } from '@shared/helper/localization';
+import dynamic from 'next/dynamic';
+
+const DynamicPlaylistModal = dynamic(
+	() => import('../../widgets/PlaylistModal/PlaylistModal'),
+	{
+		loading: () => <p>Loading...</p>,
+	},
+);
+
 interface IPlaylistProps {}
 
 export const debouncedFetchPl = debounce(
@@ -48,15 +56,17 @@ const AccountPlaylistsPage: FC<IPlaylistProps> = () => {
 					<AccountPlaylistList playlists={userPlaylists} />
 				)}
 			</ContentBlock>
-			<PlaylistModal
-				control={control}
-				isVisible={isVisible}
-				handlers={{
-					onClose: close,
-					onUpload,
-					onSave,
-				}}
-			/>
+			{isVisible && (
+				<DynamicPlaylistModal
+					control={control}
+					isVisible={isVisible}
+					handlers={{
+						onClose: close,
+						onUpload,
+						onSave,
+					}}
+				/>
+			)}
 		</AccountLayout>
 	);
 };

@@ -23,7 +23,7 @@ interface IPlaylistModalProps {
 	handlers: IPlaylistModalHandlers;
 }
 
-export const PlaylistModal: FC<IPlaylistModalProps> = ({
+const PlaylistModal: FC<IPlaylistModalProps> = ({
 	control,
 	isVisible,
 	handlers,
@@ -57,3 +57,5 @@ export const PlaylistModal: FC<IPlaylistModalProps> = ({
 		</Modal>
 	);
 };
+export default PlaylistModal;
+export { PlaylistModal };

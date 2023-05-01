@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
+interface IState {
+	hasError: boolean;
+	children: ReactNode;
+}
 export class ErrorBoundary extends React.Component {
+	state: IState;
 	constructor(props) {
 		super(props);
-		this.state = { hasError: false };
+		this.state = { hasError: false, children: props.children };
 	}
 
 	static getDerivedStateFromError(error) {
@@ -21,6 +26,6 @@ export class ErrorBoundary extends React.Component {
 			return <h1>Something went wrong.</h1>;
 		}
 
-		return this.props.children;
+		return this.state.children;
 	}
 }

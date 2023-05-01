@@ -18,3 +18,5 @@ export const TrackTime: React.FC<TrackTimeProps> = ({
 		</div>
 	);
 };
+
+export default TrackTime;

@@ -147,7 +147,7 @@ export const Navbar: FC = () => {
 						};
 						return (
 							<ListItem key={name} disablePadding>
-								<ListItemButton onClick={handleClick}>
+								<ListItemButton onClick={handleClick} className='navbar__item'>
 									<ListItemIcon>{icon}</ListItemIcon>
 									<ListItemText primary={name} />
 								</ListItemButton>

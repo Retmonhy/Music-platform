@@ -1,12 +1,16 @@
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Grid, MobileStepper, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { TrackService } from '@shared/api';
 import { StepWrapper } from '../../widgets/StepWrapper';
 import { FileUpload } from '../../widgets/FileUpload';
-import { ControlledInput, H1 } from '@shared';
+import { ControlledInput, H1, useIsMobile } from '@shared';
 import { useForm } from 'react-hook-form';
-import { CloudUploadOutlined } from '@material-ui/icons';
+import {
+	CloudUploadOutlined,
+	KeyboardArrowLeft,
+	KeyboardArrowRight,
+} from '@material-ui/icons';
 import { Local } from '@shared/helper/localization';
 
 interface ITrackInfo {
@@ -67,7 +71,7 @@ const Create = () => {
 			<H1>{Local.CreateTrack.PageTitle}</H1>
 			<StepWrapper activeStep={activeStep}>
 				{activeStep === 0 && (
-					<Grid container direction='column' style={{ padding: '20px' }}>
+					<Grid container direction='column' style={{ padding: '8px' }}>
 						<ControlledInput
 							controllerProps={{
 								control,
@@ -100,7 +104,7 @@ const Create = () => {
 							direction='column'
 							justifyContent='center'
 							alignItems='center'
-							className='upload-button'>
+							className='upload-icon'>
 							<CloudUploadOutlined fontSize='inherit' color='inherit' />
 							{picture ? (
 								<Typography>{Local.CreateTrack.CoverIsUploaded}</Typography>
@@ -142,16 +146,42 @@ const Create = () => {
 					</>
 				)}
 			</StepWrapper>
-			<Grid container justifyContent='space-between'>
-				<Button onClick={prev} disabled={activeStep === 0}>
-					{Local.CreateTrack.Prev}
-				</Button>
-				<Button onClick={activeStep === 2 ? handleSendTrack : next}>
-					{activeStep === 2
-						? Local.CreateTrack.UploadTrack
-						: Local.CreateTrack.Next}
-				</Button>
-			</Grid>
+			{useIsMobile() ? (
+				<MobileStepper
+					variant='text'
+					steps={3}
+					position='static'
+					activeStep={activeStep}
+					className='mobile-stepper'
+					backButton={
+						<Button size='small' onClick={prev} disabled={activeStep === 0}>
+							<KeyboardArrowLeft />
+							{Local.CreateTrack.Prev}
+						</Button>
+					}
+					nextButton={
+						<Button
+							size='small'
+							onClick={activeStep === 2 ? handleSendTrack : next}>
+							{activeStep === 2
+								? Local.CreateTrack.UploadTrack
+								: Local.CreateTrack.Next}
+							<KeyboardArrowRight />
+						</Button>
+					}
+				/>
+			) : (
+				<Grid container justifyContent='space-between'>
+					<Button onClick={prev} disabled={activeStep === 0}>
+						{Local.CreateTrack.Prev}
+					</Button>
+					<Button onClick={activeStep === 2 ? handleSendTrack : next}>
+						{activeStep === 2
+							? Local.CreateTrack.UploadTrack
+							: Local.CreateTrack.Next}
+					</Button>
+				</Grid>
+			)}
 		</>
 	);
 };

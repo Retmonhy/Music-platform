@@ -3,13 +3,17 @@ import { useTypedSelector } from '@shared/hooks/useTypedSelector';
 
 import { TrackList } from './components';
 import { H1, useAction, useIntersect, usePlaylist } from '@shared';
-import { PlaylistModal } from '../../widgets';
 import { Intersect } from '@shared/ui';
 import { TrackListSkeleton } from '@shared/ui/Skeletons';
 import { Local } from '@shared/helper/localization';
 import { getIsSsrMobile } from '@shared/helper/getIsSsrMobile';
 import { GetServerSidePropsContext } from 'next/types';
+import dynamic from 'next/dynamic';
 const pageSize = 10;
+const DynamicPlaylistModal = dynamic(
+	() => import('../../widgets/PlaylistModal/PlaylistModal'),
+	{ loading: () => <p>Loading...</p> },
+);
 
 const TrackPage: React.FC = () => {
 	const { _track } = useAction();
@@ -39,15 +43,17 @@ const TrackPage: React.FC = () => {
 					<TrackList tracks={tracks} />
 				</Intersect>
 			)}
-			<PlaylistModal
-				isVisible={playlist.isVisible}
-				control={playlist.control}
-				handlers={{
-					onClose: playlist.close,
-					onSave: playlist.onSave,
-					onUpload: playlist.onUpload,
-				}}
-			/>
+			{playlist.isVisible && (
+				<DynamicPlaylistModal
+					isVisible={playlist.isVisible}
+					control={playlist.control}
+					handlers={{
+						onClose: playlist.close,
+						onSave: playlist.onSave,
+						onUpload: playlist.onUpload,
+					}}
+				/>
+			)}
 		</>
 	);
 };

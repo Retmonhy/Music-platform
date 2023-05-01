@@ -10,12 +10,16 @@ import { useAction, useTypedSelector, useIsMobile } from '@shared/hooks';
 import { TrackTime } from './TrackTime';
 import { ActionRow } from './ActionRow';
 import { TrackImage } from './TrackImage';
-import { MusicInfo, merge } from '@shared';
+import { Loader, MusicInfo, merge } from '@shared';
 
 import { MoreVert } from '@mui/icons-material';
 import { IconButton, Box } from '@mui/material';
-import { TrackBottomSheet } from './TrackBottomSheet';
+import dynamic from 'next/dynamic';
 
+const DynamicTrackBottomSheet = dynamic(
+	() => import('./TrackBottomSheet/TrackBottomSheet'),
+	{ loading: () => <Loader /> },
+);
 interface TrackItemProps {
 	track: ITrack;
 	playerState?: PlayerState;
@@ -41,9 +45,12 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 			event.stopPropagation();
 			onClick();
 		};
+		const handleNavigateToTrack = () => {
+			router.push('/tracks/' + track._id);
+		};
 		const navigateToTrackPage = (e: MouseEvent<HTMLSpanElement>) => {
 			e.stopPropagation();
-			router.push('/tracks/' + track._id);
+			handleNavigateToTrack();
 		};
 		const handleDeleteTrack = () => {
 			dispatch(_account.removeTrackFromMyMusic(track._id));
@@ -81,15 +88,17 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 						className='track__info'
 						title={track.name}
 						description={track.artist}
-						titleClick={() => {}}
+						titleClick={navigateToTrackPage}
 					/>
 					{isMobile ? (
 						<Box className='track__time'>
-							<IconButton onClick={openBSHandler}>
+							<IconButton
+								onClick={openBSHandler}
+								aria-label='show more trackcontrols'>
 								<MoreVert className='icon-button' />
 							</IconButton>
 							{isBSOpened && (
-								<TrackBottomSheet
+								<DynamicTrackBottomSheet
 									open={isBSOpened}
 									onClose={closeBS}
 									isExistInUserMusic={user?.tracks.some(i => i === track._id)}
@@ -97,6 +106,7 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 										addHandler: handleAddTrack,
 										deleteHandler: handleDeleteTrack,
 										queueAddHandler: handleAddToQueue,
+										navigateToTrackPage: handleNavigateToTrack,
 									}}
 								/>
 							)}
@@ -127,3 +137,4 @@ export const TrackItem: React.FC<TrackItemProps> = memo(
 		);
 	},
 );
+export default TrackItem;
