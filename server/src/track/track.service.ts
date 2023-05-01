@@ -55,7 +55,24 @@ export class TrackService {
 
   async search(query: string): Promise<Track[]> {
     const tracks = await this.trackModel.find({
-      name: { $regex: new RegExp(query, 'i') }, //что за $regex ?
+      $or: [
+        { name: { $regex: new RegExp(query, 'i') } },
+        { artist: { $regex: new RegExp(query, 'i') } },
+      ],
+    });
+    return tracks;
+  }
+  async searchInUserMusic(
+    user: UserModelType,
+    query: string,
+  ): Promise<Track[]> {
+    if (!user) return null;
+    const tracks = await this.trackModel.find({
+      id: { $in: user.tracks },
+      $or: [
+        { name: { $regex: new RegExp(query, 'i') } },
+        { artist: { $regex: new RegExp(query, 'i') } },
+      ],
     });
     return tracks;
   }

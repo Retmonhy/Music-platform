@@ -1,3 +1,4 @@
+export { SearchTrack } from './SearchTrack';
 export { TrackItem } from './TrackItem';
 export { TrackTime } from './TrackTime';
 export { TrackList } from './TrackList';

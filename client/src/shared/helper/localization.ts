@@ -9,6 +9,7 @@ export const Local: ILocalization = {
 		NewPlaylist: 'Новый плейлист',
 		AddToPlaylist: 'Добавить в плейлист',
 		ShowAll: 'Показать все...',
+		SearchMusic: 'Поиск музыки',
 	},
 	CreateTrack: {
 		PageTitle: 'Создание трека',
@@ -43,8 +44,8 @@ export const Local: ILocalization = {
 		LoginPageTitle: 'Представьтесь, пожалуйста',
 		Registration: 'Регистрация',
 		Login: 'Логин',
-		RegistrationButton: 'Войти',
-		LoginButton: 'Зарегестрироваться',
+		RegistrationButton: 'Зарегестрироваться',
+		LoginButton: 'Войти',
 	},
 	General: {
 		Name: 'Имя',

@@ -11,12 +11,15 @@ export enum AccountActionTypes {
 	ADD_TRACK = 'ADD_TRACK',
 	REMOVE_TRACK = 'REMOVE_TRACK',
 	FETCH_USER_MUSIC = 'FETCH_USER_MUSIC',
+	SEARCH_USER_TRACKS = 'SEARCH_USER_TRACKS',
 }
 export type AccountState = {
 	refreshToken: string;
 	accessToken: string;
 	user: User;
 	isLoading: boolean;
+	search_userTracks: ITrack[];
+	isSearching: boolean;
 	isAuth: boolean;
 	routes: IMenuItem[];
 	userTracks: ITrack[];

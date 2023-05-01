@@ -1,4 +1,4 @@
-import React, { createContext, useLayoutEffect } from 'react';
+import React, { createContext, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { AppProps } from 'next/app';
 import { StorageKeys, useAction } from '@shared';
@@ -18,7 +18,7 @@ const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
 	//так как WrappedApp вызывается при рендере кадой страницы, то наверное будет вызыватьсяэтот юзЭффект всегда
 	const dispatch = useAppDispatch();
 	const { _account } = useAction();
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (localStorage && localStorage.getItem(StorageKeys.accessToken)) {
 			dispatch(_account.checkAuth()).then(() => {
 				debouncedFetchPl();

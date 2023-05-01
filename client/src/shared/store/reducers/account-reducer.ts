@@ -6,6 +6,7 @@ import {
 	changeRouteTo,
 	logout,
 	update,
+	searchUserTracks,
 } from './../ActionCreators/account';
 
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
@@ -20,7 +21,6 @@ import {
 	User,
 } from '../../types';
 import { isFulfilledAction, isPendingAction, isRejectedAction } from '.';
-import { managePlaylistTracks } from '../ActionCreators/playlists';
 import { ILoginUserResponse } from '@shared/api';
 import { Local } from '@shared/helper/localization';
 
@@ -60,6 +60,8 @@ const initialState: AccountState = {
 	routes: menuList,
 
 	userTracks: [],
+	search_userTracks: [],
+	isSearching: false,
 
 	isHidrated: true,
 };
@@ -84,6 +86,17 @@ export const accountReducer = createReducer(
 				...state,
 				user: new User(action.payload),
 			}))
+			.addCase(searchUserTracks.fulfilled, (state, action) => ({
+				...state,
+				search_userTracks: action.payload,
+				isSearching: false,
+			}))
+			.addCase(searchUserTracks.rejected, (state, action) => {
+				state.isSearching = false;
+			})
+			.addCase(searchUserTracks.pending, (state, action) => {
+				state.isSearching = true;
+			})
 			.addCase(
 				fetchUserMusic.fulfilled,
 				(state, action: PayloadAction<ITrack[]>) => {

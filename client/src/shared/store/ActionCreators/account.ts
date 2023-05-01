@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { AccountService } from '../../api';
+import { AccountService, ISearchRequest, TrackService } from '../../api';
 import {
 	IUpdateData,
 	AccountActionTypes,
@@ -7,7 +7,9 @@ import {
 	StorageKeys,
 	IRegistrationData,
 	IUser,
+	ITrack,
 } from '../../types';
+import { Toast } from '@shared/ui';
 
 interface IArgUpdate {
 	payload: IUpdateData;
@@ -140,3 +142,21 @@ export const fetchUserMusic = createAsyncThunk(
 		}
 	},
 );
+export const searchUserTracks = createAsyncThunk<
+	ITrack[],
+	ISearchRequest,
+	{ rejectValue: ITrack[] }
+>(AccountActionTypes.SEARCH_USER_TRACKS, async (payload, ta) => {
+	try {
+		if (!payload.query.length) return [];
+
+		const { data } = await TrackService.searchTracksReq(payload);
+		if (data) {
+			return data;
+		}
+	} catch (error) {
+		console.error('searchUserTracks ERROR: ', error);
+		new Toast({ type: 'error', message: 'Произошла ошибка при поиске треков' });
+		ta.rejectWithValue([]);
+	}
+});

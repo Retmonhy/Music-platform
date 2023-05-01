@@ -8,7 +8,6 @@ import { configureStore } from '@reduxjs/toolkit';
 export const makeStore = (context: Context) =>
 	configureStore<RootState>({ reducer, middleware: [thunk] });
 
-// export an assembled wrapper
 export const wrapper = createWrapper<Store<RootState>>(makeStore, {});
 export type NextThunkDispatch = ThunkDispatch<RootState, void, AnyAction>;
 const store = makeStore(null); // надо решить проблему с сзданием нескольких инстансов стора при использовании разных dispatch

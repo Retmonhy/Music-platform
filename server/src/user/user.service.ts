@@ -177,4 +177,8 @@ export class UserService {
     });
     await this.userModel.insertMany(result);
   }
+  async getUserModelById(id: string) {
+    const userModel = await this.userModel.findById(id);
+    return userModel ?? null;
+  }
 }

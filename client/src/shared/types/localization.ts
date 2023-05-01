@@ -15,6 +15,8 @@ export interface ILocalization {
 		readonly AddToPlaylist: string;
 
 		readonly ShowAll: string;
+
+		readonly SearchMusic: string;
 	};
 	// страница создание треков
 	readonly CreateTrack: {

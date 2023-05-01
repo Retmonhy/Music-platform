@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IPaginationParams, TrackService } from '@shared/api';
+import { IPaginationParams, ISearchRequest, TrackService } from '@shared/api';
 import { ITrack, TrackActionTypes } from '@shared/types';
+import { Toast } from '@shared/ui';
 
 export const fetchTracks = createAsyncThunk<
 	ITrack[],
@@ -16,17 +17,21 @@ export const fetchTracks = createAsyncThunk<
 		ta.rejectWithValue([]);
 	}
 });
-export const searchTracks = createAsyncThunk(
-	TrackActionTypes.FETCH_TRACKS,
-	async (query: string, ta) => {
-		try {
-			const { data } = await TrackService.searchTracksReq(query);
-			if (data) {
-				return data;
-			}
-		} catch (error) {
-			console.error('searchTracks ERROR: ', error);
-			ta.rejectWithValue(error.response.data);
+export const searchTracks = createAsyncThunk<
+	ITrack[],
+	ISearchRequest,
+	{ rejectValue: ITrack[] }
+>(TrackActionTypes.SEARCH_TRACKS, async (payload, ta) => {
+	try {
+		if (!payload.query.length) return [];
+
+		const { data } = await TrackService.searchTracksReq(payload);
+		if (data) {
+			return data;
 		}
-	},
-);
+	} catch (error) {
+		console.error('searchTracks ERROR: ', error);
+		new Toast({ type: 'error', message: 'Произошла ошибка при поиске треков' });
+		ta.rejectWithValue([]);
+	}
+});

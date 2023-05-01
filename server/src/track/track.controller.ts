@@ -1,3 +1,5 @@
+import { ApiError } from './../exceptions/api-errors';
+import { UserService } from './../user/user.service';
 import { CommentDto, CreateTrackDto } from './dto';
 import {
   Body,
@@ -13,11 +15,15 @@ import {
 import { TrackService } from './track.service';
 import { ObjectId } from 'mongoose';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { ISearchBody } from './interface';
 
 @Controller('/tracks')
 export class TrackController {
   //после описания логики всервисе пишем запрос
-  constructor(private trackService: TrackService) {}
+  constructor(
+    private trackService: TrackService,
+    private userService: UserService,
+  ) {}
   @Post('/create')
   //это загрузка нескольких файлов сразу. Массивом
   @UseInterceptors(
@@ -38,7 +44,17 @@ export class TrackController {
   }
 
   @Get('/search')
-  search(@Query('query') query: string) {
+  async search(
+    @Query('query') query: string,
+    @Query('owner_id') owner_id: string,
+  ) {
+    if (owner_id) {
+      const userModel = await this.userService.getUserModelById(owner_id);
+      if (!userModel) {
+        return ApiError.BadRequest('Не удалось найти пользователя');
+      }
+      return this.trackService.searchInUserMusic(userModel, query);
+    }
     return this.trackService.search(query);
   }
 

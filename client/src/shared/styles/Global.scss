@@ -32,7 +32,8 @@
 		background-color: lighten($color: var.$base-color, $amount: 10);
 	}
 }
-.input {
+.input.MuiFormControl-root {
+	width: 100%;
 	margin-bottom: 16px;
 }
 .icon-button {

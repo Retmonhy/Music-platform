@@ -1,10 +1,14 @@
 import { AnyAction, PayloadAction, createReducer } from '@reduxjs/toolkit';
 import { ITrack, TrackActionTypes, TrackState } from '../../types';
 import { isFulfilledAction, isPendingAction, isRejectedAction } from '.';
+import { fetchTracks, searchTracks } from '../ActionCreators/track';
 
 const initialState: TrackState = {
 	tracks: [],
 	isLoading: false,
+
+	searchedTracks: [],
+	isSearching: false,
 	error: '',
 };
 
@@ -13,9 +17,6 @@ function validateActionType(actionType: string) {
 		actionType.startsWith(TrackActionTypes.FETCH_TRACKS) ||
 		actionType.startsWith(TrackActionTypes.DELETE_TRACK);
 	return condition ? true : false;
-}
-function isTrackAction(action: AnyAction) {
-	return action.type === `${TrackActionTypes.FETCH_TRACKS}/fulfilled`;
 }
 function loadingFalse(state, action) {
 	if (validateActionType(action.type)) {
@@ -27,16 +28,34 @@ function loadingTrue(state, action) {
 		state.isLoading = true;
 	}
 }
-
+function searchingTrue(state, action) {
+	if (action.type.startsWith(TrackActionTypes.SEARCH_TRACKS)) {
+		state.isSearching = true;
+	}
+}
+function searchingFalse(state, action) {
+	if (action.type.startsWith(TrackActionTypes.SEARCH_TRACKS)) {
+		state.isSearching = false;
+	}
+}
 export const trackReducer = createReducer(initialState, builder => {
 	builder
-		.addMatcher(isTrackAction, (state, action: PayloadAction<ITrack[]>) => {
-			state.tracks = [...state.tracks, ...action.payload];
+		.addCase(searchTracks.fulfilled, (state, action) => {
+			state.searchedTracks = action.payload;
 		})
+		.addCase(
+			fetchTracks.fulfilled,
+			(state, action: PayloadAction<ITrack[]>) => {
+				state.tracks = [...state.tracks, ...action.payload];
+			},
+		)
 		.addMatcher(isPendingAction, loadingTrue)
+		.addMatcher(isPendingAction, searchingTrue)
 		//для всех промисов, которые разрешились успехом
 		.addMatcher(isFulfilledAction, loadingFalse)
+		.addMatcher(isFulfilledAction, searchingFalse)
 		//для всех промисов, которые выдают ошибку
 		.addMatcher(isRejectedAction, loadingFalse)
+		.addMatcher(isRejectedAction, searchingFalse)
 		.addDefaultCase(store => store);
 });

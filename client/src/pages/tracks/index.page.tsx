@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useTypedSelector } from '@shared/hooks/useTypedSelector';
 
-import { TrackList } from './components';
+import { SearchTrack, TrackList } from './components';
 import { H1, useAction, useIntersect, usePlaylist } from '@shared';
-import { Intersect } from '@shared/ui';
+import { ErrorBoundary, Intersect } from '@shared/ui';
 import { TrackListSkeleton } from '@shared/ui/Skeletons';
 import { Local } from '@shared/helper/localization';
 import { getIsSsrMobile } from '@shared/helper/getIsSsrMobile';
 import { GetServerSidePropsContext } from 'next/types';
 import dynamic from 'next/dynamic';
+import { useAppDispatch } from '@shared/store';
 const pageSize = 10;
 const DynamicPlaylistModal = dynamic(
 	() => import('../../widgets/PlaylistModal/PlaylistModal'),
@@ -17,7 +18,8 @@ const DynamicPlaylistModal = dynamic(
 
 const TrackPage: React.FC = () => {
 	const { _track } = useAction();
-	const { tracks, error, isLoading } = useTypedSelector(st => st.track);
+	const { tracks, searchedTracks, error, isLoading, isSearching } =
+		useTypedSelector(st => st.track);
 	const { onIntersect: fetchTracks } = useIntersect(
 		_track.fetchTracks,
 		pageSize,
@@ -29,12 +31,19 @@ const TrackPage: React.FC = () => {
 		});
 	}, []);
 	const playlist = usePlaylist();
+	const dispatch = useAppDispatch();
+	const searchHandler = (query: string) => {
+		dispatch(_track.searchTracks({ query }));
+	};
 	return (
 		<>
 			<H1>{Local.Tracks.PageTitle}</H1>
 			{error ? <H1>{error}</H1> : null}
+			<SearchTrack isSearching={isSearching} searchHandler={searchHandler} />
 			{isFirstRequest ? (
 				<TrackListSkeleton amount={10} />
+			) : searchedTracks && searchedTracks.length ? (
+				<TrackList tracks={searchedTracks} />
 			) : (
 				<Intersect
 					onIntersect={fetchTracks}

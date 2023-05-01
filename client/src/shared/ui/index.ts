@@ -6,6 +6,7 @@ export { ButtonEl } from './ButtonEl';
 export { MusicInfo } from './MusicInfo';
 export { SquareDiv } from './SquareDiv';
 export { Intersect } from './Intersect';
+export { CustomInput } from './CustomInput';
 export { BottomSheet } from './BottomSheet';
 export { ErrorBoundary } from './ErrorBoundary';
 export { PopoverButton } from './PopoverButton';

@@ -32,6 +32,10 @@ export interface IUpdateProfileResponse extends IDefaultResponse {
 export interface ITrackRequest {
 	id: string; //id добавляемого трека
 }
+export interface ISearchRequest {
+	query: string;
+	owner_id?: string;
+}
 export interface IAddTrackResponce extends IDefaultResponse {
 	track: ITrack;
 }
