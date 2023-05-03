@@ -4,7 +4,7 @@ import { urlencoded, json } from 'express';
 import { config } from 'dotenv';
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
-import { HttpExceptionFilter } from './filters/exception.filter';
+import { HttpExceptionFilter } from './helpers/filters/exception.filter';
 const start = async () => {
   try {
     config();

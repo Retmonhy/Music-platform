@@ -1,13 +1,13 @@
 // import { FileModule } from './file';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TrackModule } from './track';
+import { TrackModule } from './core/track';
 import * as path from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { FileModule } from './file';
+import { FileModule } from './core/file';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module';
-import { PlaylistModule } from './playlist/playlist.module';
+import { UserModule } from './core/user/user.module';
+import { PlaylistModule } from './core/playlist/playlist.module';
 @Module({
   controllers: [],
   providers: [],
