@@ -1,4 +1,4 @@
-export { SearchTrack } from './SearchTrack';
+export { SearchInput } from './SearchInput';
 export { TrackItem } from './TrackItem';
 export { TrackTime } from './TrackTime';
 export { TrackList } from './TrackList';

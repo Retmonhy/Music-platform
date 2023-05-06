@@ -3,16 +3,16 @@ import { CustomInput, Loader, useAction } from '@shared';
 import { Local } from '@shared/helper/localization';
 import { useAppDispatch } from '@shared/store';
 import React, { FC } from 'react';
-interface ISearchTrackProps {
+interface ISearchInputProps {
 	searchHandler: (query: string) => void;
 	isSearching: boolean;
 }
 
-export const SearchTrack: FC<ISearchTrackProps> = ({
+export const SearchInput: FC<ISearchInputProps> = ({
 	searchHandler,
 	isSearching,
 }) => {
-	const searchTrackHandler = debounce(event => {
+	const searchInputHandler = debounce(event => {
 		searchHandler(event.target.value);
 	}, 500);
 
@@ -21,7 +21,7 @@ export const SearchTrack: FC<ISearchTrackProps> = ({
 			<CustomInput
 				size='small'
 				type='search'
-				onChange={searchTrackHandler}
+				onChange={searchInputHandler}
 				label={Local.Tracks.SearchMusic}
 			/>
 			<Box> {isSearching ? <Loader /> : null}</Box>

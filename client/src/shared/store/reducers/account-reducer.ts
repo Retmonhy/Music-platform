@@ -78,7 +78,6 @@ export const accountReducer = createReducer(
 			.addCase(logout.fulfilled, () => {
 				if (localStorage) {
 					localStorage.removeItem(StorageKeys.accessToken);
-					localStorage.removeItem(StorageKeys.refreshToken);
 				}
 				return initialState;
 			})

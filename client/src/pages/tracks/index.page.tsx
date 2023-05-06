@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTypedSelector } from '@shared/hooks/useTypedSelector';
 
-import { SearchTrack, TrackList } from './components';
+import { SearchInput, TrackList } from './components';
 import { H1, useAction, useIntersect, usePlaylist } from '@shared';
 import { ErrorBoundary, Intersect } from '@shared/ui';
 import { TrackListSkeleton } from '@shared/ui/Skeletons';
@@ -39,7 +39,7 @@ const TrackPage: React.FC = () => {
 		<>
 			<H1>{Local.Tracks.PageTitle}</H1>
 			{error ? <H1>{error}</H1> : null}
-			<SearchTrack isSearching={isSearching} searchHandler={searchHandler} />
+			<SearchInput isSearching={isSearching} searchHandler={searchHandler} />
 			{isFirstRequest ? (
 				<TrackListSkeleton amount={10} />
 			) : searchedTracks && searchedTracks.length ? (

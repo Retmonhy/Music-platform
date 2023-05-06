@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SearchTrack, TrackList } from '../tracks/components';
+import { SearchInput, TrackList } from '../tracks/components';
 import { AccountLayout, ContentBlock } from './components';
 import { useAction, useTypedSelector } from '@shared';
 import { useAppDispatch } from '@shared/store';
@@ -19,7 +19,7 @@ const AccountTracks = () => {
 	return (
 		<AccountLayout>
 			<ContentBlock header='Моя музыка'>
-				<SearchTrack isSearching={isSearching} searchHandler={searchHandler} />
+				<SearchInput isSearching={isSearching} searchHandler={searchHandler} />
 				{isLoading ? (
 					<TrackListSkeleton amount={5} />
 				) : search_userTracks && search_userTracks.length ? (

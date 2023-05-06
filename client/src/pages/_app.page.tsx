@@ -20,9 +20,13 @@ const WrappedApp: React.FC<AppProps> = ({ Component, ...pageProps }) => {
 	const { _account } = useAction();
 	useEffect(() => {
 		if (localStorage && localStorage.getItem(StorageKeys.accessToken)) {
-			dispatch(_account.checkAuth()).then(() => {
-				debouncedFetchPl();
-			});
+			dispatch(_account.checkAuth())
+				.then(() => {
+					debouncedFetchPl();
+				})
+				.catch(() => {
+					localStorage.removeItem(StorageKeys.accessToken);
+				});
 		}
 	}, []);
 	return (
