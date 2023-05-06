@@ -15,9 +15,5 @@ export const checkMobile = () => {
 };
 
 export const getIsMobile = () => {
-	console.log(
-		"typeof window !== 'undefined' ? window.isMobile : false = ",
-		typeof window !== 'undefined' ? window.isMobile : false,
-	);
 	return typeof window !== 'undefined' ? window.isMobile : false;
 };
