@@ -2,7 +2,7 @@
 	"files.eol": "\r\n",
 	"prettier.endOfLine": "crlf",
 	"prettier.trailingComma": "all",
-	"prettier.printWidth": 80,
+	"prettier.printWidth": 150,
 	"prettier.tabWidth": 2,
 	"prettier.useTabs": true,
 	"prettier.semi": true,
