@@ -1,0 +1,1 @@
+export { getIsSsrMobile } from './getIsSsrMobile';
