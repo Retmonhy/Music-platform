@@ -5,7 +5,7 @@ import { BottomSheet, ButtonEl, MusicInfo, Toast } from '@shared';
 import { TrackImage } from '../TrackImage';
 import { TrackContext } from '../TrackItem';
 import { IBottomSheetProps } from '@shared/ui/BottomSheet';
-import { Local } from '@shared/const/localization';
+import { Local } from '@shared/const/Localization';
 interface ITrackBottomSheetHandlers {
 	deleteHandler: () => void;
 	addHandler: () => void;

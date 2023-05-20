@@ -6,7 +6,7 @@ import { AddRounded, CloseRounded } from '@material-ui/icons';
 // components
 import { Loader, SquareDiv, generateUrl, useTypedSelector } from '@shared';
 import { FileUpload } from '../../../FileUpload';
-import { Local } from '@shared/const/localization';
+import { Local } from '@shared/const/Localization';
 
 interface IUploaderProps {
 	onUpload: (file: File) => Promise<void>;

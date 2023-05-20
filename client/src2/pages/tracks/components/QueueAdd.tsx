@@ -3,7 +3,7 @@ import { PlaylistAddRounded } from '@material-ui/icons';
 import { FC, MouseEvent } from 'react';
 //components
 import { PopoverButton } from '@shared';
-import { Local } from '@shared/const/localization';
+import { Local } from '@shared/const/Localization';
 interface IQueueAddProps {
 	onClick: () => void;
 }

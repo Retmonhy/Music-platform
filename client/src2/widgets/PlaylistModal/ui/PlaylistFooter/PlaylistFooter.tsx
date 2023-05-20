@@ -8,7 +8,7 @@ import { ButtonEl } from '@shared/ui';
 import vars from '@shared/styles/Variables.module.scss';
 import { PlaylistMode, PlaylistService, useAction, usePlaylist, useTypedSelector } from '@shared';
 import { useAppDispatch } from '@shared/store';
-import { Local } from '@shared/const/localization';
+import { Local } from '@shared/const/Localization';
 
 interface IPlaylistFooterProps {
 	title: string;

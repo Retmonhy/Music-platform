@@ -1,7 +1,7 @@
 import { AddRounded } from '@material-ui/icons';
 import React, { FC, MouseEvent } from 'react';
 import { PopoverButton } from '@shared';
-import { Local } from '@shared/const/localization';
+import { Local } from '@shared/const/Localization';
 interface IAddTrackProps {
 	onClick: () => void;
 }

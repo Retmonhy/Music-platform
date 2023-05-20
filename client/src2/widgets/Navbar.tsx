@@ -19,7 +19,7 @@ import { FC, useState } from 'react';
 import { useRouter } from 'next/router';
 import { AccountRoutes, useTypedSelector } from '@shared';
 import { Player } from './Player';
-import { Local } from '@shared/const/localization';
+import { Local } from '@shared/const/Localization';
 
 const drawerWidth = 280;
 

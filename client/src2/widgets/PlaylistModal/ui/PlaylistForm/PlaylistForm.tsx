@@ -5,7 +5,7 @@ import { Box, Grid } from '@mui/material';
 import { Control } from 'react-hook-form';
 // components
 import { ControlledInput, IPlaylistData, useTypedSelector } from '@shared';
-import { Local } from '@shared/const/localization';
+import { Local } from '@shared/const/Localization';
 
 interface IPlaylistForm {
 	control: Control<IPlaylistData>;

@@ -1,3 +1,4 @@
+export { audio, setAudioInstance } from './audio';
 export { checkMobile } from './checkMobile';
 export { debounce } from './debounce';
 export { generateUrl } from './generateUrl';

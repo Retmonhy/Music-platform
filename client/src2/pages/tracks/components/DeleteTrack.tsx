@@ -1,7 +1,7 @@
 import { CloseRounded } from '@material-ui/icons';
 import { FC, MouseEvent } from 'react';
 import { PopoverButton } from '@shared';
-import { Local } from '@shared/const/localization';
+import { Local } from '@shared/const/Localization';
 interface IDeleteTrackProps {
 	onClick: () => void;
 }

@@ -10,7 +10,7 @@ import { Control } from 'react-hook-form';
 import { PlaylistMusicControl } from './ui/PlaylistMusicControl/PlaylistMusicControl';
 import { IPlaylistData, useAction, useTypedSelector } from '@shared';
 import { useAppDispatch } from '@shared/store';
-import { Local } from '@shared/const/localization';
+import { Local } from '@shared/const/Localization';
 
 interface IPlaylistModalHandlers {
 	onClose: (e: MouseEvent<HTMLDivElement>) => void;

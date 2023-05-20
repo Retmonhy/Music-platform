@@ -6,7 +6,7 @@ import { ManageAction, PlaylistMode, SquareDiv, useAction, usePlaylist, useTyped
 import { TrackContext } from '../TrackItem';
 import { useAppDispatch } from '@shared/store';
 import { CheckboxButton } from '../CheckboxButton/CheckboxButton';
-import { Local } from '@shared/const/localization';
+import { Local } from '@shared/const/Localization';
 
 const popperId = 'actionMenu';
 interface IActionMenuProps {}
