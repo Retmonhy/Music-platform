@@ -1,0 +1,191 @@
+// $Playlist
+.playlist {
+	flex-basis: 25%;
+	font-size: 10px;
+	@media screen and (max-width: 768px) {
+		flex-basis: 33%;
+	}
+	@media screen and (max-width: 530px) {
+		flex-basis: 50%;
+		font-size: 8px;
+	}
+	.image {
+		width: 100%;
+		height: 100%;
+		max-width: 200px;
+		max-height: 200px;
+		@media screen and (max-width: 992px) {
+			max-width: 180px;
+			max-height: 180px;
+		}
+	}
+	.playlist__container {
+		padding: 8px;
+	}
+}
+.action_buttons_wrap {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.action_buttons {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	transform: translateY(-50%);
+
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+.playlist_stats {
+	position: absolute;
+	bottom: 16px;
+	left: 0;
+	width: 100%;
+}
+//pli = playlist image
+.pli-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: opacity 0.2s;
+	// дляиконки
+	color: var.$color-white;
+	&:hover {
+		cursor: pointer;
+		opacity: 0.8;
+	}
+}
+.pli-play_btn {
+	// дляиконки
+	font-size: 80px;
+}
+.pli-edit_btn {
+	// дляиконки
+	font-size: 30px;
+}
+.br8 {
+	border-radius: var.$base-radius;
+}
+.flex {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.overflow {
+	overflow: hidden;
+}
+.default_icon {
+	position: absolute;
+	left: 0;
+	transition: top 160ms ease !important; //дурацкий mui и сложности с переопределением дефолтовых стилей. Было лень, но я наю, что это грех =)
+}
+.top_icon {
+	top: -100%;
+}
+.bot_icon {
+	top: 100%;
+}
+.hidden {
+}
+.bot_icon.hidden {
+	top: 0;
+}
+.top_icon.hidden {
+	top: 0;
+}
+.playlist-modal {
+}
+.playlist-modal__grid {
+	max-width: 560px;
+	background: #fff;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: var.$base-radius;
+	overflow: hidden;
+}
+.playlist-modal__footer {
+	background-color: #fafbfc;
+	border-top: 1px solid #e0e4e9;
+}
+.playlist-modal__header {
+	background-color: #fafbfc;
+	border-bottom: 1px solid #e0e4e9;
+}
+.playlist-modal__close:hover {
+	cursor: pointer;
+}
+.playlist-modal__control {
+	padding: 16px;
+	border-top: 1px solid var.$base-border-color;
+}
+.playlist-track {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.playlist-track__container {
+	border-radius: var.$base-radius;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	&:hover {
+		background-color: var.$track-hover-color;
+	}
+}
+.playlist-track__info {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.circle_button_wrap {
+	padding: 10px;
+}
+.circle_button {
+	background-color: var.$base-color;
+	border-radius: 50%;
+	width: 28px;
+	height: 28px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+//plm - playlist modal
+.plm-uploader__container {
+	background: #ebedf0;
+	border: 1px solid #dbdde0;
+	border-radius: 4px;
+	overflow: hidden;
+}
+.plm-uploader__grid {
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.plm-uploader__plus {
+	margin-bottom: 4px;
+	color: #1976d2;
+}
+.plm-uploader__text {
+	text-align: center;
+	color: #1976d2;
+	font-size: 13px;
+}
+.plm-uploader__remove {
+	position: absolute;
+	top: 0;
+	right: 0;
+	color: var.$base-fillment-color;
+	padding: 0;
+	background-color: rgba(0, 0, 0, 0.4);
+	border-radius: 0 0 0 4px;
+}

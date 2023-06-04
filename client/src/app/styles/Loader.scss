@@ -1,0 +1,33 @@
+.loader {
+	min-height: 100px;
+	position: relative;
+}
+.loader__wheel {
+	// display: inline-block;
+	position: absolute;
+	top: calc(50% - 25px);
+	left: calc(50% - 25px);
+
+	width: 50px;
+	height: 50px;
+}
+.loader__wheel:after {
+	content: ' ';
+	display: block;
+	width: 30px;
+	height: 30px;
+	margin: 6px;
+	border-radius: 50%;
+	border: 3px solid var.$gray-text-color;
+	border-color: var.$gray-text-color transparent var.$gray-text-color
+		transparent;
+	animation: loader 0.7s linear infinite;
+}
+@keyframes loader {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

@@ -1,0 +1,13 @@
+@use './variables' as var;
+
+:export {
+	baseColor: var.$base-color;
+	baseBorderColor: var.$base-border-color;
+	dangerColor: var.$danger-color;
+	colorGray: var.$color-gray;
+	grayTextColor: var.$gray-text-color;
+	trackHoverColor: var.$track-hover-color;
+	colorWhite: var.$color-white;
+	baseFillmentColor: var.$base-fillment-color;
+	baseRadius: var.$base-radius;
+}

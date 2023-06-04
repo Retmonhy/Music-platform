@@ -1,0 +1,136 @@
+// $Track
+
+.track {
+	max-width: 100%;
+	font-size: 10px;
+	padding: 12px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	background-color: var.$color-white;
+	border: 0;
+	@media screen and (max-width: 768px) {
+		padding: 8px;
+	}
+}
+.track_item {
+	margin: 4px 0;
+	border-radius: var.$base-radius;
+	&:hover {
+		cursor: pointer;
+		background-color: var.$track-hover-color;
+	}
+	@media screen and (max-width: 530px) {
+		font-size: 8px;
+	}
+}
+.track_active {
+	background-color: var.$track-hover-color;
+}
+.track__info {
+	width: 400px;
+	margin: 0 20px;
+	@media screen and (max-width: 530px) {
+		margin: 0 8px;
+	}
+}
+.track__time {
+	margin-left: auto;
+}
+.track__time-container {
+	min-width: 40px;
+}
+
+.popover-button {
+	width: 30px;
+	height: 30px;
+}
+.popover {
+	padding: 8px;
+}
+.track-image {
+	.track-image__wrapper {
+		width: 70px;
+		height: 70px;
+		@media screen and (max-width: 530px) {
+			width: 50px;
+			height: 50px;
+		}
+	}
+	.track-image__play {
+		width: 36px;
+		height: 36px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: #fff;
+		border-radius: 50%;
+		@media screen and (max-width: 530px) {
+			width: 30px;
+			height: 30px;
+		}
+	}
+}
+.upload-icon {
+	font-size: 150px;
+	color: var.$color-gray;
+	height: 100%;
+	gap: 20px;
+}
+.upload-button {
+	border-color: red;
+	color: red;
+	text-transform: none;
+	font-weight: 700;
+}
+.action-menu {
+	.action-menu__btn {
+		border-radius: 0;
+		text-transform: inherit;
+		width: 100%;
+		justify-content: flex-start;
+	}
+	.action-menu__dropdown {
+		background-color: var.$color-white;
+		padding: 4px 0;
+		box-shadow: 0 0 2px var.$color-gray;
+		border-radius: 4px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
+//forMobile
+.bs__track {
+	background-color: var.$track-hover-color;
+	font-size: 8px;
+}
+.next-icon {
+	font-size: 14px;
+}
+.bs__button {
+	padding: 12px;
+	width: 100%;
+	justify-content: flex-start;
+}
+.bs__button_icon {
+	color: var.$base-color;
+}
+.stepper {
+	@media screen and (max-width: 768px) {
+	}
+}
+.mobile-paper.MuiPaper-root {
+	padding: 12px;
+	background-color: var.$track-hover-color;
+	margin-bottom: 8px;
+}
+.mobile-stepper.MuiMobileStepper-root {
+	margin-top: 8px;
+	background-color: var.$track-hover-color;
+}

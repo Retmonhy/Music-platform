@@ -1,0 +1,113 @@
+@use './variables' as var;
+@import './Playlists.scss';
+@import './Profile.scss';
+@import './Tracks.scss';
+@import './Loader.scss';
+@import './Player.scss';
+// $General
+.container {
+	margin: 90px auto;
+	padding: 0 16px;
+	@media screen and (max-width: 768px) {
+		padding: 0 8px;
+	}
+}
+.navbar__name {
+	@media screen and (max-width: 530px) {
+		display: none;
+	}
+}
+.navbar__item.MuiButtonBase-root {
+	padding: 8px;
+}
+.relative {
+	position: relative;
+}
+.btn {
+	background-color: var.$base-color;
+	color: var.$color-white;
+	padding: 8px 12px;
+
+	&:hover {
+		background-color: lighten($color: var.$base-color, $amount: 10);
+	}
+}
+.input.MuiFormControl-root {
+	width: 100%;
+	margin-bottom: 16px;
+}
+.icon-button {
+	color: var.$color-gray;
+	transition: color 0.3s;
+
+	&:hover {
+		color: darken($color: var.$color-gray, $amount: 5);
+	}
+}
+.icon-checked {
+	color: var.$color-white;
+}
+.backdrop {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+}
+.br8 {
+	border-radius: var.$base-radius;
+}
+.gray {
+	color: var.$color-gray;
+	font-size: 14px;
+}
+.h1 {
+	margin-bottom: 20px;
+	font-size: 36px;
+	@media screen and (max-width: 530px) {
+		margin-bottom: 10px;
+		font-size: 25px;
+	}
+}
+.auth-tab {
+	padding: 16px 0;
+}
+
+.ellipsis {
+	//заменит длинные текст на ...
+	display: block;
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	@media screen and (max-width: 420px) {
+		width: 220px;
+	}
+}
+.pointer {
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+.subtitle {
+	font-size: 1.4em;
+}
+.title {
+	font-size: 2em;
+}
+
+//forMobile
+.bottom-sheet {
+	$padd: 16px;
+	z-index: 100;
+	position: fixed;
+	bottom: $padd;
+	left: $padd;
+	right: $padd;
+	touch-action: none;
+
+	background-color: var.$color-white;
+	border-radius: var.$base-radius;
+	overflow: hidden;
+	width: calc(100% - $padd - $padd);
+}

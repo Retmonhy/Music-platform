@@ -1,0 +1,33 @@
+.player {
+	max-width: 380px;
+	padding: 8px;
+	background-color: transparent;
+	margin: 0 auto 0 10%;
+	&:hover {
+		background-color: darken(var.$base-color, 10%);
+		cursor: pointer;
+	}
+	@media screen and (max-width: 530px) {
+		margin: 0;
+	}
+
+	.player__container {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 4px;
+		min-height: 32px;
+	}
+	.player_button {
+		color: var.$color-white;
+	}
+	.player__text {
+		font-size: 16px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		padding-left: 8px;
+		color: var.$color-white;
+	}
+}
